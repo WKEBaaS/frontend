@@ -1,1 +1,4 @@
 bun test
+
+deno fmt
+prettier --write "**/*.svelte"
