@@ -1,0 +1,12 @@
+{
+	"fmt": {
+		"exclude": [
+			"./.svelte-kit/**"
+		],
+		"useTabs": false,
+		"lineWidth": 100,
+		"singleQuote": true,
+		"proseWrap": "always",
+		"indentWidth": 2
+	}
+}
