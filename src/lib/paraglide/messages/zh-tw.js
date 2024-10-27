@@ -55,6 +55,14 @@ export const profile = () => `個人資料`
  * @returns {string}
  */
 /* @__NO_SIDE_EFFECTS__ */
+export const settings = () => `設定`
+
+
+/**
+ * 
+ * @returns {string}
+ */
+/* @__NO_SIDE_EFFECTS__ */
 export const projects = () => `專案`
 
 
@@ -63,4 +71,4 @@ export const projects = () => `專案`
  * @returns {string}
  */
 /* @__NO_SIDE_EFFECTS__ */
-export const settings = () => `設定`
+export const new_project = () => `新增專案`

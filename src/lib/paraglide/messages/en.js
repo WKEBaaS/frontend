@@ -55,6 +55,14 @@ export const profile = () => `Profile`
  * @returns {string}
  */
 /* @__NO_SIDE_EFFECTS__ */
+export const settings = () => `Settings`
+
+
+/**
+ * 
+ * @returns {string}
+ */
+/* @__NO_SIDE_EFFECTS__ */
 export const projects = () => `Projects`
 
 
@@ -63,4 +71,4 @@ export const projects = () => `Projects`
  * @returns {string}
  */
 /* @__NO_SIDE_EFFECTS__ */
-export const settings = () => `Settings`
+export const new_project = () => `New Project`

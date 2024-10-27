@@ -127,6 +127,28 @@ export const profile = (params = {}, options = {}) => {
  * @returns {string}
  */
 /* @__NO_SIDE_EFFECTS__ */
+export const settings = (params = {}, options = {}) => {
+	return {
+		en: en.settings,
+		"zh-tw": zh_tw.settings
+	}[options.languageTag ?? languageTag()]()
+}
+
+
+
+/**
+ * This message has been compiled by [inlang paraglide](https://inlang.com/m/gerre34r/library-inlang-paraglideJs).
+ *
+ * - Don't edit the message's code. Use [Sherlock (VS Code extension)](https://inlang.com/m/r7kp499g/app-inlang-ideExtension),
+ *   the [web editor](https://inlang.com/m/tdozzpar/app-inlang-finkLocalizationEditor) instead, or edit the translation files manually.
+ * 
+ * - The params are NonNullable<unknown> because the inlang SDK does not provide information on the type of a param (yet).
+ * 
+ * @param {{}} params
+ * @param {{ languageTag?: "en" | "zh-tw" }} options
+ * @returns {string}
+ */
+/* @__NO_SIDE_EFFECTS__ */
 export const projects = (params = {}, options = {}) => {
 	return {
 		en: en.projects,
@@ -149,10 +171,10 @@ export const projects = (params = {}, options = {}) => {
  * @returns {string}
  */
 /* @__NO_SIDE_EFFECTS__ */
-export const settings = (params = {}, options = {}) => {
+export const new_project = (params = {}, options = {}) => {
 	return {
-		en: en.settings,
-		"zh-tw": zh_tw.settings
+		en: en.new_project,
+		"zh-tw": zh_tw.new_project
 	}[options.languageTag ?? languageTag()]()
 }
 
