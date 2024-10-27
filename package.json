@@ -37,7 +37,8 @@
 	},
 	"dependencies": {
 		"@inlang/paraglide-sveltekit": "^0.11.1",
-		"bits-ui": "1.0.0-next.26",
+		"bits-ui": "^1.0.0-next.28",
+		"dayjs": "^1.11.13",
 		"lucide-svelte": "^0.453.0",
 		"mode-watcher": "^0.4.1",
 		"svelte-radix": "^2.0.1"

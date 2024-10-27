@@ -13,26 +13,6 @@
 			title: m.projects(),
 			url: '#',
 			icon: House
-		},
-		{
-			title: 'Inbox',
-			url: '#',
-			icon: Inbox
-		},
-		{
-			title: 'Calendar',
-			url: '#',
-			icon: Calendar
-		},
-		{
-			title: 'Search',
-			url: '#',
-			icon: Search
-		},
-		{
-			title: 'Settings',
-			url: '#',
-			icon: Settings
 		}
 	];
 </script>
@@ -40,7 +20,7 @@
 <Sidebar.Root collapsible="icon">
 	<Sidebar.Content>
 		<Sidebar.Group>
-			<Sidebar.GroupLabel>Application</Sidebar.GroupLabel>
+			<Sidebar.GroupLabel>{m.projects()}</Sidebar.GroupLabel>
 			<Sidebar.GroupContent>
 				<Sidebar.Menu>
 					{#each items as item (item.title)}
