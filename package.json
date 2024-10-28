@@ -1,5 +1,5 @@
 {
-	"name": "frontend",
+	"name": "wke-baas",
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
@@ -53,6 +53,7 @@
 		"dayjs": "^1.11.13",
 		"lucide-svelte": "^0.453.0",
 		"mode-watcher": "^0.4.1",
-		"svelte-radix": "^2.0.1"
+		"svelte-radix": "^2.0.1",
+		"wke-baas": "."
 	}
 }
