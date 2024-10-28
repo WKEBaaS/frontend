@@ -1,4 +1,3 @@
-/* eslint-disable */
 /** @type {((tag: AvailableLanguageTag) => void) | undefined} */
 let _onSetLanguageTag;
 

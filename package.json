@@ -12,6 +12,16 @@
 		"format": "prettier --write .",
 		"prepare": "husky"
 	},
+	"lint-staged": {
+		"*.svelte": [
+			"eslint --fix",
+			"prettier --list-different --write"
+		],
+		"!(*.svelte)": [
+			"eslint --fix",
+			"deno fmt"
+		]
+	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
@@ -24,6 +34,7 @@
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
 		"husky": "^9.1.6",
+		"lint-staged": "^15.2.10",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"svelte": "^5.0.0",

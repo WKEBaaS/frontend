@@ -1,4 +1,1 @@
-bun test
-
-deno fmt
-prettier --write "**/*.svelte"
+bun lint-staged

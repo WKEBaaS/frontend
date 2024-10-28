@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * This file contains language specific message functions for tree-shaking.
  *
