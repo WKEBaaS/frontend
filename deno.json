@@ -3,7 +3,8 @@
 		"exclude": [
 			"./.svelte-kit/**",
 			"./.git/**",
-			"./src/**/*.svelte"
+			"./src/**/*.svelte",
+			"./src/lib/paraglide/**"
 		],
 		"useTabs": true,
 		"lineWidth": 100,
