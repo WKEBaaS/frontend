@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import dayjs from 'dayjs';
+	import { toast } from 'svelte-sonner';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
