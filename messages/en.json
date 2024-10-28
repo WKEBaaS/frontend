@@ -1,5 +1,9 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"title": "WKE BaaS",
+	"terms_of_service": "Terms of Service",
+	"privacy_policy": "Privacy Policy",
+	"copy_right": "© 2024 WKE BaaS. All rights reserved.",
 	"hello_world": "Hello, {name} from en!",
 	"home": "Home",
 	"dashboard": "Dashboard",
@@ -7,5 +11,20 @@
 	"profile": "Profile",
 	"settings": "Settings",
 	"projects": "Projects",
-	"new_project": "New Project"
+	"new_project": "New Project",
+	"welcome": "Welcome to WKE BaaS",
+	"welcome_description": "The intelligent Backend as a Service platform that simplifies your development process.",
+	"get_started": "Get Started",
+	"learn_more": "Learn More",
+	"features": "Features",
+	"feat_i3s": "I3S Database",
+	"feat_i3s_description": "Intelligent Internet Information System/Schema for efficient data management.",
+	"feat_auth": "Authentication",
+	"feat_auth_description": "Secure and easy-to-implement authentication system for your applications.",
+	"feat_storage": "Storage",
+	"feat_storage_description": "Scalable and reliable storage solutions for all your data needs.",
+	"feat_auto_api": "Auto APIs",
+	"feat_auto_api_description": "Automatically generated APIs to speed up your development process.",
+	"feat_email": "Email Service",
+	"feat_email_description": "Integrated email functionality for seamless communication with your users."
 }

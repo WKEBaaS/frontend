@@ -1,5 +1,8 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"copy_right": "© 2024 WKE BaaS。保留所有權利。",
+	"terms_of_service": "服務條款",
+	"privacy_policy": "隱私政策",
 	"hello_world": "Hello, {name} from zh-tw!",
 	"home": "首頁",
 	"dashboard": "儀表板",
@@ -7,5 +10,20 @@
 	"profile": "個人資料",
 	"settings": "設定",
 	"projects": "專案",
-	"new_project": "新增專案"
+	"new_project": "新增專案",
+	"welcome": "歡迎使用 WKE BaaS",
+	"welcome_description": "後端即服務平台，簡化您的開發流程。",
+	"get_started": "立即開始",
+	"learn_more": "了解更多",
+	"features": "功能",
+	"feat_i3s": "I3S 資料庫",
+	"feat_i3s_description": "Intelligent Internet Information System/Schema for efficient data management.",
+	"feat_auth": "身份驗證",
+	"feat_auth_description": "為您的應用提供安全且易於實施的身份驗證系統。",
+	"feat_storage": "存儲服務",
+	"feat_storage_description": "可擴展且可靠的存儲解決方案，滿足您所有的數據需求。",
+	"feat_auto_api": "自動 API",
+	"feat_auto_api_description": "自動生成 API，加速您的開發過程。",
+	"feat_email": "電子郵件服務",
+	"feat_email_description": "集成的電子郵件功能，實現與用戶的無縫溝通。"
 }

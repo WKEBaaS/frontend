@@ -1,9 +1,12 @@
 <script>
 	import { page } from '$app/stores';
-	import { buttonVariants } from '$lib/components/ui/button';
 
 	let id = $page.params.id;
 </script>
 
-<h1>{id}</h1>
-<a class={buttonVariants({ variant: 'link' })} href="/dashboard">Dashboard</a>
+<div class="container pt-10">
+	<h1 class="text-xl">Project ID is {id}</h1>
+	<a class="text-sm font-medium hover:underline underline-offset-4" href="/dashboard"
+		>Go to Dashboard</a
+	>
+</div>

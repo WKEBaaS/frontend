@@ -1,2 +1,1 @@
-<div>dashboard</div>
-<a href="/dashboard/project/1">Project 1</a>
+<div class="p-5 mx-auto text-3xl">This is Dashboard</div>
