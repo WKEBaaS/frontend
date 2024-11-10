@@ -17,7 +17,7 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger class={buttonVariants({ variant: 'ghost', size: 'icon' })}>
-		<Lang class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 " />
+		<Lang class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100" />
 		<span class="sr-only">Toggle theme</span>
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content align="end">

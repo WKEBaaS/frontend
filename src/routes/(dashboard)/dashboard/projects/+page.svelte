@@ -11,9 +11,9 @@
 </script>
 
 <section class="px-2 pt-2">
-	<Button onclick={() => toast.success('New project created!')} size="sm" class="h-8 px-2"
-		>{m.new_project()}</Button
-	>
+	<Button onclick={() => toast.success('New project created!')} size="sm" class="h-8 px-2">{
+		m.new_project()
+	}</Button>
 </section>
 <section class="inline-flex flex-wrap gap-2 p-2">
 	{#each data.projects as project (project.id)}

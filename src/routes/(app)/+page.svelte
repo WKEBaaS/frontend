@@ -12,28 +12,28 @@
 		{
 			title: m.feat_i3s(),
 			description: m.feat_i3s_description(),
-			icon: Database
+			icon: Database,
 		},
 		{
 			title: m.feat_auth(),
 			description: m.feat_auth_description(),
-			icon: Key
+			icon: Key,
 		},
 		{
 			title: m.feat_storage(),
 			description: m.feat_storage_description(),
-			icon: HardDrive
+			icon: HardDrive,
 		},
 		{
 			title: m.feat_auto_api(),
 			description: m.feat_auto_api_description(),
-			icon: Cog
+			icon: Cog,
 		},
 		{
 			title: m.feat_email(),
 			description: m.feat_email_description(),
-			icon: Mail
-		}
+			icon: Mail,
+		},
 	];
 </script>
 
