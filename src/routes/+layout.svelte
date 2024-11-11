@@ -5,6 +5,7 @@
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';
+
 	let { children } = $props();
 </script>
 

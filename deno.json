@@ -1,10 +1,13 @@
 {
-	"fmt": {
-		"exclude": ["./.svelte-kit/**", "./.git/**", "./src/**/*.svelte", "./src/lib/paraglide/**"],
-		"useTabs": true,
-		"lineWidth": 100,
-		"singleQuote": true,
-		"proseWrap": "always",
-		"indentWidth": 2
-	}
+  "fmt": {
+    "exclude": [
+      "./.svelte-kit/**",
+      "./.git/**",
+      "./src/lib/paraglide/**"
+    ],
+    "useTabs": true,
+    "singleQuote": true,
+    "lineWidth": 100,
+    "proseWrap": "always"
+  }
 }
