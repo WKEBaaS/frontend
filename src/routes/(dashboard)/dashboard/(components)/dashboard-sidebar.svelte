@@ -11,26 +11,26 @@
 		{
 			title: m.home(),
 			url: '/',
-			icon: House
+			icon: House,
 		},
 		{
 			title: m.projects(),
 			url: '/dashboard/projects',
-			icon: Database
-		}
+			icon: Database,
+		},
 	];
 
 	const accountItems = [
 		{
 			title: m.profile(),
 			url: '#',
-			icon: UserPen
+			icon: UserPen,
 		},
 		{
 			title: m.settings(),
 			url: '#',
-			icon: Settings
-		}
+			icon: Settings,
+		},
 	];
 </script>
 
