@@ -5,6 +5,7 @@
 	import dayjs from 'dayjs';
 
 	let { data } = $props();
+
 	let project = data.project;
 </script>
 
