@@ -24,12 +24,12 @@
 				<div class="grid grid-cols-2 gap-4">
 					<div>
 						<h3 class="text-lg font-semibold">{m.created_at()}</h3>
-						<p class="text-gray-600">{dayjs(project.createdAt, 'PPP')}</p>
+						<p class="text-gray-600">{dayjs(project.createdAt).format('MMMM D, YYYY')}</p>
 					</div>
 					<div>
 						<h3 class="text-lg font-semibold">{m.updated_at()}</h3>
 						<p class="text-gray-600">
-							{dayjs(project.updatedAt, 'PPP')}
+							{dayjs(project.updatedAt).format('MMMM D, YYYY')}
 						</p>
 					</div>
 				</div>
