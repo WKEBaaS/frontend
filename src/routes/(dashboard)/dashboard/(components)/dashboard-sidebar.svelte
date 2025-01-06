@@ -2,17 +2,17 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import Database from 'lucide-svelte/icons/database';
-	import House from 'lucide-svelte/icons/house';
+	import Logout from 'lucide-svelte/icons/log-out';
 	import Settings from 'lucide-svelte/icons/settings';
 	import UserPen from 'lucide-svelte/icons/user-pen';
 
 	// Menu items.
 	const mainItems = [
-		{
-			title: m.home(),
-			url: '/',
-			icon: House,
-		},
+		// {
+		// 	title: m.home(),
+		// 	url: '/',
+		// 	icon: House,
+		// },
 		{
 			title: m.projects(),
 			url: '/dashboard/projects',
@@ -32,6 +32,8 @@
 			icon: Settings,
 		},
 	];
+
+	let form: HTMLFormElement | undefined = $state(undefined);
 </script>
 
 <Sidebar.Root collapsible="icon">
@@ -44,7 +46,7 @@
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton>
 								{#snippet child({ props })}
-									<a onclick={() => console.log(props)} href={item.url} {...props}>
+									<a href={item.url} {...props}>
 										<item.icon />
 										<span>{item.title}</span>
 									</a>
@@ -71,6 +73,20 @@
 							</Sidebar.MenuButton>
 						</Sidebar.MenuItem>
 					{/each}
+				</Sidebar.Menu>
+			</Sidebar.GroupContent>
+		</Sidebar.Group>
+		<Sidebar.Separator />
+		<Sidebar.Group>
+			<Sidebar.GroupContent class="group-data-[collapsible=icon]:hidden">
+				<Sidebar.Menu>
+					<form bind:this={form} method="POST" action="/?/logout">
+						<Sidebar.MenuItem>
+							<Sidebar.MenuButton onclick={() => form && form.submit()}>
+								<Logout /> {m.logout()}
+							</Sidebar.MenuButton>
+						</Sidebar.MenuItem>
+					</form>
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>
 		</Sidebar.Group>

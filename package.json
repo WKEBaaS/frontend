@@ -16,52 +16,52 @@
 		"prepare": "husky || true"
 	},
 	"lint-staged": {
-		"*.svelte": [
-			"deno fmt --unstable-component",
+		"*.{js,ts,svelte}": [
+			"prettier --write",
 			"eslint --fix"
 		],
-		"*.{js,ts}": [
-			"deno fmt",
-			"eslint --fix"
-		],
-		"*.{css,html}": [
-			"deno fmt"
+		"!(*.{js,ts,svelte})": [
+			"prettier --write"
 		]
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.49.1",
-		"@sveltejs/adapter-auto": "^3.3.1",
-		"@sveltejs/adapter-node": "^5.2.9",
-		"@sveltejs/kit": "^2.10.1",
-		"@sveltejs/vite-plugin-svelte": "^4.0.2",
+		"@sveltejs/adapter-node": "^5.2.11",
+		"@sveltejs/kit": "^2.15.1",
+		"@sveltejs/vite-plugin-svelte": "^4.0.4",
 		"@types/eslint": "^9.6.1",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "1.0.0-next.66",
+		"bits-ui": "1.0.0-next.77",
 		"clsx": "^2.1.1",
 		"dayjs": "^1.11.13",
-		"eslint": "^9.16.0",
+		"eslint": "^9.17.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.46.1",
-		"globals": "^15.13.0",
+		"formsnap": "^2.0.0",
+		"globals": "^15.14.0",
 		"husky": "^9.1.7",
-		"lint-staged": "^15.2.11",
+		"jose": "^5.9.6",
+		"lint-staged": "^15.3.0",
 		"lucide-svelte": "^0.456.0",
-		"mode-watcher": "^0.4.1",
+		"mode-watcher": "^0.5.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.9",
-		"svelte": "^5.10.1",
+		"svelte": "^5.16.1",
 		"svelte-check": "^4.1.1",
 		"svelte-radix": "^2.0.1",
 		"svelte-sonner": "^0.3.28",
-		"tailwind-merge": "^2.5.5",
+		"sveltekit-superforms": "^2.22.1",
+		"tailwind-merge": "^2.6.0",
 		"tailwind-variants": "^0.2.1",
-		"tailwindcss": "^3.4.16",
+		"tailwindcss": "^3.4.17",
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.18.0",
+		"typescript-eslint": "^8.19.0",
+		"valibot": "1.0.0-beta.9",
 		"vite": "^5.4.11",
-		"vitest": "^2.1.8"
+		"vitest": "^2.1.8",
+		"zod": "^3.24.1"
 	},
 	"dependencies": {
 		"@inlang/paraglide-sveltekit": "^0.12.1"

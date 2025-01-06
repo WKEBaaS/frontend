@@ -1,15 +1,22 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import House from 'lucide-svelte/icons/house';
+	import Settings from 'lucide-svelte/icons/settings';
 
 	// Menu items.
 	const items = [
 		{
 			title: m.projects(),
-			url: '#',
-			icon: House
-		}
+			url: '/dashboard/projects',
+			icon: House,
+		},
+		{
+			title: m.settings(),
+			url: `/dashboard/project/${page.params.id}/settings`,
+			icon: Settings,
+		},
 	];
 </script>
 
