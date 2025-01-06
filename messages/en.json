@@ -17,12 +17,16 @@
 	"error": "Error",
 	"success": "Success",
 	"create": "Create",
+	"created_at": "Created At",
+	"updated_at": "Last Updated At",
+	"deleted_at": "Deleted At",
 	"create_new_project": "Create New Project",
 	"create_new_project_description": "Create a new project to get started with",
 	"project_name": "Project Name",
 	"project_description": "Project Description",
 	"project_created": "Project created successfully.",
 	"project_deleted": "Project deleted successfully.",
+	"project_reference": "Project Reference",
 	"welcome": "Welcome to WKE BaaS",
 	"welcome_description": "The intelligent Backend as a Service platform that simplifies your development process.",
 	"get_started": "Get Started",
@@ -44,5 +48,6 @@
 	"delete_project_description": "This action cannot be undone and will permanently delete the project.",
 	"cancel": "Cancel",
 	"confirm": "Confirm",
-	"please_type_to_confirm": "Please type {name} to confirm:*"
+	"please_type_to_confirm": "Please type {name} to confirm:*",
+	"description": "Description"
 }

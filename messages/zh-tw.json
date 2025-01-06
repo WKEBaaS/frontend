@@ -16,12 +16,16 @@
 	"error": "錯誤",
 	"success": "成功",
 	"create": "建立",
+	"created_at": "建立時間",
+	"updated_at": "最後更新時間",
+	"deleted_at": "刪除時間",
 	"create_new_project": "建立新專案",
 	"create_new_project_description": "建立新專案以開始使用",
 	"project_name": "專案名稱",
 	"project_description": "專案描述",
 	"project_created": "專案建立成功。",
 	"project_deleted": "專案刪除成功。",
+	"project_reference": "Project Reference",
 	"welcome": "歡迎使用 WKE BaaS",
 	"welcome_description": "後端即服務平台，簡化您的開發流程。",
 	"get_started": "立即開始",
@@ -43,5 +47,6 @@
 	"delete_project_description": "此操作無法撤消，將永久刪除專案。",
 	"cancel": "取消",
 	"confirm": "確認",
-	"please_type_to_confirm": "請輸入 {name} 以確認:*"
+	"please_type_to_confirm": "請輸入 {name} 以確認:*",
+	"description": "描述"
 }

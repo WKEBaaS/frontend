@@ -20,7 +20,7 @@
 				<h3 class="text-base font-medium">Change package visibility</h3>
 				<p class="text-sm text-muted-foreground">This package is currently public.</p>
 			</div>
-			<Button variant="destructive">
+			<Button disabled variant="destructive">
 				Change visibility
 			</Button>
 		</div>

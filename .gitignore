@@ -3,6 +3,7 @@ node_modules
 
 # Output
 .output
+.eslintcache
 .vercel
 /.svelte-kit
 /build
