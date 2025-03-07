@@ -12,6 +12,6 @@
 	"plugin.inlang.messageFormat": {
 		"pathPattern": "./messages/{languageTag}.json"
 	},
-	"sourceLanguageTag": "en",
-	"languageTags": ["en", "zh-tw"]
+	"baseLocale": "en",
+	"locales": ["en", "zh-tw"]
 }
