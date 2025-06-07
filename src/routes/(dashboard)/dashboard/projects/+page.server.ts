@@ -5,7 +5,7 @@ import type { PageServerLoad } from './$types';
 import { projectSchema } from './schemas';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
-	const res = await fetch(env.PROJECT_MANAGER_URL + '/project/list' + `?uid=${locals.session?.sub}`);
+	const res = await fetch(env.BAAS_API_URL + '/project/list' + `?uid=${locals.session?.sub}`);
 
 	if (!res.ok) {
 		console.error('Failed to fetch projects:', res);
