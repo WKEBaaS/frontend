@@ -33,7 +33,10 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 		error(404, 'Failed to parse project.');
 	}
 
+	const project_database_url = `${project.output.reference}.${locals.home.host}`;
+
 	return {
-		project: project.output
+		project: project.output,
+		project_database_url: project_database_url
 	};
 };

@@ -26,6 +26,7 @@
 	"project_created": "專案建立成功。",
 	"project_deleted": "專案刪除成功。",
 	"project_reference": "Project Reference",
+	"project_database_connection_url": "專案資料庫URL",
 	"welcome": "歡迎使用 WKE BaaS",
 	"welcome_description": "後端即服務平台，簡化您的開發流程。",
 	"get_started": "立即開始",

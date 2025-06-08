@@ -1,19 +1,37 @@
 <script>
-	import { Badge } from '$lib/components/ui/badge';
-	import * as Card from '$lib/components/ui/card';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import { Button } from '$lib/components/ui/form/index.js';
+	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte.js';
 	import * as m from '$lib/paraglide/messages';
+	import CheckIcon from '@lucide/svelte/icons/check';
+	import TerminalIcon from '@lucide/svelte/icons/terminal';
 	import dayjs from 'dayjs';
 
 	let { data } = $props();
 	let project = data.project;
+	let projectDatabaseUrl = data.project_database_url;
+
+	const clipboard = new UseClipboard();
 </script>
 
 <div class="container mx-auto py-10">
 	<Card.Root>
 		<Card.Header>
 			<Card.Title class="text-2xl font-bold">{project.name}</Card.Title>
-			<span class="text-xl">{m.project_reference()}: </span>
-			<Badge variant="outline">{project.reference}</Badge>
+			<span class="text-xl">{m.project_database_connection_url()}: </span>
+			<Button
+				variant="outline"
+				class="w-fit gap-1 px-2 shadow-none"
+				size="sm"
+				onclick={() => clipboard.copy(projectDatabaseUrl)}
+			>
+				{#if clipboard.copied}
+					<CheckIcon />
+				{:else}
+					<TerminalIcon />
+				{/if}
+				<span class="hidden lg:inline">{projectDatabaseUrl}</span>
+			</Button>
 		</Card.Header>
 		<Card.Content>
 			<div class="grid gap-4">

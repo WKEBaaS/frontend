@@ -27,6 +27,7 @@
 	"project_created": "Project created successfully.",
 	"project_deleted": "Project deleted successfully.",
 	"project_reference": "Project Reference",
+	"project_database_connection_url": "Project Database Connection URL",
 	"welcome": "Welcome to WKE BaaS",
 	"welcome_description": "The intelligent Backend as a Service platform that simplifies your development process.",
 	"get_started": "Get Started",
