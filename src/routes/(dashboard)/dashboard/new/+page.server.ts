@@ -1,5 +1,4 @@
 import { env } from '$env/dynamic/private';
-import { getLanguagePathFromUrl } from '$lib/utils';
 import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -15,7 +14,6 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	createProject: async (event) => {
-		const langPath = getLanguagePathFromUrl(event.url);
 		const form = await superValidate(event, valibot(createProjectSchema));
 
 		if (!event.locals.session) {
@@ -28,15 +26,16 @@ export const actions: Actions = {
 
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 
-		const res = await fetch(env.PROJECT_MANAGER_URL + '/project', {
+		const apiUrl = new URL('/v1/project', env.BAAS_API_URL);
+		const res = await fetch(apiUrl, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${event.locals.accessToken}`
 			},
 			body: JSON.stringify({
 				name: form.data.name,
-				description: form.data.description,
-				ownerUID: event.locals.session.sub
+				description: form.data.description
 			})
 		});
 
@@ -48,6 +47,6 @@ export const actions: Actions = {
 		const data = await res.json();
 		const project = v.parse(createProjectResponseSchema, data);
 
-		redirect(301, `${langPath}/dashboard/project/${project.reference}`);
+		redirect(301, `/dashboard/project/${project.ref}`);
 	}
 };

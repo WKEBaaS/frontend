@@ -15,19 +15,17 @@
 		<Card.Title class="text-destructive">{m.danger_zone()}</Card.Title>
 	</Card.Header>
 	<Card.Content class="space-y-6">
-		<div class="flex items-center justify-between rounded-lg border border-destructive/20 bg-muted p-4">
+		<div class="border-destructive/20 bg-muted flex items-center justify-between rounded-lg border p-4">
 			<div class="space-y-1">
 				<h3 class="text-base font-medium">Change package visibility</h3>
-				<p class="text-sm text-muted-foreground">This package is currently public.</p>
+				<p class="text-muted-foreground text-sm">This package is currently public.</p>
 			</div>
-			<Button disabled variant="destructive">
-				Change visibility
-			</Button>
+			<Button disabled variant="destructive">Change visibility</Button>
 		</div>
-		<div class="flex items-center justify-between rounded-lg border border-destructive/20 bg-muted p-4">
+		<div class="border-destructive/20 bg-muted flex items-center justify-between rounded-lg border p-4">
 			<div class="space-y-1">
 				<h3 class="text-base font-medium">{m.delete_this_project()}</h3>
-				<p class="text-sm text-muted-foreground">
+				<p class="text-muted-foreground text-sm">
 					{m.delete_project_description()}
 				</p>
 			</div>

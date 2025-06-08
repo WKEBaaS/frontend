@@ -11,12 +11,12 @@
 	const deleteForm = superForm(data.form, {
 		validators: valibotClient(deleteProjectSchema),
 		delayMs: 100,
-		onResult: ({ result }) => {
+		onResult({ result }) {
 			if (result.type === 'redirect') {
 				toast.success(m.project_deleted());
 				goto(result.location);
 			}
-		},
+		}
 	});
 </script>
 

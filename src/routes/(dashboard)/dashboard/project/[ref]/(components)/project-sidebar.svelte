@@ -10,13 +10,13 @@
 		{
 			title: m.projects(),
 			url: '/dashboard/projects',
-			icon: House,
+			icon: House
 		},
 		{
 			title: m.settings(),
-			url: `/dashboard/project/${page.params.id}/settings`,
-			icon: Settings,
-		},
+			url: `/dashboard/project/${page.params.ref}/settings`,
+			icon: Settings
+		}
 	];
 </script>
 

@@ -33,7 +33,7 @@
 					<Form.FieldErrors />
 				</Form.Field>
 			</AlertDialog.Header>
-			<AlertDialog.Footer class="inline-flex space-x-2 items-center justify-end w-full">
+			<AlertDialog.Footer class="inline-flex w-full items-center justify-end space-x-2">
 				<AlertDialog.Cancel type="button">{m.cancel()}</AlertDialog.Cancel>
 				{#if $delayed}<LoaderCircle class="animate-spin" />{/if}
 				<AlertDialog.Action type="submit">{m.confirm()}</AlertDialog.Action>

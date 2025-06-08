@@ -31,11 +31,15 @@ export const actions: Actions = {
 			error(401, { message: 'Invalid form data' });
 		}
 
-		const url = new URL(env.PROJECT_MANAGER_URL + '/project/by-ref');
-		url.searchParams.append('ref', event.params.id);
+		const url = new URL('/v1/project/by-ref', env.BAAS_API_URL);
+		url.searchParams.append('ref', event.params.ref);
 
 		const res = await fetch(url, {
-			method: 'DELETE'
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${event.locals.accessToken}`
+			}
 		});
 
 		if (!res.ok) {

@@ -9,10 +9,16 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const url = new URL(env.PROJECT_MANAGER_URL + '/project/by-ref');
-	url.searchParams.append('ref', params.id);
+	const url = new URL('/v1/project/by-ref', env.BAAS_API_URL);
+	url.searchParams.append('ref', params.ref);
 
-	const res = await fetch(url);
+	const res = await fetch(url, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${locals.accessToken}`
+		}
+	});
 
 	if (!res.ok) {
 		console.error('Failed to fetch project:', res);

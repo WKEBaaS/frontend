@@ -5,6 +5,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			session: import('$lib/auth').Session;
+			accessToken?: string;
 			newProject?: import('$lib/project').ProjectReferenceSchema;
 		}
 		// interface PageData {}

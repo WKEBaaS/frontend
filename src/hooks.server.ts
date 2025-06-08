@@ -18,6 +18,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	if (token) {
 		const payload = await auth.validateJwt(token);
 		event.locals.session = payload;
+		event.locals.accessToken = token;
 	}
 
 	return resolve(event);

@@ -3,9 +3,9 @@
 	import * as Card from '$lib/components/ui/card';
 	import * as m from '$lib/paraglide/messages';
 	import dayjs from 'dayjs';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 </script>
 
 <section class="px-2 pt-2">
@@ -15,11 +15,11 @@
 	{#each data.projects || [] as project (project.reference)}
 		<a href="/dashboard/project/{project.reference}">
 			<Card.Root
-				class="w-80 transition-all duration-300 hover:cursor-pointer hover:scale-y-105 hover:shadow-lg hover:ring-sidebar-ring"
+				class="hover:ring-sidebar-ring w-80 transition-all duration-300 hover:scale-y-105 hover:cursor-pointer hover:shadow-lg"
 			>
 				<Card.Header>
 					<Card.Title>{project.name}</Card.Title>
-					<Card.Description>{project.description}</Card.Description>
+					<Card.Description class="min-h-8">{project?.description}</Card.Description>
 				</Card.Header>
 				<Card.Footer>
 					{dayjs(project.createdAt).format('MMMM D, YYYY')}
