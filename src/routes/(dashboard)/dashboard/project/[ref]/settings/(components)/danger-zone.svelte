@@ -1,18 +1,22 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import * as Card from '$lib/components/ui/card';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import * as Card from '$lib/components/ui/card/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { ProjectDetail } from '../../schemas';
 	import type { DeleteProjectSchema } from '../schemas';
 	import DeleteProjectDialog from './delete-project-dialog.svelte';
+	import AlertTriangleIcon from '@lucide/svelte/icons/alert-triangle';
 
-	let { project, deleteForm }: { project: ProjectDetail; deleteForm: SuperForm<DeleteProjectSchema> } = $props();
+	let { project, form }: { project: ProjectDetail; form: SuperForm<DeleteProjectSchema> } = $props();
 </script>
 
 <Card.Root class="border-destructive/20">
 	<Card.Header>
-		<Card.Title class="text-destructive">{m.danger_zone()}</Card.Title>
+		<Card.Title class="text-destructive flex items-center gap-2">
+			<AlertTriangleIcon class="h-5 w-5" />
+			{m.danger_zone()}
+		</Card.Title>
 	</Card.Header>
 	<Card.Content class="space-y-6">
 		<div class="border-destructive/20 bg-muted flex items-center justify-between rounded-lg border p-4">
@@ -29,7 +33,7 @@
 					{m.delete_project_description()}
 				</p>
 			</div>
-			<DeleteProjectDialog form={deleteForm} name={project.name} />
+			<DeleteProjectDialog {form} name={project.name} />
 		</div>
 	</Card.Content>
 </Card.Root>

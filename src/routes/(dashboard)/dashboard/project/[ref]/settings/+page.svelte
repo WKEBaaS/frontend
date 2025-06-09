@@ -5,10 +5,13 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import DangerZone from './(components)/danger-zone.svelte';
-	import { deleteProjectSchema } from './schemas';
+	import { deleteProjectSchema, resetDatabasePasswordSchema } from './schemas';
+	import SettingsZone from './(components)/settings-zone.svelte';
 
 	let { data } = $props();
-	const deleteForm = superForm(data.form, {
+	let resetOpen = $state(false);
+
+	const deleteForm = superForm(data.deleteForm, {
 		validators: valibotClient(deleteProjectSchema),
 		delayMs: 100,
 		onResult({ result }) {
@@ -18,8 +21,20 @@
 			}
 		}
 	});
+
+	const resetDatabasePasswordForm = superForm(data.resetDatabasePasswordForm, {
+		validators: valibotClient(resetDatabasePasswordSchema),
+		delayMs: 100,
+		onResult({ result }) {
+			if (result.type === 'success') {
+				resetOpen = false;
+				toast.success(m.reset_database_password_success());
+			}
+		}
+	});
 </script>
 
-<div class="p-4">
-	<DangerZone project={data.project} {deleteForm} />
+<div class="space-y-4 p-4">
+	<SettingsZone bind:resetOpen title={m.project_settings()} form={resetDatabasePasswordForm} />
+	<DangerZone project={data.project} form={deleteForm} />
 </div>

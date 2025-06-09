@@ -2,15 +2,15 @@
 	import { page } from '$app/state';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
-	import House from 'lucide-svelte/icons/house';
 	import Settings from 'lucide-svelte/icons/settings';
+	import type { ComponentProps } from 'svelte';
 
 	// Menu items.
 	const items = [
 		{
-			title: m.projects(),
-			url: '/dashboard/projects',
-			icon: House
+			title: m.project_overview(),
+			url: `/dashboard/project/${page.params.ref}`
+			// icon: House,
 		},
 		{
 			title: m.settings(),
@@ -18,9 +18,24 @@
 			icon: Settings
 		}
 	];
+
+	let { ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
 </script>
 
-<Sidebar.Root collapsible="icon">
+<Sidebar.Root collapsible="offcanvas" {...restProps}>
+	<Sidebar.Header>
+		<Sidebar.Menu>
+			<Sidebar.MenuItem>
+				<Sidebar.MenuButton class="data-[slot=sidebar-menu-button]:!p-1.5">
+					{#snippet child({ props })}
+						<a href="/dashboard/projects" {...props}>
+							<span class="text-base font-semibold">{m.projects()}</span>
+						</a>
+					{/snippet}
+				</Sidebar.MenuButton>
+			</Sidebar.MenuItem>
+		</Sidebar.Menu>
+	</Sidebar.Header>
 	<Sidebar.Content>
 		<Sidebar.Group>
 			<Sidebar.GroupLabel>{m.projects()}</Sidebar.GroupLabel>

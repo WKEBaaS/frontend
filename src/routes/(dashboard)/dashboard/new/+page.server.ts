@@ -47,6 +47,6 @@ export const actions: Actions = {
 		const data = await res.json();
 		const project = v.parse(createProjectResponseSchema, data);
 
-		redirect(301, `/dashboard/project/${project.ref}`);
+		redirect(301, `/dashboard/project/${project.reference}`);
 	}
 };

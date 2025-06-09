@@ -4,7 +4,7 @@ import * as v from 'valibot';
 import type { LayoutServerLoad } from './$types';
 import { projectDetailSchema } from './schemas';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
+export const load: LayoutServerLoad = async ({ locals, fetch, params, cookies }) => {
 	if (!locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}
@@ -33,10 +33,12 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 		error(404, 'Failed to parse project.');
 	}
 
-	const project_database_url = `${project.output.reference}.${locals.home.host}`;
+	const databaseUrl = `${project.output.reference}.${locals.home.host}:5432`;
+	const databaseInitPassword = cookies.get(project.output.reference);
 
 	return {
 		project: project.output,
-		project_database_url: project_database_url
+		databaseUrl: databaseUrl,
+		databaseInitPassword: databaseInitPassword
 	};
 };

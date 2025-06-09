@@ -6,34 +6,32 @@
 	import * as m from '$lib/paraglide/messages';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { DeleteProjectSchema } from '../schemas';
+	import type { ResetDatabasePasswordSchema } from '../schemas';
 
 	interface Props {
-		name: string;
-		form: SuperForm<DeleteProjectSchema>;
+		form: SuperForm<ResetDatabasePasswordSchema>;
+		open?: boolean;
 	}
 
-	let { name, form }: Props = $props();
+	let { form, open = $bindable(false) }: Props = $props();
 	let { form: formData, enhance, delayed } = form;
-
-	let open = $state(false);
 </script>
 
 <AlertDialog.Root bind:open>
-	<AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>{m.delete_this_project()}</AlertDialog.Trigger
+	<AlertDialog.Trigger class={buttonVariants({ variant: 'default' })}>{m.reset_database_password()}</AlertDialog.Trigger
 	>
 	<AlertDialog.Content>
-		<form method="POST" action="?/deleteProject" use:enhance>
+		<form method="POST" action="?/resetDatabasePassword" use:enhance>
 			<AlertDialog.Header>
 				<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
 				<AlertDialog.Description>
-					{m.delete_project_description()}
+					{m.reset_database_password_description()}
 				</AlertDialog.Description>
-				<Form.Field {form} name="name">
+				<Form.Field {form} name="password">
 					<Form.Control>
 						{#snippet children({ props })}
-							<Form.Label>{m.please_type_to_confirm({ name })}</Form.Label>
-							<Input {...props} placeholder="TODO: validation not implemented!" bind:value={$formData.name} />
+							<Form.Label>{m.reset_database_password()}</Form.Label>
+							<Input type="password" {...props} placeholder="" bind:value={$formData.password} />
 						{/snippet}
 					</Form.Control>
 					<Form.FieldErrors />

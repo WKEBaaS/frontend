@@ -9,7 +9,6 @@
 
 	let { data } = $props();
 	let project = data.project;
-	let projectDatabaseUrl = data.project_database_url;
 
 	const clipboard = new UseClipboard();
 </script>
@@ -23,14 +22,14 @@
 				variant="outline"
 				class="w-fit gap-1 px-2 shadow-none"
 				size="sm"
-				onclick={() => clipboard.copy(projectDatabaseUrl)}
+				onclick={() => clipboard.copy(data.databaseUrl)}
 			>
 				{#if clipboard.copied}
 					<CheckIcon />
 				{:else}
 					<TerminalIcon />
 				{/if}
-				<span class="hidden lg:inline">{projectDatabaseUrl}</span>
+				<span class="hidden lg:inline">{data.databaseUrl}</span>
 			</Button>
 		</Card.Header>
 		<Card.Content>

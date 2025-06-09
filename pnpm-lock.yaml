@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/noto-sans-tc':
+        specifier: ^5.2.6
+        version: 5.2.6
+      '@fontsource/open-sans':
+        specifier: ^5.2.6
+        version: 5.2.6
       '@inlang/paraglide-js':
         specifier: ^2.0.0
         version: 2.0.13
@@ -357,6 +363,12 @@ packages:
 
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
+
+  '@fontsource/noto-sans-tc@5.2.6':
+    resolution: {integrity: sha512-cXpi78o0adtqz/7/3Onpp2u/O8G2XC4WufuT8EQjEu2Mvdq2WRgLZk/KOrhh7kH/3BSijbKnYUwQ5mTEvaSF5A==}
+
+  '@fontsource/open-sans@5.2.6':
+    resolution: {integrity: sha512-mnfnUmBWQ+J220gqbibbzmKcc1kawV+lb3/Pspzu+Opnxza12oUffIg0ufG8g+3j1fnSznEWgyNV40MjtmJj6g==}
 
   '@gcornut/valibot-json-schema@0.31.0':
     resolution: {integrity: sha512-3xGptCurm23e7nuPQkdrE5rEs1FeTPHhAUsBuwwqG4/YeZLwJOoYZv+fmsppUEfo5y9lzUwNQrNqLS/q7HMc7g==}
@@ -2417,6 +2429,10 @@ snapshots:
       '@floating-ui/utils': 0.2.9
 
   '@floating-ui/utils@0.2.9': {}
+
+  '@fontsource/noto-sans-tc@5.2.6': {}
+
+  '@fontsource/open-sans@5.2.6': {}
 
   '@gcornut/valibot-json-schema@0.31.0':
     dependencies:

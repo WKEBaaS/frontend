@@ -3,7 +3,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
-import { deleteProjectSchema } from './schemas';
+import { deleteProjectSchema, resetDatabasePasswordSchema } from './schemas';
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	if (!locals.session) {
@@ -13,7 +13,8 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	const { project } = await parent();
 
 	return {
-		form: await superValidate(valibot(deleteProjectSchema)),
+		deleteForm: await superValidate(valibot(deleteProjectSchema)),
+		resetDatabasePasswordForm: await superValidate(valibot(resetDatabasePasswordSchema)),
 		project
 	};
 };
@@ -49,5 +50,31 @@ export const actions: Actions = {
 
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 		redirect(301, '/dashboard/projects');
+	},
+	resetDatabasePassword: async (event) => {
+		const form = await superValidate(event, valibot(resetDatabasePasswordSchema));
+		if (!event.locals.session) {
+			error(401, { message: 'Unauthorized' });
+		}
+		if (!form.valid) {
+			error(401, { message: 'Invalid form data' });
+		}
+		const url = new URL('/v1/project/reset-database-password', env.BAAS_API_URL);
+
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${event.locals.accessToken}`
+			},
+			body: JSON.stringify({
+				reference: event.params.ref,
+				password: form.data.password
+			})
+		});
+		if (!res.ok) {
+			console.error('Failed to reset database password:', res);
+			error(500, 'Failed to reset database password.');
+		}
 	}
 };

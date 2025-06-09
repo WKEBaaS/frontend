@@ -7,7 +7,7 @@ export const createProjectSchema = v.object({
 
 export const createProjectResponseSchema = v.object({
 	id: v.string(),
-	ref: v.pipe(v.string(), v.length(20))
+	reference: v.pipe(v.string(), v.length(20))
 });
 
 export type CreateProjectSchema = v.InferInput<typeof createProjectSchema>;
