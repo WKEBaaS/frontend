@@ -3,14 +3,15 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
 	import Settings from 'lucide-svelte/icons/settings';
+	import House from 'lucide-svelte/icons/house';
 	import type { ComponentProps } from 'svelte';
 
 	// Menu items.
 	const items = [
 		{
 			title: m.project_overview(),
-			url: `/dashboard/project/${page.params.ref}`
-			// icon: House,
+			url: `/dashboard/project/${page.params.ref}`,
+			icon: House
 		},
 		{
 			title: m.settings(),

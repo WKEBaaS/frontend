@@ -33,7 +33,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, cookies })
 		error(404, 'Failed to parse project.');
 	}
 
-	const databaseUrl = `${project.output.reference}.${locals.home.host}:5432`;
+	const databaseUrl = `jdbc:postgresql://${project.output.reference}.${locals.home.host}:5432/app`;
 	const databaseInitPassword = cookies.get(project.output.reference);
 
 	return {
