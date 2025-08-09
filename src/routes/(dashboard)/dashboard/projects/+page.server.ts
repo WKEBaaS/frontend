@@ -1,16 +1,15 @@
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 import type { PageServerLoad } from './$types';
 import { projectSchema } from './schemas';
 
-export const load: PageServerLoad = async ({ locals, fetch }) => {
-	const apiUrl = new URL('/v1/project/users', env.BAAS_API_URL);
+export const load: PageServerLoad = async ({ fetch }) => {
+	const apiUrl = new URL('/v1/project/users', env.PUBLIC_BAAS_API_URL);
 	const res = await fetch(apiUrl, {
 		method: 'GET',
 		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${locals.accessToken}`
+			'Content-Type': 'application/json'
 		}
 	});
 

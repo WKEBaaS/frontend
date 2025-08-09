@@ -2,11 +2,11 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as m from '$lib/paraglide/messages';
+	import AlertTriangleIcon from '@lucide/svelte/icons/alert-triangle';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { ProjectDetail } from '../../schemas';
 	import type { DeleteProjectSchema } from '../schemas';
 	import DeleteProjectDialog from './delete-project-dialog.svelte';
-	import AlertTriangleIcon from '@lucide/svelte/icons/alert-triangle';
 
 	let { project, form }: { project: ProjectDetail; form: SuperForm<DeleteProjectSchema> } = $props();
 </script>

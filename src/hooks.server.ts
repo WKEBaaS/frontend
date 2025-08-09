@@ -1,5 +1,5 @@
-import * as auth from '$lib/auth';
 import { paraglideMiddleware } from '$lib/paraglide/server';
+import { authClient } from '$lib/auth-client';
 import { env } from '$env/dynamic/private';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
@@ -14,20 +14,21 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 	});
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-	const token = event.cookies.get(auth.jwtCookieName);
+	const session = await authClient.getSession({
+		fetchOptions: {
+			headers: event.request.headers
+		}
+	});
 
-	if (token) {
-		const payload = await auth.validateJwt(token);
-		event.locals.session = payload;
-		event.locals.accessToken = token;
-	}
+	event.locals.session = session?.data?.session;
+	event.locals.user = session?.data?.user;
 
 	return resolve(event);
 };
 
 const handleEnv: Handle = async ({ event, resolve }) => {
 	// Set the home URL based on the environment variable
-	event.locals.home = new URL(env.BAAS_HOME_URL || 'http://localhost:5173');
+	event.locals.externalURL = new URL(env.EXTERNAL_DOMAIN || event.url.toString());
 
 	return resolve(event);
 };

@@ -4,10 +4,10 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			session: import('$lib/auth').Session;
-			accessToken?: string;
 			newProject?: import('$lib/project').ProjectReferenceSchema;
-			home: URL;
+			externalURL: URL;
+			session?: import('better-auth').Session;
+			user?: import('better-auth').User;
 		}
 		// interface PageData {}
 		// interface PageState {}

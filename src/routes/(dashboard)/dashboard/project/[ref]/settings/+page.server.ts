@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 
 export const actions: Actions = {
 	deleteProject: async (event) => {
-		// const langPath = getLanguagePathFromUrl(event.url);
+		console.log('deleteProject action called');
 		const form = await superValidate(event, valibot(deleteProjectSchema));
 
 		if (!event.locals.session) {
@@ -32,14 +32,13 @@ export const actions: Actions = {
 			error(401, { message: 'Invalid form data' });
 		}
 
-		const url = new URL('/v1/project/by-ref', env.BAAS_API_URL);
+		const url = new URL('/v1/project/by-ref', env.PUBLIC_BAAS_API_URL);
 		url.searchParams.append('ref', event.params.ref);
 
-		const res = await fetch(url, {
+		const res = await event.fetch(url, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${event.locals.accessToken}`
+				'Content-Type': 'application/json'
 			}
 		});
 
@@ -48,7 +47,6 @@ export const actions: Actions = {
 			error(500, 'Failed to delete project.');
 		}
 
-		await new Promise((resolve) => setTimeout(resolve, 1000));
 		redirect(301, '/dashboard/projects');
 	},
 	resetDatabasePassword: async (event) => {
@@ -59,13 +57,12 @@ export const actions: Actions = {
 		if (!form.valid) {
 			error(401, { message: 'Invalid form data' });
 		}
-		const url = new URL('/v1/project/reset-database-password', env.BAAS_API_URL);
+		const url = new URL('/v1/project/reset-database-password', env.PUBLIC_BAAS_API_URL);
 
-		const res = await fetch(url, {
+		const res = await event.fetch(url, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${event.locals.accessToken}`
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
 				reference: event.params.ref,

@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 import type { LayoutServerLoad } from './$types';
@@ -9,14 +9,13 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, cookies })
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const url = new URL('/v1/project/by-ref', env.BAAS_API_URL);
+	const url = new URL('/v1/project/by-ref', env.PUBLIC_BAAS_API_URL);
 	url.searchParams.append('ref', params.ref);
 
 	const res = await fetch(url, {
 		method: 'GET',
 		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${locals.accessToken}`
+			'Content-Type': 'application/json'
 		}
 	});
 
@@ -33,7 +32,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, cookies })
 		error(404, 'Failed to parse project.');
 	}
 
-	const databaseUrl = `jdbc:postgresql://${project.output.reference}.${locals.home.host}:5432/app`;
+	const databaseUrl = `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`;
 	const databaseInitPassword = cookies.get(project.output.reference);
 
 	return {

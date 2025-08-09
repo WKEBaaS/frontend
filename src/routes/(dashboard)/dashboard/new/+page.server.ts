@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -17,6 +17,7 @@ export const actions: Actions = {
 		const form = await superValidate(event, valibot(createProjectSchema));
 
 		if (!event.locals.session) {
+			console.log(event.locals.session);
 			error(401, { message: 'Unauthorized' });
 		}
 
@@ -26,12 +27,11 @@ export const actions: Actions = {
 
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 
-		const apiUrl = new URL('/v1/project', env.BAAS_API_URL);
-		const res = await fetch(apiUrl, {
+		const apiUrl = new URL('/v1/project', env.PUBLIC_BAAS_API_URL);
+		const res = await event.fetch(apiUrl, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${event.locals.accessToken}`
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
 				name: form.data.name,
@@ -47,6 +47,6 @@ export const actions: Actions = {
 		const data = await res.json();
 		const project = v.parse(createProjectResponseSchema, data);
 
-		redirect(301, `/dashboard/project/${project.reference}`);
+		redirect(301, `/dashboard/project/${project.reference}?new=true`);
 	}
 };
