@@ -23,12 +23,12 @@
 				toast.success(m.success(), { description: m.project_created() });
 			}
 		},
-		delayMs: 100,
+		delayMs: 100
 	});
 	const { form: formData, enhance, delayed } = form;
 </script>
 
-<div class="flex justify-center items-start pt-10 flex-1 bg-secondary">
+<div class="flex flex-1 items-start justify-center pt-10">
 	<Card.Root class="w-1/3">
 		<Card.Header class="flex flex-col items-center">
 			<Card.Title>{m.create_new_project()}</Card.Title>

@@ -3,8 +3,9 @@ import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 import type { LayoutServerLoad } from './$types';
 import { projectDetailSchema } from './schemas';
+import dayjs from 'dayjs';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, params, cookies }) => {
+export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 	if (!locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}
@@ -32,12 +33,14 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, cookies })
 		error(404, 'Failed to parse project.');
 	}
 
-	const databaseUrl = `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`;
-	const databaseInitPassword = cookies.get(project.output.reference);
+	const databaseURL = `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`;
+	const authDocsURL = `https://${project.output.reference}.${locals.externalURL.host}/api/auth/docs`;
+	const passwordExpired = dayjs(project.output.passwordExpiredAt).isBefore(dayjs());
 
 	return {
 		project: project.output,
-		databaseUrl: databaseUrl,
-		databaseInitPassword: databaseInitPassword
+		databaseURL: databaseURL,
+		authDocsURL: authDocsURL,
+		passwordExpired: passwordExpired
 	};
 };
