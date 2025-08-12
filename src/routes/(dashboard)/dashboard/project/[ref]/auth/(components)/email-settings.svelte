@@ -19,13 +19,13 @@
 
 <Drawer.Root bind:open {...restProps}>
 	<Drawer.Content>
-		<Drawer.Header>
-			<Drawer.Title class="flex items-center gap-2">
-				<MailIcon class="text-muted-foreground size-6" />
-				Email
-			</Drawer.Title>
-			<Drawer.Description>{m.update_email_settings_description()}</Drawer.Description>
-			<form method="POST" action="?/updateEmailAndPassword" use:enhance>
+		<form method="POST" action="?/updateEmailAndPassword" use:enhance>
+			<Drawer.Header>
+				<Drawer.Title class="flex items-center gap-2">
+					<MailIcon class="text-muted-foreground size-6" />
+					Email
+				</Drawer.Title>
+				<Drawer.Description>{m.update_email_settings_description()}</Drawer.Description>
 				<div class="mt-8 space-y-4">
 					<Form.Field
 						{form}
@@ -43,11 +43,11 @@
 						</Form.Control>
 					</Form.Field>
 				</div>
-			</form>
-		</Drawer.Header>
-		<Drawer.Footer>
-			<Button type="submit">{m.save()}</Button>
-			<Drawer.Close type="button">{m.cancel()}</Drawer.Close>
-		</Drawer.Footer>
+			</Drawer.Header>
+			<Drawer.Footer>
+				<Button type="submit">{m.save()}</Button>
+				<Drawer.Close type="button">{m.cancel()}</Drawer.Close>
+			</Drawer.Footer>
+		</form>
 	</Drawer.Content>
 </Drawer.Root>

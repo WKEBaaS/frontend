@@ -22,7 +22,6 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 
 export const actions: Actions = {
 	deleteProject: async (event) => {
-		console.log('deleteProject action called');
 		const form = await superValidate(event, valibot(deleteProjectSchema));
 
 		if (!event.locals.session) {
