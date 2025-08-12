@@ -1,10 +1,10 @@
 <script lang="ts">
-	import * as AlertDialog from '$lib/components/ui/alert-dialog';
-	import { buttonVariants } from '$lib/components/ui/button';
-	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
 	import * as m from '$lib/paraglide/messages';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircleIcon from 'lucide-svelte/icons/loader-circle';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { ResetDatabasePasswordSchema } from '../schemas';
 
@@ -39,7 +39,7 @@
 			</AlertDialog.Header>
 			<AlertDialog.Footer class="inline-flex w-full items-center justify-end space-x-2">
 				<AlertDialog.Cancel type="button">{m.cancel()}</AlertDialog.Cancel>
-				{#if $delayed}<LoaderCircle class="animate-spin" />{/if}
+				{#if $delayed}<LoaderCircleIcon class="animate-spin" />{/if}
 				<AlertDialog.Action type="submit">{m.confirm()}</AlertDialog.Action>
 			</AlertDialog.Footer>
 		</form>

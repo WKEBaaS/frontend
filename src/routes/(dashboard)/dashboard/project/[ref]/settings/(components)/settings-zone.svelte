@@ -2,17 +2,26 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import SettingIcon from '@lucide/svelte/icons/settings';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { ResetDatabasePasswordSchema } from '../schemas';
+	import type { ResetDatabasePasswordSchema, UpdateProjectSettingsSchema } from '../schemas';
 	import * as m from '$lib/paraglide/messages';
 	import ResetPasswordDialog from './reset-password-dialog.svelte';
+	import SettingsDialog from './settings-dialog.svelte';
 
 	interface SettingsZoneProps {
 		title: string;
-		form: SuperForm<ResetDatabasePasswordSchema>;
-		resetOpen?: boolean;
+		resetDatabasePasswordForm: SuperForm<ResetDatabasePasswordSchema>;
+		updateProjectSettingsForm: SuperForm<UpdateProjectSettingsSchema>;
+		resetPasswordOpen?: boolean;
+		updateSettingsOpen?: boolean;
 	}
 
-	let { title, form, resetOpen = $bindable(false) }: SettingsZoneProps = $props();
+	let {
+		title,
+		resetDatabasePasswordForm,
+		updateProjectSettingsForm,
+		resetPasswordOpen = $bindable(false),
+		updateSettingsOpen = $bindable(false)
+	}: SettingsZoneProps = $props();
 </script>
 
 <Card.Root class="border-border">
@@ -30,7 +39,16 @@
 					<p class="text-muted-foreground text-sm">{m.reset_database_password_description()}</p>
 				</div>
 			</div>
-			<ResetPasswordDialog {form} bind:open={resetOpen} />
+			<ResetPasswordDialog form={resetDatabasePasswordForm} bind:open={resetPasswordOpen} />
+		</div>
+		<div class="bg-card flex items-end justify-between rounded-lg border p-4">
+			<div class="mr-4 flex-1 space-y-3">
+				<div class="space-y-1">
+					<h3 class="text-base font-medium">{m.update_project_setting()}</h3>
+					<p class="text-muted-foreground text-sm">{m.update_project_setting_description()}</p>
+				</div>
+			</div>
+			<SettingsDialog form={updateProjectSettingsForm} bind:open={updateSettingsOpen} />
 		</div>
 	</Card.Content>
 </Card.Root>

@@ -1,9 +1,9 @@
 import { env } from '$env/dynamic/public';
 import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { valibot } from 'sveltekit-superforms/adapters';
+import { arktype, valibot } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
-import { deleteProjectSchema, resetDatabasePasswordSchema } from './schemas';
+import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectSettingsSchema } from './schemas';
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	if (!locals.session) {
@@ -15,6 +15,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	return {
 		deleteForm: await superValidate(valibot(deleteProjectSchema)),
 		resetDatabasePasswordForm: await superValidate(valibot(resetDatabasePasswordSchema)),
+		updateProjectSettingsForm: await superValidate(arktype(updateProjectSettingsSchema)),
 		project
 	};
 };

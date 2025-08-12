@@ -11,6 +11,10 @@
 	"account": "帳戶",
 	"profile": "個人資料",
 	"settings": "設定",
+	"authentication": "身份驗證",
+	"authentication_description": "通過一系列提供者和登入方法驗證您的用戶",
+	"auth_providers": "身份驗證提供者",
+	"auth_providers_description": "管理您的身份驗證提供者和方法",
 	"projects": "專案",
 	"new_project": "建立新專案",
 	"error": "錯誤",
@@ -61,5 +65,12 @@
 	"database_password_expired_description": "您的密碼已過期，請重置密碼以繼續使用。",
 	"reset_database_password": "重置密碼",
 	"reset_database_password_description": "重置此專案的資料庫密碼。",
-	"reset_database_password_success": "資料庫密碼重置成功。"
+	"reset_database_password_success": "資料庫密碼重置成功。",
+	"update_project_setting": "更新專案設定",
+	"update_project_setting_description": "更新此專案的設定",
+	"enable_email_provider": "啟用電子郵件身分驗證",
+	"enable_email_provider_description": "啟用電子郵件提供者以使用電子郵件與密碼驗證。",
+	"email_and_password_enabled": "已啟用電子郵件與密碼驗證",
+	"update_email_settings_description": "請更新此專案的電子郵件設定，以啟用電子郵件與密碼驗證。",
+	"save": "儲存"
 }

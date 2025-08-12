@@ -17,10 +17,10 @@
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
-	import * as v from 'valibot';
 	import ProjectProgress from './(components)/project-progress.svelte';
-	import { type ProjectStatus, projectStatusSchema } from './schemas.js';
+	import { type ProjectStatus, projectStatus } from './schemas.js';
 	import { page } from '$app/state';
+	import { type } from 'arktype';
 
 	let { data } = $props();
 	let project = data.project;
@@ -39,9 +39,16 @@
 		eventSource.addEventListener('project-status', (event) => {
 			try {
 				const jsonData = JSON.parse(event.data);
-				const parsedData = v.parse(projectStatusSchema, jsonData);
-				status = parsedData;
-				if (parsedData.step === parsedData.totalStep) {
+				const parsedStatus = projectStatus(jsonData);
+
+				if (parsedStatus instanceof type.errors) {
+					console.error('Invalid project status data:', parsedStatus.summary);
+					toast.error('Invalid project status data received.');
+					return;
+				}
+
+				status = parsedStatus;
+				if (parsedStatus.step === parsedStatus.totalStep) {
 					toast.success('Project setup complete!');
 					isNew = false;
 					eventSource.close();

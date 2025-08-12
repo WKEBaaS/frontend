@@ -4,6 +4,8 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import Settings from 'lucide-svelte/icons/settings';
 	import House from 'lucide-svelte/icons/house';
+	import Database from 'lucide-svelte/icons/database';
+	import UserLock from 'lucide-svelte/icons/user-lock';
 	import type { ComponentProps } from 'svelte';
 
 	// Menu items.
@@ -12,6 +14,11 @@
 			title: m.project_overview(),
 			url: `/dashboard/project/${page.params.ref}`,
 			icon: House
+		},
+		{
+			title: m.authentication(),
+			url: `/dashboard/project/${page.params.ref}/auth`,
+			icon: UserLock
 		},
 		{
 			title: m.settings(),
@@ -23,13 +30,14 @@
 	let { ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
 </script>
 
-<Sidebar.Root collapsible="offcanvas" {...restProps}>
+<Sidebar.Root collapsible="icon" {...restProps}>
 	<Sidebar.Header>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton class="data-[slot=sidebar-menu-button]:!p-1.5">
 					{#snippet child({ props })}
 						<a href="/dashboard/projects" {...props}>
+							<Database class="" />
 							<span class="text-base font-semibold">{m.projects()}</span>
 						</a>
 					{/snippet}

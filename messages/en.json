@@ -12,6 +12,10 @@
 	"account": "Account",
 	"profile": "Profile",
 	"settings": "Settings",
+	"authentication": "Authentication",
+	"authentication_description": "Authenticate your users through a suite of providers and login methods",
+	"auth_providers": "Auth Providers",
+	"auth_providers_description": "Manage your authentication providers and methods",
 	"projects": "Projects",
 	"new_project": "New Project",
 	"error": "Error",
@@ -62,5 +66,12 @@
 	"database_password_expired_description": "Please reset your password to continue using the service.",
 	"reset_database_password": "Reset Password",
 	"reset_database_password_description": "Reset the database password for this project",
-	"reset_database_password_success": "Database password reset successfully."
+	"reset_database_password_success": "Database password reset successfully.",
+	"update_project_setting": "Update Project Setting",
+	"update_project_setting_description": "Update the project settings for this project",
+	"enable_email_provider": "Enable Email Provider",
+	"enable_email_provider_description": "Enable the email provider for using email and password authentication.",
+	"email_and_password_enabled": "Email and Password Authentication Enabled",
+	"update_email_settings_description": "Update the email settings for this project to enable email and password authentication.",
+	"save": "Save"
 }

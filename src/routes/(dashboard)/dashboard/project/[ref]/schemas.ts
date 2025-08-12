@@ -1,21 +1,40 @@
-import * as v from 'valibot';
+import { type } from 'arktype';
 
-export const projectDetailSchema = v.object({
-	id: v.string(),
-	name: v.string(),
-	description: v.nullish(v.string()),
-	reference: v.string(),
-	createdAt: v.string(),
-	updatedAt: v.string(),
-	passwordExpiredAt: v.nullish(v.string()),
-	initializedAt: v.nullish(v.string())
+export const projectDetail = type({
+	id: 'string',
+	name: 'string',
+	description: 'string | null',
+	reference: 'string',
+	createdAt: 'string',
+	updatedAt: 'string',
+	passwordExpiredAt: 'string | null',
+	initializedAt: 'string | null'
 });
 
-export const projectStatusSchema = v.object({
-	message: v.string(),
-	step: v.number(),
-	totalStep: v.number()
+export const projectStatus = type({
+	message: 'string',
+	step: 'number',
+	totalStep: 'number'
 });
 
-export type ProjectDetail = v.InferInput<typeof projectDetailSchema>;
-export type ProjectStatus = v.InferInput<typeof projectStatusSchema>;
+export const oauthProviderSetting = type({
+	enabled: 'boolean',
+	clientId: '1 < string <= 100',
+	clientSecret: '1 < string <= 100'
+});
+
+export const projectSettings = type({
+	createdAt: 'string',
+	id: 'string',
+	trustedOrigins: 'string[] | null',
+	updatedAt: 'string',
+	'auth?': {
+		emailAndPasswordEnabled: 'boolean',
+		google: oauthProviderSetting.optional(),
+		github: oauthProviderSetting.optional(),
+		discord: oauthProviderSetting.optional()
+	}
+});
+
+export type ProjectDetail = typeof projectDetail.infer;
+export type ProjectStatus = typeof projectStatus.infer;

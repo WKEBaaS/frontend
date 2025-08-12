@@ -5,6 +5,20 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import * as m from '$lib/paraglide/messages';
+	import { page } from '$app/state';
+
+	let currentPage = $derived.by(() => {
+		switch (page.route.id) {
+			case '/(dashboard)/dashboard/project/[ref]':
+				return m.project_overview();
+			case '/(dashboard)/dashboard/project/[ref]/settings':
+				return m.settings();
+			case '/(dashboard)/dashboard/project/[ref]/auth':
+				return m.authentication();
+			default:
+				return m.project_dashboard();
+		}
+	});
 </script>
 
 <header
@@ -16,11 +30,11 @@
 		<Breadcrumb.Root>
 			<Breadcrumb.List>
 				<Breadcrumb.Item class="hidden md:block">
-					<Breadcrumb.Link href="#">{m.build_your_application()}</Breadcrumb.Link>
+					<Breadcrumb.Link href={`/dashboard/project/${page.params.ref}`}>{m.build_your_application()}</Breadcrumb.Link>
 				</Breadcrumb.Item>
 				<Breadcrumb.Separator class="hidden md:block" />
 				<Breadcrumb.Item>
-					<Breadcrumb.Page>{m.project_dashboard()}</Breadcrumb.Page>
+					<Breadcrumb.Page>{currentPage}</Breadcrumb.Page>
 				</Breadcrumb.Item>
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
