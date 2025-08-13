@@ -1,24 +1,37 @@
 <script lang="ts">
-	import * as m from '$lib/paraglide/messages';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import MailIcon from '@lucide/svelte/icons/mail';
-	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
-	import EnabledSwitch from '../(components)/enabled-switch.svelte';
-	import EmailSettings from './(components)/email-settings.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import * as m from '$lib/paraglide/messages';
+	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
+	import MailIcon from '@lucide/svelte/icons/mail';
+	import KeyRound from 'lucide-svelte/icons/key-round';
+	import { toast } from 'svelte-sonner';
 	import { superForm } from 'sveltekit-superforms';
 	import { arktypeClient } from 'sveltekit-superforms/adapters';
-	import { updateEmailAndPasswordSchema } from './schema';
+	import EnabledSwitch from '../(components)/enabled-switch.svelte';
+	import EmailSettings from './(components)/email-settings.svelte';
+	import { updateAuthProviderSchema } from './schema';
+	import OauthProviderSettings from './(components)/oauth-provider-settings.svelte';
 
 	let { data } = $props();
-	let settings = data.settings;
+	let emailEnabled = $derived(data.settings.auth?.email?.enabled ?? false);
+	let emailSettingsOpen = $state(false);
+	let authProvidersSettingsOpen = $state(false);
 
-	const updateEmailAndPasswordForm = superForm(data.updateEmailAndPasswordForm, {
-		validators: arktypeClient(updateEmailAndPasswordSchema),
+	const updateAuthProviderForm = superForm(data.updateAuthProviderForm, {
+		validators: arktypeClient(updateAuthProviderSchema),
+		onResult({ result }) {
+			if (result.type === 'success') {
+				toast.success(m.auth_provider_settings_updated());
+			}
+			emailSettingsOpen = false;
+			authProvidersSettingsOpen = false;
+		},
+		onError({ result }) {
+			toast.error(m.auth_provider_settings_update_failed() + `: ${result.error.message}`);
+		},
 		delayMs: 100
 	});
-
-	let emailSettingsOpen = $state(false);
 </script>
 
 <div class="container mx-auto flex flex-col space-y-2 px-5">
@@ -41,9 +54,21 @@
 			>
 				<MailIcon class="text-muted-foreground size-6" />
 				<p>Email</p>
-				<EnabledSwitch enabled={settings.auth?.emailAndPasswordEnabled ?? false} class="mr-2 ml-auto" />
+				<EnabledSwitch enabled={emailEnabled} class="mr-2 ml-auto" />
 				<ChevronRightIcon class="text-muted-foreground size-4" />
-				<EmailSettings bind:open={emailSettingsOpen} form={updateEmailAndPasswordForm} />
+				<EmailSettings bind:open={emailSettingsOpen} form={updateAuthProviderForm} />
+			</Button>
+			<Button
+				variant="ghost"
+				onclick={() => {
+					authProvidersSettingsOpen = true;
+				}}
+				class="hover:bg-accent hover:text-accent-foreground flex w-full cursor-pointer items-center gap-2 rounded-lg p-3"
+			>
+				<KeyRound class="text-muted-foreground size-6" />
+				<p>OAuth Providers</p>
+				<ChevronRightIcon class="text-muted-foreground ml-auto size-4" />
+				<OauthProviderSettings bind:open={authProvidersSettingsOpen} form={updateAuthProviderForm} />
 			</Button>
 		</Card.Content>
 	</Card.Root>

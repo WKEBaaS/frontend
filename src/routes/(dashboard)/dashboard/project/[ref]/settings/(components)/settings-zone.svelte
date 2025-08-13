@@ -2,7 +2,7 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import SettingIcon from '@lucide/svelte/icons/settings';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { ResetDatabasePasswordSchema, UpdateProjectSettingsSchema } from '../schemas';
+	import type { ResetDatabasePasswordSchema, UpdateProjectInfoSchema } from '../schemas';
 	import * as m from '$lib/paraglide/messages';
 	import ResetPasswordDialog from './reset-password-dialog.svelte';
 	import SettingsDialog from './settings-dialog.svelte';
@@ -10,17 +10,17 @@
 	interface SettingsZoneProps {
 		title: string;
 		resetDatabasePasswordForm: SuperForm<ResetDatabasePasswordSchema>;
-		updateProjectSettingsForm: SuperForm<UpdateProjectSettingsSchema>;
+		updateProjectInfoForm: SuperForm<UpdateProjectInfoSchema>;
 		resetPasswordOpen?: boolean;
-		updateSettingsOpen?: boolean;
+		updateProjectInfoOpen?: boolean;
 	}
 
 	let {
 		title,
 		resetDatabasePasswordForm,
-		updateProjectSettingsForm,
+		updateProjectInfoForm,
 		resetPasswordOpen = $bindable(false),
-		updateSettingsOpen = $bindable(false)
+		updateProjectInfoOpen = $bindable(false)
 	}: SettingsZoneProps = $props();
 </script>
 
@@ -48,7 +48,7 @@
 					<p class="text-muted-foreground text-sm">{m.update_project_setting_description()}</p>
 				</div>
 			</div>
-			<SettingsDialog form={updateProjectSettingsForm} bind:open={updateSettingsOpen} />
+			<SettingsDialog form={updateProjectInfoForm} bind:open={updateProjectInfoOpen} />
 		</div>
 	</Card.Content>
 </Card.Root>

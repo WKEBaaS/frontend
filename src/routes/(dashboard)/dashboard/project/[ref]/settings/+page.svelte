@@ -5,14 +5,15 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { arktypeClient, valibotClient } from 'sveltekit-superforms/adapters';
 	import DangerZone from './(components)/danger-zone.svelte';
-	import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectSettingsSchema } from './schemas';
+	import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectInfoSchema } from './schemas';
 	import SettingsZone from './(components)/settings-zone.svelte';
 
 	let { data } = $props();
 	let resetPasswordOpen = $state(false);
-	let updateSettingsOpen = $state(false);
+	let updateProjectInfoOpen = $state(false);
 
 	const deleteForm = superForm(data.deleteForm, {
+		id: 'delete-project-form',
 		validators: valibotClient(deleteProjectSchema),
 		delayMs: 100,
 		onResult({ result }) {
@@ -24,6 +25,7 @@
 	});
 
 	const resetDatabasePasswordForm = superForm(data.resetDatabasePasswordForm, {
+		id: 'reset-database-password-form',
 		validators: valibotClient(resetDatabasePasswordSchema),
 		delayMs: 100,
 		onResult({ result }) {
@@ -34,20 +36,32 @@
 		}
 	});
 
-	const updateProjectSettingsForm = superForm(data.updateProjectSettingsForm, {
-		validators: arktypeClient(updateProjectSettingsSchema),
+	const updateProjectInfoForm = superForm(data.updateProjectSettingsForm, {
+		id: 'update-project-info-form',
+		validators: arktypeClient(updateProjectInfoSchema),
 		dataType: 'json',
-		delayMs: 100
+		delayMs: 100,
+		onResult({ result }) {
+			if (result.type === 'success') {
+				updateProjectInfoOpen = false;
+				toast.success(m.project_info_updated());
+			} else if (result.type === 'error') {
+				toast.error(m.project_info_update_failed());
+			}
+		}
 	});
 </script>
 
 <div class="space-y-4 p-4">
+	<div>
+		<h1 class="text-foreground text-3xl font-bold">{data.project.name}</h1>
+	</div>
 	<SettingsZone
-		bind:updateSettingsOpen
+		bind:updateProjectInfoOpen
 		bind:resetPasswordOpen
 		title={m.project_settings()}
 		{resetDatabasePasswordForm}
-		{updateProjectSettingsForm}
+		{updateProjectInfoForm}
 	/>
 	<DangerZone project={data.project} form={deleteForm} />
 </div>

@@ -23,7 +23,7 @@
 	import { type } from 'arktype';
 
 	let { data } = $props();
-	let project = data.project;
+	let project = $derived(data.project);
 
 	const clipboard = new UseClipboard();
 	let isNew = $state(!data.project.initializedAt);

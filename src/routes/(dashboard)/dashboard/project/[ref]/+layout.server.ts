@@ -5,7 +5,9 @@ import { projectDetail, projectSettings } from './schemas';
 import dayjs from 'dayjs';
 import { type } from 'arktype';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
+export const load: LayoutServerLoad = async ({ locals, fetch, params, depends }) => {
+	depends('app:settings');
+
 	if (!locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}

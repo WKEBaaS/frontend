@@ -17,10 +17,10 @@ export const projectStatus = type({
 	totalStep: 'number'
 });
 
-export const oauthProviderSetting = type({
+export const authProviderSetting = type({
 	enabled: 'boolean',
-	clientId: '1 < string <= 100',
-	clientSecret: '1 < string <= 100'
+	'clientId?': '1 < string <= 100',
+	'clientSecret?': '1 < string <= 100'
 });
 
 export const projectSettings = type({
@@ -29,10 +29,10 @@ export const projectSettings = type({
 	trustedOrigins: 'string[] | null',
 	updatedAt: 'string',
 	'auth?': {
-		emailAndPasswordEnabled: 'boolean',
-		google: oauthProviderSetting.optional(),
-		github: oauthProviderSetting.optional(),
-		discord: oauthProviderSetting.optional()
+		email: authProviderSetting.optional(),
+		google: authProviderSetting.optional(),
+		github: authProviderSetting.optional(),
+		discord: authProviderSetting.optional()
 	}
 });
 

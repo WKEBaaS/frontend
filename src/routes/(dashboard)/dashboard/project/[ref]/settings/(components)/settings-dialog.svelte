@@ -6,10 +6,10 @@
 	import * as m from '$lib/paraglide/messages';
 	import LoaderCircleIcon from 'lucide-svelte/icons/loader-circle';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { UpdateProjectSettingsSchema } from '../schemas.ts';
+	import type { UpdateProjectInfoSchema } from '../schemas.ts';
 
 	interface SettingDialogProps {
-		form: SuperForm<UpdateProjectSettingsSchema>;
+		form: SuperForm<UpdateProjectInfoSchema>;
 		open?: boolean;
 	}
 
@@ -20,7 +20,7 @@
 <AlertDialog.Root bind:open>
 	<AlertDialog.Trigger class={buttonVariants({ variant: 'default' })}>{m.update_project_setting()}</AlertDialog.Trigger>
 	<AlertDialog.Content>
-		<form method="POST" action="?/updateProjectSettings" use:enhance>
+		<form method="POST" action="?/updateProjectInfo" use:enhance>
 			<AlertDialog.Header>
 				<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
 				<AlertDialog.Description>
@@ -47,17 +47,6 @@
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>
-					<!-- <Form.Field {form} name="auth.emailAndPasswordEnabled"> -->
-					<!-- 	<Form.Control> -->
-					<!-- 		{#snippet children({ props })} -->
-					<!-- 			<div class="flex items-center gap-3"> -->
-					<!-- 				<Checkbox {...props} placeholder="" bind:checked={$formData.auth.emailAndPasswordEnabled} /> -->
-					<!-- 				<Form.Label>{m.email_and_password_enabled()}</Form.Label> -->
-					<!-- 			</div> -->
-					<!-- 		{/snippet} -->
-					<!-- 	</Form.Control> -->
-					<!-- 	<Form.FieldErrors /> -->
-					<!-- </Form.Field> -->
 				</div>
 			</AlertDialog.Header>
 			<AlertDialog.Footer>
