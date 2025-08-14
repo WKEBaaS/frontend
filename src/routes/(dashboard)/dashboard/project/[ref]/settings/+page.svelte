@@ -5,8 +5,8 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { arktypeClient, valibotClient } from 'sveltekit-superforms/adapters';
 	import DangerZone from './(components)/danger-zone.svelte';
-	import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectInfoSchema } from './schemas';
 	import SettingsZone from './(components)/settings-zone.svelte';
+	import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectInfoSchema } from './schemas';
 
 	let { data } = $props();
 	let resetPasswordOpen = $state(false);
@@ -14,7 +14,7 @@
 
 	const deleteForm = superForm(data.deleteForm, {
 		id: 'delete-project-form',
-		validators: valibotClient(deleteProjectSchema),
+		validators: arktypeClient(deleteProjectSchema),
 		delayMs: 100,
 		onResult({ result }) {
 			if (result.type === 'redirect') {

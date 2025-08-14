@@ -19,14 +19,53 @@ export const updateAuthProviderSchema = type({
 	discordClientId: 'string <= 100 | undefined',
 	discordClientSecret: 'string <= 100 | undefined'
 }).narrow((s, ctx) => {
-	if (s.googleEnabled && (!s.googleClientId || !s.googleClientSecret)) {
-		return ctx.mustBe('googleClientId and googleClientSecret must be provided if Google authentication is enabled');
+	if (s.googleEnabled) {
+		if (!s.googleClientId) {
+			return ctx.reject({
+				expected: 'provided if Google authentication is enabled',
+				actual: '',
+				path: ['googleClientId']
+			});
+		}
+		if (!s.googleClientSecret) {
+			return ctx.reject({
+				expected: 'provided if Google authentication is enabled',
+				actual: '',
+				path: ['googleClientSecret']
+			});
+		}
 	}
-	if (s.githubEnabled && (!s.githubClientId || !s.githubClientSecret)) {
-		return ctx.mustBe('githubClientId and githubClientSecret must be provided if GitHub authentication is enabled');
+	if (s.githubEnabled) {
+		if (!s.githubClientId) {
+			return ctx.reject({
+				expected: 'provided if GitHub authentication is enabled',
+				actual: '',
+				path: ['githubClientId']
+			});
+		}
+		if (!s.githubClientSecret) {
+			return ctx.reject({
+				expected: 'provided if GitHub authentication is enabled',
+				actual: '',
+				path: ['githubClientSecret']
+			});
+		}
 	}
-	if (s.discordEnabled && (!s.discordClientId || !s.discordClientSecret)) {
-		return ctx.mustBe('discordClientId and discordClientSecret must be provided if Discord authentication is enabled');
+	if (s.discordEnabled) {
+		if (!s.discordClientId) {
+			return ctx.reject({
+				expected: 'provided if Discord authentication is enabled',
+				actual: '',
+				path: ['discordClientId']
+			});
+		}
+		if (!s.discordClientSecret) {
+			return ctx.reject({
+				expected: 'provided if Discord authentication is enabled',
+				actual: '',
+				path: ['discordClientSecret']
+			});
+		}
 	}
 	return true;
 });

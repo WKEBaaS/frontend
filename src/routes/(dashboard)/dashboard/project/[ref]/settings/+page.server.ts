@@ -13,7 +13,12 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	const { project } = await parent();
 
 	return {
-		deleteForm: await superValidate(valibot(deleteProjectSchema)),
+		deleteForm: await superValidate(arktype(deleteProjectSchema), {
+			defaults: {
+				expected: project.name,
+				name: ''
+			}
+		}),
 		resetDatabasePasswordForm: await superValidate(valibot(resetDatabasePasswordSchema)),
 		updateProjectSettingsForm: await superValidate(arktype(updateProjectInfoSchema)),
 		project
@@ -22,7 +27,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 
 export const actions: Actions = {
 	deleteProject: async (event) => {
-		const form = await superValidate(event, valibot(deleteProjectSchema));
+		const form = await superValidate(event, arktype(deleteProjectSchema));
 
 		if (!event.locals.session) {
 			error(401, { message: 'Unauthorized' });
