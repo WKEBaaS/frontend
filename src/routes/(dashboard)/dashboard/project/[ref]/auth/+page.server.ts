@@ -1,9 +1,9 @@
-import { error, fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
-import { message, superValidate } from 'sveltekit-superforms';
-import { arktype } from 'sveltekit-superforms/adapters';
-import { type AuthProvider, updateAuthProviderSchema } from './schema';
 import { env } from '$env/dynamic/public';
+import { error, fail, redirect } from '@sveltejs/kit';
+import { superValidate } from 'sveltekit-superforms';
+import { valibot } from 'sveltekit-superforms/adapters';
+import type { Actions, PageServerLoad } from './$types';
+import { type AuthProvider, updateAuthProviderSchema } from './schema';
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	if (!locals.session) {
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	return {
 		settings,
 		updateAuthProviderForm: await superValidate(
-			arktype(updateAuthProviderSchema, {
+			valibot(updateAuthProviderSchema, {
 				defaults: {
 					emailEnabled: settings.auth?.email?.enabled || false,
 					googleEnabled: settings.auth?.google?.enabled || false,
@@ -38,7 +38,7 @@ export const actions: Actions = {
 			return error(401, { message: 'Unauthorized' });
 		}
 
-		const form = await superValidate(event, arktype(updateAuthProviderSchema));
+		const form = await superValidate(event, valibot(updateAuthProviderSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
@@ -78,6 +78,8 @@ export const actions: Actions = {
 			fail(500, { form });
 		}
 
-		return message(form, 'Authentication provider settings updated successfully.');
+		return {
+			form
+		};
 	}
 };

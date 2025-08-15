@@ -58,7 +58,7 @@ This is a **SvelteKit 5** frontend application with the following key architectu
 ### Form Handling & Validation
 
 - **SvelteKit Superforms** for form management
-- **Valibot** and **Zod** for schema validation
+- **arktype** and **Zod** for schema validation
 - **Formsnap** for form components
 
 ### Project Structure

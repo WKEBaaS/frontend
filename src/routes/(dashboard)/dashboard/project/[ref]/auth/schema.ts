@@ -1,74 +1,76 @@
-import { type } from 'arktype';
+import * as v from 'valibot';
 
-export const authProvider = type({
-	enabled: 'boolean',
-	'clientId?': 'string <= 100',
-	'clientSecret?': 'string <= 100'
+export const authProviderSchema = v.object({
+	enabled: v.boolean(),
+	clientId: v.optional(v.pipe(v.string(), v.maxLength(100))),
+	clientSecret: v.optional(v.pipe(v.string(), v.maxLength(100)))
 });
 
-export const updateAuthProviderSchema = type({
-	type: type.enumerated('email', 'google', 'github', 'discord').optional(),
-	emailEnabled: 'boolean',
-	googleEnabled: 'boolean',
-	googleClientId: 'string <= 100 | undefined',
-	googleClientSecret: 'string <= 100 | undefined',
-	githubEnabled: 'boolean',
-	githubClientId: 'string <= 100 | undefined',
-	githubClientSecret: 'string <= 100 | undefined',
-	discordEnabled: 'boolean',
-	discordClientId: 'string <= 100 | undefined',
-	discordClientSecret: 'string <= 100 | undefined'
-}).narrow((s, ctx) => {
-	if (s.googleEnabled) {
-		if (!s.googleClientId) {
-			return ctx.reject({
-				expected: 'provided if Google authentication is enabled',
-				actual: '',
-				path: ['googleClientId']
-			});
-		}
-		if (!s.googleClientSecret) {
-			return ctx.reject({
-				expected: 'provided if Google authentication is enabled',
-				actual: '',
-				path: ['googleClientSecret']
-			});
-		}
-	}
-	if (s.githubEnabled) {
-		if (!s.githubClientId) {
-			return ctx.reject({
-				expected: 'provided if GitHub authentication is enabled',
-				actual: '',
-				path: ['githubClientId']
-			});
-		}
-		if (!s.githubClientSecret) {
-			return ctx.reject({
-				expected: 'provided if GitHub authentication is enabled',
-				actual: '',
-				path: ['githubClientSecret']
-			});
-		}
-	}
-	if (s.discordEnabled) {
-		if (!s.discordClientId) {
-			return ctx.reject({
-				expected: 'provided if Discord authentication is enabled',
-				actual: '',
-				path: ['discordClientId']
-			});
-		}
-		if (!s.discordClientSecret) {
-			return ctx.reject({
-				expected: 'provided if Discord authentication is enabled',
-				actual: '',
-				path: ['discordClientSecret']
-			});
-		}
-	}
-	return true;
-});
+export const updateAuthProviderType = ['email', 'google', 'github', 'discord'] as const;
+export const updateAuthProviderSchema = v.pipe(
+	v.object({
+		type: v.optional(v.picklist(updateAuthProviderType)),
+		emailEnabled: v.boolean(),
+		googleEnabled: v.boolean(),
+		googleClientId: v.optional(v.pipe(v.string(), v.maxLength(100))),
+		googleClientSecret: v.optional(v.pipe(v.string(), v.maxLength(100))),
+		githubEnabled: v.boolean(),
+		githubClientId: v.optional(v.pipe(v.string(), v.maxLength(100))),
+		githubClientSecret: v.optional(v.pipe(v.string(), v.maxLength(100))),
+		discordEnabled: v.boolean(),
+		discordClientId: v.optional(v.pipe(v.string(), v.maxLength(100))),
+		discordClientSecret: v.optional(v.pipe(v.string(), v.maxLength(100)))
+	}),
+	v.forward(
+		v.partialCheck(
+			[['googleEnabled'], ['googleClientId']],
+			(s) => !s.googleEnabled || !!s.googleClientId,
+			'must be provided if Google authentication is enabled.'
+		),
+		['googleClientId']
+	),
+	v.forward(
+		v.partialCheck(
+			[['googleEnabled'], ['googleClientSecret']],
+			(s) => !s.googleEnabled || !!s.googleClientSecret,
+			'must be provided if Google authentication is enabled.'
+		),
+		['googleClientSecret']
+	),
+	v.forward(
+		v.partialCheck(
+			[['githubEnabled'], ['githubClientId']],
+			(s) => !s.githubEnabled || !!s.githubClientId,
+			'must be provided if GitHub authentication is enabled.'
+		),
+		['githubClientId']
+	),
+	v.forward(
+		v.partialCheck(
+			[['githubEnabled'], ['githubClientSecret']],
+			(s) => !s.githubEnabled || !!s.githubClientSecret,
+			'must be provided if GitHub authentication is enabled.'
+		),
+		['githubClientSecret']
+	),
+	v.forward(
+		v.partialCheck(
+			[['discordEnabled'], ['discordClientId']],
+			(s) => !s.discordEnabled || !!s.discordClientId,
+			'must be provided if Discord authentication is enabled.'
+		),
+		['discordClientId']
+	),
+	v.forward(
+		v.partialCheck(
+			[['discordEnabled'], ['discordClientSecret']],
+			(s) => !s.discordEnabled || !!s.discordClientSecret,
+			'must be provided if Discord authentication is enabled.'
+		),
+		['discordClientSecret']
+	)
+);
 
-export type UpdateAuthProvider = typeof updateAuthProviderSchema.infer;
-export type AuthProvider = typeof authProvider.infer;
+export type UpdateAuthProviderType = (typeof updateAuthProviderType)[number];
+export type UpdateAuthProvider = v.InferInput<typeof updateAuthProviderSchema>;
+export type AuthProvider = v.InferInput<typeof authProviderSchema>;

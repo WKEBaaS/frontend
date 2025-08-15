@@ -1,9 +1,9 @@
 import { env } from '$env/dynamic/public';
 import { error } from '@sveltejs/kit';
-import type { LayoutServerLoad } from './$types';
-import { projectDetail, projectSettings } from './schemas';
 import dayjs from 'dayjs';
-import { type } from 'arktype';
+import type { LayoutServerLoad } from './$types';
+import { projectDetailSchema, projectSettings } from './schemas';
+import * as v from 'valibot';
 
 export const load: LayoutServerLoad = async ({ locals, fetch, params, depends }) => {
 	depends('app:settings');
@@ -26,10 +26,13 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, depends })
 	}
 
 	const projectData = await projectRes.json();
-	const project = projectDetail(projectData);
-	if (project instanceof type.errors) {
-		console.error('Project validation failed:', project.summary);
-		error(404, 'Project validation failed.');
+	const project = await v.safeParseAsync(projectDetailSchema, projectData).catch((err) => {
+		console.error('Project validation failed:', err);
+		return error(500, 'Project validation failed.');
+	});
+	if (!project.success) {
+		console.error('Project validation failed:', project.issues);
+		error(500, 'Project validation failed.');
 	}
 
 	const projectSettingsURL = new URL('/v1/project/settings/by-ref', env.PUBLIC_BAAS_API_URL);
@@ -46,20 +49,20 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, depends })
 	}
 
 	const projectSettingsData = await projectSettingsRes.json();
-	const settings = projectSettings(projectSettingsData);
-	if (settings instanceof type.errors) {
-		console.error('Project settings validation failed:', settings.summary);
-		error(404, 'Project settings validation failed.');
+	const settings = await v.safeParseAsync(projectSettings, projectSettingsData);
+	if (!settings.success) {
+		console.error('Project settings validation failed:', settings.issues);
+		error(500, 'Project settings validation failed.');
 	}
 
 	// TODO: Remove these server side caculated fields
-	const databaseURL = `jdbc:postgresql://${project.reference}.${locals.externalURL.host}:5432/app`;
-	const authDocsURL = `https://${project.reference}.${locals.externalURL.host}/api/auth/docs`;
-	const passwordExpired = dayjs(project.passwordExpiredAt).isBefore(dayjs());
+	const databaseURL = `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`;
+	const authDocsURL = `https://${project.output.reference}.${locals.externalURL.host}/api/auth/docs`;
+	const passwordExpired = dayjs(project.output.passwordExpiredAt).isBefore(dayjs());
 
 	return {
-		project: project,
-		settings: settings,
+		project: project.output,
+		settings: settings.output,
 		databaseURL: databaseURL,
 		authDocsURL: authDocsURL,
 		passwordExpired: passwordExpired

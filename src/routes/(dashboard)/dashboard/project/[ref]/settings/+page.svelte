@@ -3,7 +3,7 @@
 	import * as m from '$lib/paraglide/messages';
 	import { toast } from 'svelte-sonner';
 	import { superForm } from 'sveltekit-superforms';
-	import { arktypeClient, valibotClient } from 'sveltekit-superforms/adapters';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import DangerZone from './(components)/danger-zone.svelte';
 	import SettingsZone from './(components)/settings-zone.svelte';
 	import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectInfoSchema } from './schemas';
@@ -14,11 +14,11 @@
 
 	const deleteForm = superForm(data.deleteForm, {
 		id: 'delete-project-form',
-		validators: arktypeClient(deleteProjectSchema),
+		validators: valibotClient(deleteProjectSchema),
 		delayMs: 100,
 		onResult({ result }) {
 			if (result.type === 'redirect') {
-				toast.success(m.project_deleted());
+				toast.success(m.success(), { description: m.project_deleted() });
 				goto(result.location);
 			}
 		}
@@ -31,22 +31,22 @@
 		onResult({ result }) {
 			if (result.type === 'success') {
 				resetPasswordOpen = false;
-				toast.success(m.reset_database_password_success());
+				toast.success(m.success(), { description: m.reset_database_password_success() });
 			}
 		}
 	});
 
 	const updateProjectInfoForm = superForm(data.updateProjectSettingsForm, {
 		id: 'update-project-info-form',
-		validators: arktypeClient(updateProjectInfoSchema),
+		validators: valibotClient(updateProjectInfoSchema),
 		dataType: 'json',
 		delayMs: 100,
 		onResult({ result }) {
 			if (result.type === 'success') {
 				updateProjectInfoOpen = false;
-				toast.success(m.project_info_updated());
+				toast.success(m.success(), { description: m.project_info_updated() });
 			} else if (result.type === 'error') {
-				toast.error(m.project_info_update_failed());
+				toast.error(m.error(), { description: result.error.message });
 			}
 		}
 	});

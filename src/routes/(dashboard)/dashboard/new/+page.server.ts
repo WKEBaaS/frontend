@@ -1,6 +1,6 @@
 import { env } from '$env/dynamic/public';
 import { error, redirect } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
+import { fail, superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 import * as v from 'valibot';
 import type { Actions, PageServerLoad } from './$types';
@@ -12,20 +12,17 @@ export const load: PageServerLoad = async () => {
 	};
 };
 
-export const actions: Actions = {
+export const actions = {
 	createProject: async (event) => {
 		const form = await superValidate(event, valibot(createProjectSchema));
 
 		if (!event.locals.session) {
-			console.log(event.locals.session);
-			error(401, { message: 'Unauthorized' });
+			error(401, 'Unauthorized');
 		}
 
 		if (!form.valid) {
-			error(401, { message: 'Invalid form data' });
+			return fail(401, { form });
 		}
-
-		await new Promise((resolve) => setTimeout(resolve, 1000));
 
 		const apiUrl = new URL('/v1/project', env.PUBLIC_BAAS_API_URL);
 		const res = await event.fetch(apiUrl, {
@@ -40,13 +37,16 @@ export const actions: Actions = {
 		});
 
 		if (!res.ok) {
-			console.error('Failed to create project:', res);
 			error(500, 'Failed to create project.');
 		}
 
 		const data = await res.json();
-		const project = v.parse(createProjectResponseSchema, data);
+		const project = await v.safeParseAsync(createProjectResponseSchema, data);
+		if (!project.success) {
+			console.error('Project creation validation failed:', project.issues);
+			error(500, 'Project creation validation failed.');
+		}
 
-		redirect(301, `/dashboard/project/${project.reference}?new=true`);
+		redirect(301, `/dashboard/project/${project.output.reference}?new=true`);
 	}
-};
+} satisfies Actions;

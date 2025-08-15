@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/public';
 import { error, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { arktype, valibot } from 'sveltekit-superforms/adapters';
+import { valibot } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
 import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectInfoSchema } from './schemas';
 
@@ -13,21 +13,21 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	const { project } = await parent();
 
 	return {
-		deleteForm: await superValidate(arktype(deleteProjectSchema), {
+		deleteForm: await superValidate(valibot(deleteProjectSchema), {
 			defaults: {
 				expected: project.name,
 				name: ''
 			}
 		}),
 		resetDatabasePasswordForm: await superValidate(valibot(resetDatabasePasswordSchema)),
-		updateProjectSettingsForm: await superValidate(arktype(updateProjectInfoSchema)),
+		updateProjectSettingsForm: await superValidate(valibot(updateProjectInfoSchema)),
 		project
 	};
 };
 
 export const actions: Actions = {
 	deleteProject: async (event) => {
-		const form = await superValidate(event, arktype(deleteProjectSchema));
+		const form = await superValidate(event, valibot(deleteProjectSchema));
 
 		if (!event.locals.session) {
 			error(401, { message: 'Unauthorized' });
@@ -84,7 +84,7 @@ export const actions: Actions = {
 			error(401, { message: 'Unauthorized' });
 		}
 
-		const form = await superValidate(event, arktype(updateProjectInfoSchema));
+		const form = await superValidate(event, valibot(updateProjectInfoSchema));
 		if (!form.valid) {
 			error(401, { message: 'Invalid form data' });
 		}

@@ -2,7 +2,7 @@ import { env } from '$env/dynamic/public';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 import type { PageServerLoad } from './$types';
-import { projectSchema } from './schemas';
+import { projectListSchema } from './schemas';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	const apiUrl = new URL('/v1/project/users', env.PUBLIC_BAAS_API_URL);
@@ -19,8 +19,12 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	}
 
 	const data = await res.json();
-	const projects = v.parse(v.array(projectSchema), data.projects || []);
+	const projects = await v.safeParseAsync(projectListSchema, data.projects || []);
+	if (!projects.success) {
+		console.error('Project list validation failed:', projects.issues);
+		error(500, 'Project list validation failed.');
+	}
 	return {
-		projects
+		projects: projects.output
 	};
 };

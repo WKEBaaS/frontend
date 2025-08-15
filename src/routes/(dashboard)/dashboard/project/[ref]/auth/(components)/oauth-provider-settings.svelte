@@ -5,16 +5,18 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Switch } from '$lib/components/ui/switch/index.js';
 	import * as m from '$lib/paraglide/messages.js';
-	import MailIcon from '@lucide/svelte/icons/mail';
-	import type { ComponentProps } from 'svelte';
+	import type { Component, ComponentProps } from 'svelte';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { UpdateAuthProvider } from '../schema';
+	import type { UpdateAuthProvider, UpdateAuthProviderType } from '../schema';
 
 	type EmailSettingsProps = ComponentProps<typeof Drawer.Root> & {
 		form: SuperForm<UpdateAuthProvider>;
+		type: Exclude<UpdateAuthProviderType, 'email'>;
+		name: string;
+		icon: Component<{ class: string }>;
 	};
 
-	let { form, open = $bindable(false), ...restProps }: EmailSettingsProps = $props();
+	let { form, type, name, icon: ProviderIcon, open = $bindable(false), ...restProps }: EmailSettingsProps = $props();
 	let { form: formData, enhance } = form;
 </script>
 
@@ -23,21 +25,21 @@
 		<form method="POST" action="?/updateAuthProvider" use:enhance>
 			<Drawer.Header>
 				<Drawer.Title class="flex items-center gap-2">
-					<MailIcon class="text-muted-foreground size-6" />
+					<ProviderIcon class="size-6" />
 					{m.auth_provider_settings()}
 				</Drawer.Title>
 				<Drawer.Description>{m.auth_provider_settings_description()}</Drawer.Description>
 				<div class="mt-8 space-y-4">
 					<div class="space-y-2 rounded-lg border p-4">
-						<input type="hidden" name="type" value="google" />
+						<input type="hidden" name="type" value={type} />
 						<Form.Field {form} name="googleEnabled" class="flex flex-row items-center justify-between">
 							<Form.Control>
 								{#snippet children({ props })}
 									<div class="space-y-0.5">
-										<Form.Label>{m.enable_google_auth()}</Form.Label>
-										<Form.Description>{m.enable_google_auth_description()}</Form.Description>
+										<Form.Label>{m.enable_auth({ name })}</Form.Label>
+										<Form.Description>{m.enable_auth_description({ name })}</Form.Description>
 									</div>
-									<Switch {...props} bind:checked={$formData.googleEnabled} />
+									<Switch {...props} bind:checked={$formData[`${type}Enabled`]} />
 								{/snippet}
 							</Form.Control>
 						</Form.Field>
@@ -45,10 +47,10 @@
 							<Form.Control>
 								{#snippet children({ props })}
 									<div class="space-y-0.5">
-										<Form.Label>{m.google_client_id()}</Form.Label>
-										<Form.Description>{m.google_client_id_description()}</Form.Description>
+										<Form.Label>{m.auth_client_id({ name })}</Form.Label>
+										<Form.Description>{m.auth_client_id_description({ name })}</Form.Description>
 									</div>
-									<Input {...props} bind:value={$formData.googleClientId} />
+									<Input {...props} bind:value={$formData[`${type}ClientId`]} />
 								{/snippet}
 							</Form.Control>
 							<Form.FieldErrors />
@@ -57,10 +59,10 @@
 							<Form.Control>
 								{#snippet children({ props })}
 									<div class="space-y-0.5">
-										<Form.Label>{m.google_client_secret()}</Form.Label>
-										<Form.Description>{m.google_client_secret_description()}</Form.Description>
+										<Form.Label>{m.auth_client_secret({ name })}</Form.Label>
+										<Form.Description>{m.auth_client_secret_description({ name })}</Form.Description>
 									</div>
-									<Input type="password" {...props} bind:value={$formData.googleClientSecret} />
+									<Input type="password" {...props} bind:value={$formData[`${type}ClientSecret`]} />
 								{/snippet}
 							</Form.Control>
 							<Form.FieldErrors />
