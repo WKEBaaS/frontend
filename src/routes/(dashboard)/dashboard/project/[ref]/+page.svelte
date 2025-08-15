@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { env } from '$env/dynamic/public';
+	import * as Alert from '$lib/components/ui/alert/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Button } from '$lib/components/ui/form/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte.js';
-	import * as Alert from '$lib/components/ui/alert/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import CalendarIcon from '@lucide/svelte/icons/calendar';
 	import CheckIcon from '@lucide/svelte/icons/check';
@@ -18,12 +19,10 @@
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import ProjectProgress from './(components)/project-progress.svelte';
-	import { type ProjectStatus, projectStatus } from './schemas.js';
-	import { page } from '$app/state';
-	import { type } from 'arktype';
+	import { type ProjectStatus, projectStatusSchema } from './schemas.js';
 
 	let { data } = $props();
-	let project = data.project;
+	let project = $derived(data.project);
 
 	const clipboard = new UseClipboard();
 	let isNew = $state(!data.project.initializedAt);
@@ -36,26 +35,19 @@
 		const statusURL = new URL(`/v1/project/status`, env.PUBLIC_BAAS_API_URL);
 		statusURL.searchParams.set('ref', project.reference);
 		const eventSource = new EventSource(statusURL, { withCredentials: true });
-		eventSource.addEventListener('project-status', (event) => {
+		eventSource.addEventListener('project-status', async (event) => {
 			try {
 				const jsonData = JSON.parse(event.data);
-				const parsedStatus = projectStatus(jsonData);
+				status = await projectStatusSchema.parseAsync(jsonData);
 
-				if (parsedStatus instanceof type.errors) {
-					console.error('Invalid project status data:', parsedStatus.summary);
-					toast.error('Invalid project status data received.');
-					return;
-				}
-
-				status = parsedStatus;
-				if (parsedStatus.step === parsedStatus.totalStep) {
-					toast.success('Project setup complete!');
+				if (status.step === status.totalStep) {
+					toast.success(m.success(), { description: 'Project setup complete!' });
 					isNew = false;
 					eventSource.close();
 				}
 			} catch (error) {
 				console.error('Error parsing project status:', error);
-				toast.error('Failed to update project status.');
+				toast.error(m.error(), { description: 'Failed to update project status.' });
 			}
 		});
 

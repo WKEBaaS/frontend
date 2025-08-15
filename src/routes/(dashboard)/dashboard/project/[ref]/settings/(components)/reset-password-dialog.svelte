@@ -22,7 +22,7 @@
 	>
 	<AlertDialog.Content>
 		<form method="POST" action="?/resetDatabasePassword" use:enhance>
-			<AlertDialog.Header>
+			<AlertDialog.Header class="mb-4">
 				<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
 				<AlertDialog.Description>
 					{m.reset_database_password_description()}

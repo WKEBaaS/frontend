@@ -1,40 +1,48 @@
-import { type } from 'arktype';
+import * as v from 'valibot';
 
-export const projectDetail = type({
-	id: 'string',
-	name: 'string',
-	description: 'string | null',
-	reference: 'string',
-	createdAt: 'string',
-	updatedAt: 'string',
-	passwordExpiredAt: 'string | null',
-	initializedAt: 'string | null'
+export const projectDetailSchema = v.object({
+	id: v.string(),
+	name: v.string(),
+	description: v.nullable(v.string()),
+	reference: v.string(),
+	createdAt: v.string(),
+	updatedAt: v.string(),
+	passwordExpiredAt: v.nullable(v.string()),
+	initializedAt: v.nullable(v.string())
 });
 
-export const projectStatus = type({
-	message: 'string',
-	step: 'number',
-	totalStep: 'number'
+export const projectStatusSchema = v.object({
+	message: v.string(),
+	step: v.number(),
+	totalStep: v.number()
 });
 
-export const oauthProviderSetting = type({
-	enabled: 'boolean',
-	clientId: '1 < string <= 100',
-	clientSecret: '1 < string <= 100'
+export const authProviderSchema = v.object({
+	enabled: v.boolean(),
+	clientId: v.optional(v.pipe(v.string(), v.maxLength(100))),
+	clientSecret: v.optional(v.pipe(v.string(), v.maxLength(100)))
 });
 
-export const projectSettings = type({
-	createdAt: 'string',
-	id: 'string',
-	trustedOrigins: 'string[] | null',
-	updatedAt: 'string',
-	'auth?': {
-		emailAndPasswordEnabled: 'boolean',
-		google: oauthProviderSetting.optional(),
-		github: oauthProviderSetting.optional(),
-		discord: oauthProviderSetting.optional()
-	}
+export const authProviderSettingSchema = v.object({
+	enabled: v.boolean(),
+	clientId: v.optional(v.pipe(v.string(), v.minLength(1), v.maxLength(100))),
+	clientSecret: v.optional(v.pipe(v.string(), v.minLength(1), v.maxLength(100)))
 });
 
-export type ProjectDetail = typeof projectDetail.infer;
-export type ProjectStatus = typeof projectStatus.infer;
+export const projectSettings = v.object({
+	createdAt: v.string(),
+	id: v.string(),
+	trustedOrigins: v.nullable(v.array(v.string())),
+	updatedAt: v.string(),
+	auth: v.optional(
+		v.object({
+			email: v.optional(authProviderSettingSchema),
+			google: v.optional(authProviderSettingSchema),
+			github: v.optional(authProviderSettingSchema),
+			discord: v.optional(authProviderSettingSchema)
+		})
+	)
+});
+
+export type ProjectDetail = v.InferOutput<typeof projectDetailSchema>;
+export type ProjectStatus = v.InferOutput<typeof projectStatusSchema>;

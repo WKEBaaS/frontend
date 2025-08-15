@@ -24,7 +24,7 @@
 	>
 	<AlertDialog.Content>
 		<form method="POST" action="?/deleteProject" use:enhance>
-			<AlertDialog.Header>
+			<AlertDialog.Header class="mb-4">
 				<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
 				<AlertDialog.Description>
 					{m.delete_project_description()}
@@ -33,7 +33,7 @@
 					<Form.Control>
 						{#snippet children({ props })}
 							<Form.Label>{m.please_type_to_confirm({ name })}</Form.Label>
-							<Input {...props} placeholder="TODO: validation not implemented!" bind:value={$formData.name} />
+							<Input {...props} placeholder={m.please_type_to_confirm({ name })} bind:value={$formData.name} />
 						{/snippet}
 					</Form.Control>
 					<Form.FieldErrors />

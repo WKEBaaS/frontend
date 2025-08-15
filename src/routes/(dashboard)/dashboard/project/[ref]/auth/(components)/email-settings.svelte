@@ -6,11 +6,11 @@
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import type { ComponentProps } from 'svelte';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { UpdateEmailAndPassword } from '../schema';
+	import type { UpdateAuthProvider } from '../schema';
 	import * as Form from '$lib/components/ui/form/index.js';
 
 	type EmailSettingsProps = ComponentProps<typeof Drawer.Root> & {
-		form: SuperForm<UpdateEmailAndPassword>;
+		form: SuperForm<UpdateAuthProvider>;
 	};
 
 	let { form, open = $bindable(false), ...restProps }: EmailSettingsProps = $props();
@@ -19,17 +19,18 @@
 
 <Drawer.Root bind:open {...restProps}>
 	<Drawer.Content>
-		<Drawer.Header>
-			<Drawer.Title class="flex items-center gap-2">
-				<MailIcon class="text-muted-foreground size-6" />
-				Email
-			</Drawer.Title>
-			<Drawer.Description>{m.update_email_settings_description()}</Drawer.Description>
-			<form method="POST" action="?/updateEmailAndPassword" use:enhance>
+		<form method="POST" action="?/updateAuthProvider" use:enhance>
+			<Drawer.Header>
+				<Drawer.Title class="flex items-center gap-2">
+					<MailIcon class="text-muted-foreground size-6" />
+					Email
+				</Drawer.Title>
+				<Drawer.Description>{m.update_email_settings_description()}</Drawer.Description>
 				<div class="mt-8 space-y-4">
+					<input type="hidden" name="type" value="email" />
 					<Form.Field
 						{form}
-						name="emailAndPasswordEnabled"
+						name="emailEnabled"
 						class="flex flex-row items-center justify-between rounded-lg border p-4"
 					>
 						<Form.Control>
@@ -38,16 +39,16 @@
 									<Form.Label>{m.enable_email_provider()}</Form.Label>
 									<Form.Description>{m.enable_email_provider_description()}</Form.Description>
 								</div>
-								<Switch {...props} bind:checked={$formData.emailAndPasswordEnabled} />
+								<Switch {...props} bind:checked={$formData.emailEnabled} />
 							{/snippet}
 						</Form.Control>
 					</Form.Field>
 				</div>
-			</form>
-		</Drawer.Header>
-		<Drawer.Footer>
-			<Button type="submit">{m.save()}</Button>
-			<Drawer.Close type="button">{m.cancel()}</Drawer.Close>
-		</Drawer.Footer>
+			</Drawer.Header>
+			<Drawer.Footer>
+				<Button type="submit">{m.save()}</Button>
+				<Drawer.Close type="button">{m.cancel()}</Drawer.Close>
+			</Drawer.Footer>
+		</form>
 	</Drawer.Content>
 </Drawer.Root>
