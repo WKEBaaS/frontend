@@ -5,7 +5,7 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as m from '$lib/paraglide/messages';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import { toast } from 'svelte-sonner';
 	import { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';

@@ -4,7 +4,7 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as m from '$lib/paraglide/messages';
-	import LoaderCircleIcon from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { ResetDatabasePasswordSchema } from '../schemas';
 

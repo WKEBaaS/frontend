@@ -1,10 +1,10 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
-	import Database from 'lucide-svelte/icons/database';
-	import Logout from 'lucide-svelte/icons/log-out';
-	import Settings from 'lucide-svelte/icons/settings';
-	import UserPen from 'lucide-svelte/icons/user-pen';
+	import Database from '@lucide/svelte/icons/database';
+	import Logout from '@lucide/svelte/icons/log-out';
+	import Settings from '@lucide/svelte/icons/settings';
+	import UserPen from '@lucide/svelte/icons/user-pen';
 
 	// Menu items.
 	const mainItems = [
@@ -16,21 +16,21 @@
 		{
 			title: m.projects(),
 			url: '/dashboard/projects',
-			icon: Database,
-		},
+			icon: Database
+		}
 	];
 
 	const accountItems = [
 		{
 			title: m.profile(),
 			url: '#',
-			icon: UserPen,
+			icon: UserPen
 		},
 		{
 			title: m.settings(),
 			url: '#',
-			icon: Settings,
-		},
+			icon: Settings
+		}
 	];
 
 	let form: HTMLFormElement | undefined = $state(undefined);
@@ -83,7 +83,8 @@
 					<form bind:this={form} method="POST" action="/?/logout">
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton onclick={() => form && form.submit()}>
-								<Logout /> {m.logout()}
+								<Logout />
+								{m.logout()}
 							</Sidebar.MenuButton>
 						</Sidebar.MenuItem>
 					</form>

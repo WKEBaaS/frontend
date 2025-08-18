@@ -2,10 +2,10 @@
 	import { page } from '$app/state';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
-	import Settings from 'lucide-svelte/icons/settings';
-	import House from 'lucide-svelte/icons/house';
-	import Database from 'lucide-svelte/icons/database';
-	import UserLock from 'lucide-svelte/icons/user-lock';
+	import Settings from '@lucide/svelte/icons/settings';
+	import House from '@lucide/svelte/icons/house';
+	import Database from '@lucide/svelte/icons/database';
+	import UserLock from '@lucide/svelte/icons/user-lock';
 	import type { ComponentProps } from 'svelte';
 
 	// Menu items.

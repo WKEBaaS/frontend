@@ -4,7 +4,7 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import * as m from '$lib/paraglide/messages';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { DeleteProjectSchema } from '../schemas';
 
@@ -24,6 +24,7 @@
 	>
 	<AlertDialog.Content>
 		<form method="POST" action="?/deleteProject" use:enhance>
+			<input type="hidden" name="expected" value={name} />
 			<AlertDialog.Header class="mb-4">
 				<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
 				<AlertDialog.Description>

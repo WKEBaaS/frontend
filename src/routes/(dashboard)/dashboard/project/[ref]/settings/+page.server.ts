@@ -1,5 +1,5 @@
 import { env } from '$env/dynamic/public';
-import { error, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
@@ -34,7 +34,8 @@ export const actions: Actions = {
 		}
 
 		if (!form.valid) {
-			error(401, { message: 'Invalid form data' });
+			console.error('Invalid form data:', form);
+			return fail(401, { form });
 		}
 
 		const url = new URL('/v1/project/by-ref', env.PUBLIC_BAAS_API_URL);

@@ -4,8 +4,8 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as m from '$lib/paraglide/messages';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import LogOut from 'lucide-svelte/icons/log-out';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import LogOut from '@lucide/svelte/icons/log-out';
 	import { page } from '$app/state';
 
 	let form: HTMLFormElement | undefined = $state(undefined);
