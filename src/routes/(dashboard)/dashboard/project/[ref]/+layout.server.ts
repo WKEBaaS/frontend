@@ -5,9 +5,7 @@ import type { LayoutServerLoad } from './$types';
 import { projectDetailSchema, projectSettings } from './schemas';
 import * as v from 'valibot';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, params, depends }) => {
-	depends('app:settings');
-
+export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 	if (!locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}

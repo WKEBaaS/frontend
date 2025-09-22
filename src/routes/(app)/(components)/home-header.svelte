@@ -10,10 +10,8 @@
 		<span class="text-2xl font-bold">{m.title()}</span>
 	</a>
 	<nav class="ml-auto flex items-center gap-4">
-		<a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Features </a>
-		<a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Pricing </a>
-		<a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Documentation </a>
-		<a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Contact </a>
+		<!-- <a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Features </a> -->
+		<!-- <a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Documentation </a> -->
 		<LanguageSwitch />
 		<ThemeSwitch />
 		<NavAvater />

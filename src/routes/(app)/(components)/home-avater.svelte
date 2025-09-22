@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { page } from '$app/state';
 	import { authClient } from '$lib/auth-client';
 	import * as Avatar from '$lib/components/ui/avatar';
+	import { Button } from '$lib/components/ui/button/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import LogOut from '@lucide/svelte/icons/log-out';
-	import { page } from '$app/state';
 
 	let form: HTMLFormElement | undefined = $state(undefined);
 	let loading: boolean = $state(false);
@@ -14,7 +15,7 @@
 	const session = authClient.useSession();
 </script>
 
-{#if session}
+{#if $session.data}
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger>
 			<Avatar.Root>
@@ -55,22 +56,16 @@
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
+{:else if loading}
+	<LoaderCircle class="animate-spin" />
 {:else}
-	<form
-		method="POST"
-		action="?/login"
-		use:enhance={() => {
-			loading = true;
-			return async ({ update }) => {
-				await update();
-				loading = false;
-			};
-		}}
+	<Button
+		onclick={async () =>
+			authClient.signIn.sso({
+				providerId: 'WKESSO',
+				callbackURL: page.url.origin
+			})}
 	>
-		{#if loading}
-			<LoaderCircle class="animate-spin" />
-		{:else}
-			<button>{m.login()}</button>
-		{/if}
-	</form>
+		{m.login()}
+	</Button>
 {/if}
