@@ -30,6 +30,11 @@ export const updateProjectInfoSchema = v.object({
 	description: v.pipe(v.string(), v.minLength(0), v.maxLength(4000))
 });
 
+export const updateAllowedOriginsSchema = v.object({
+	allowedOrigins: v.pipe(v.array(v.pipe(v.string(), v.url())), v.minLength(1), v.maxLength(100))
+});
+
 export type DeleteProjectSchema = v.InferInput<typeof deleteProjectSchema>;
 export type ResetDatabasePasswordSchema = v.InferInput<typeof resetDatabasePasswordSchema>;
 export type UpdateProjectInfoSchema = v.InferInput<typeof updateProjectInfoSchema>;
+export type UpdateAllowedOriginsSchema = v.InferInput<typeof updateAllowedOriginsSchema>;

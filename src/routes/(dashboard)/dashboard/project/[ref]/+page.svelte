@@ -20,6 +20,7 @@
 	import { toast } from 'svelte-sonner';
 	import ProjectProgress from './(components)/project-progress.svelte';
 	import { type ProjectStatus, projectStatusSchema } from './schemas.js';
+	import * as v from 'valibot';
 
 	let { data } = $props();
 	let project = $derived(data.project);
@@ -38,7 +39,7 @@
 		eventSource.addEventListener('project-status', async (event) => {
 			try {
 				const jsonData = JSON.parse(event.data);
-				status = await projectStatusSchema.parseAsync(jsonData);
+				status = await v.parseAsync(projectStatusSchema, jsonData);
 
 				if (status.step === status.totalStep) {
 					toast.success(m.success(), { description: 'Project setup complete!' });
@@ -56,6 +57,29 @@
 		};
 	});
 </script>
+
+{#snippet APIDocs(props: { url: string; title?: string; description?: string })}
+	<!-- API Docs Link -->
+	<div class="bg-accent border-border flex items-center justify-between rounded-lg border p-4">
+		<div class="flex items-center gap-3">
+			<FileTextIcon class="text-primary h-5 w-5" />
+			<div>
+				<h4 class="text-accent-foreground font-medium">{props.title}</h4>
+				<p class="text-muted-foreground text-sm">{props.description}</p>
+			</div>
+		</div>
+		<Button
+			target="_blank"
+			href={props.url}
+			variant="outline"
+			size="sm"
+			class="border-border text-foreground hover:bg-muted"
+		>
+			<ExternalLinkIcon class="mr-2 h-4 w-4" />
+			Open Docs
+		</Button>
+	</div>
+{/snippet}
 
 <div class="container mx-auto flex flex-col space-y-2 p-5">
 	{#if !isNew && data.passwordExpired}
@@ -125,26 +149,16 @@
 				</div>
 
 				<Separator />
-				<!-- Auth API Docs Link -->
-				<div class="bg-accent border-border flex items-center justify-between rounded-lg border p-4">
-					<div class="flex items-center gap-3">
-						<FileTextIcon class="text-primary h-5 w-5" />
-						<div>
-							<h4 class="text-accent-foreground font-medium">Auth API Documentation</h4>
-							<p class="text-muted-foreground text-sm">Access authentication API documentation</p>
-						</div>
-					</div>
-					<Button
-						target="_blank"
-						href={data.authDocsURL}
-						variant="outline"
-						size="sm"
-						class="border-border text-foreground hover:bg-muted"
-					>
-						<ExternalLinkIcon class="mr-2 h-4 w-4" />
-						Open Docs
-					</Button>
-				</div>
+				{@render APIDocs({
+					url: new URL('/api/auth/docs', data.projectURL).toString(),
+					title: 'Auth API Documentation',
+					description: 'Access authentication API documentation'
+				})}
+				{@render APIDocs({
+					url: new URL('/api/rest/docs/', data.projectURL).toString(),
+					title: 'RESTful API Documentation',
+					description: 'Access RESTful API documentation'
+				})}
 			</Card.Content>
 		</Card.Root>
 	{/if}

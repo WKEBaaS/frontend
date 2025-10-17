@@ -1,24 +1,29 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import type { ResolvedPathname } from '$app/types';
+	import { authClient } from '$lib/auth-client';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
+	import type { Icon } from '@lucide/svelte';
 	import Database from '@lucide/svelte/icons/database';
 	import Logout from '@lucide/svelte/icons/log-out';
 	import Settings from '@lucide/svelte/icons/settings';
 	import UserPen from '@lucide/svelte/icons/user-pen';
 
+	type Item = {
+		title: string;
+		url: ResolvedPathname;
+		icon: typeof Icon;
+	};
 	// Menu items.
 	const mainItems = [
-		// {
-		// 	title: m.home(),
-		// 	url: '/',
-		// 	icon: House,
-		// },
 		{
 			title: m.projects(),
-			url: '/dashboard/projects',
+			url: resolve('/dashboard/projects'),
 			icon: Database
 		}
-	];
+	] satisfies Item[];
 
 	const accountItems = [
 		{
@@ -32,8 +37,6 @@
 			icon: Settings
 		}
 	];
-
-	let form: HTMLFormElement | undefined = $state(undefined);
 </script>
 
 <Sidebar.Root collapsible="icon">
@@ -80,14 +83,17 @@
 		<Sidebar.Group>
 			<Sidebar.GroupContent class="group-data-[collapsible=icon]:hidden">
 				<Sidebar.Menu>
-					<form bind:this={form} method="POST" action="/?/logout">
-						<Sidebar.MenuItem>
-							<Sidebar.MenuButton onclick={() => form && form.submit()}>
-								<Logout />
-								{m.logout()}
-							</Sidebar.MenuButton>
-						</Sidebar.MenuItem>
-					</form>
+					<Sidebar.MenuItem>
+						<Sidebar.MenuButton
+							onclick={async () => {
+								await authClient.signOut();
+								goto(resolve('/'));
+							}}
+						>
+							<Logout />
+							{m.logout()}
+						</Sidebar.MenuButton>
+					</Sidebar.MenuItem>
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>
 		</Sidebar.Group>

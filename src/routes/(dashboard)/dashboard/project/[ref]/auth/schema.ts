@@ -71,6 +71,12 @@ export const updateAuthProviderSchema = v.pipe(
 	)
 );
 
+export const updateProxyURLSchema = v.object({
+	id: v.pipe(v.string(), v.uuid()),
+	proxyURL: v.optional(v.pipe(v.string(), v.url(), v.maxLength(200)))
+});
+
 export type UpdateAuthProviderType = (typeof updateAuthProviderType)[number];
 export type UpdateAuthProvider = v.InferInput<typeof updateAuthProviderSchema>;
 export type AuthProvider = v.InferInput<typeof authProviderSchema>;
+export type UpdateProxyURL = v.InferInput<typeof updateProxyURLSchema>;

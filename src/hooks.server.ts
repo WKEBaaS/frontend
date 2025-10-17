@@ -1,6 +1,6 @@
-import { paraglideMiddleware } from '$lib/paraglide/server';
-import { authClient } from '$lib/auth-client';
 import { env } from '$env/dynamic/private';
+import { authClient } from '$lib/auth-client';
+import { paraglideMiddleware } from '$lib/paraglide/server';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
@@ -33,4 +33,4 @@ const handleEnv: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(handleAuth, handleParaglide, handleEnv);
+export const handle: Handle = sequence(handleParaglide, handleAuth, handleEnv);

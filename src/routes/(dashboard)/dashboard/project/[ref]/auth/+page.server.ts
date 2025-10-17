@@ -3,14 +3,15 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
-import { type AuthProvider, updateAuthProviderSchema } from './schema';
+import { type AuthProvider, updateAuthProviderSchema, updateProxyURLSchema } from './schema';
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	if (!locals.session) {
 		return redirect(302, '/');
 	}
 
-	const { settings } = await parent();
+	const { project, settings } = await parent();
+	console.log('Current Settings:', settings);
 	return {
 		settings,
 		updateAuthProviderForm: await superValidate(
@@ -26,6 +27,14 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 					discordEnabled: settings.auth?.discord?.enabled || false,
 					discordClientId: settings.auth?.discord?.clientId,
 					discordClientSecret: settings.auth?.discord?.clientSecret
+				}
+			})
+		),
+		updateProxyURLForm: await superValidate(
+			valibot(updateProxyURLSchema, {
+				defaults: {
+					id: project.id,
+					proxyURL: settings.proxyURL
 				}
 			})
 		)
@@ -75,6 +84,34 @@ export const actions: Actions = {
 
 		if (!patchSettingsRes.ok) {
 			console.error('Failed to update authentication provider settings:', patchSettingsRes);
+			fail(500, { form });
+		}
+
+		return {
+			form
+		};
+	},
+	updateProxyURL: async (event) => {
+		if (!event.locals.session) {
+			return error(401, { message: 'Unauthorized' });
+		}
+
+		const form = await superValidate(event, valibot(updateProxyURLSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const patchSettingsURL = new URL('/v1/project/settings', env.PUBLIC_BAAS_API_URL);
+		const patchSettingsRes = await event.fetch(patchSettingsURL, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(form.data)
+		});
+
+		if (!patchSettingsRes.ok) {
+			console.error('Failed to update proxy URL settings:', patchSettingsRes);
 			fail(500, { form });
 		}
 

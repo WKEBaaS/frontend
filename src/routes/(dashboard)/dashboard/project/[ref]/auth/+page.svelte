@@ -2,22 +2,26 @@
 	import Discord from '$lib/components/icons/discord.svelte';
 	import Github from '$lib/components/icons/github.svelte';
 	import Google from '$lib/components/icons/google.svelte';
+	import SettingsZone from '$lib/components/settings-zone.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 	import MailIcon from '@lucide/svelte/icons/mail';
+	import SettingIcon from '@lucide/svelte/icons/settings';
+	import type { Component } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import EnabledSwitch from '../(components)/enabled-switch.svelte';
 	import EmailSettings from './(components)/email-settings.svelte';
 	import OauthProviderSettings from './(components)/oauth-provider-settings.svelte';
-	import { updateAuthProviderSchema, type UpdateAuthProviderType } from './schema';
-	import type { Component } from 'svelte';
+	import { updateAuthProviderSchema, type UpdateAuthProviderType, updateProxyURLSchema } from './schema';
+	import ProxyUrlDialog from './(components)/proxy_url_dialog.svelte';
 
 	let { data } = $props();
 	let emailSettingsOpen = $state(false);
+	let proxyUrlDialogOpen = $state(false);
 	let currentOpenedIndex = $state(-1);
 
 	const updateAuthProviderForm = superForm(data.updateAuthProviderForm, {
@@ -29,6 +33,20 @@
 				if (currentOpenedIndex !== -1) {
 					authProviders[currentOpenedIndex].open = false;
 				}
+			}
+		},
+		onError({ result }) {
+			toast.error(m.auth_provider_settings_update_failed() + `: ${result.error.message}`);
+		},
+		delayMs: 100
+	});
+
+	const updateProxyURLForm = superForm(data.updateProxyURLForm, {
+		validators: valibotClient(updateProxyURLSchema),
+		onResult({ result }) {
+			if (result.type === 'success') {
+				toast.success(m.proxy_url_updated());
+				proxyUrlDialogOpen = false;
 			}
 		},
 		onError({ result }) {
@@ -95,9 +113,13 @@
 						type={provider.id}
 						name={provider.name}
 						icon={provider.icon}
+						projectURL={data.projectURL}
 					/>
 				</Button>
 			{/each}
 		</Card.Content>
 	</Card.Root>
+	<SettingsZone title="Advanced Settings" icon={SettingIcon}>
+		<ProxyUrlDialog form={updateProxyURLForm} bind:open={proxyUrlDialogOpen} />
+	</SettingsZone>
 </div>

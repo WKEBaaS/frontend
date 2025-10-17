@@ -8,16 +8,31 @@
 	import type { Component, ComponentProps } from 'svelte';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { UpdateAuthProvider, UpdateAuthProviderType } from '../schema';
+	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte';
+	import CheckIcon from '@lucide/svelte/icons/check';
+	import ClipboardIcon from '@lucide/svelte/icons/clipboard';
+	import { Badge } from '$lib/components/ui/badge/index.js';
 
 	type EmailSettingsProps = ComponentProps<typeof Drawer.Root> & {
 		form: SuperForm<UpdateAuthProvider>;
 		type: Exclude<UpdateAuthProviderType, 'email'>;
 		name: string;
 		icon: Component<{ class: string }>;
+		projectURL: string;
 	};
 
-	let { form, type, name, icon: ProviderIcon, open = $bindable(false), ...restProps }: EmailSettingsProps = $props();
+	let {
+		form,
+		type,
+		name,
+		icon: ProviderIcon,
+		open = $bindable(false),
+		projectURL,
+		...restProps
+	}: EmailSettingsProps = $props();
 	let { form: formData, enhance } = form;
+	let clipboard = new UseClipboard();
+	let redirectURL = new URL(`/api/auth/callback/${type}`, projectURL).toString();
 </script>
 
 <Drawer.Root bind:open {...restProps}>
@@ -30,6 +45,24 @@
 				</Drawer.Title>
 				<Drawer.Description>{m.auth_provider_settings_description()}</Drawer.Description>
 				<div class="mt-8 space-y-4">
+					<div class="flex items-center gap-2">
+						<Button
+							variant="outline"
+							class="w-fit gap-1 px-2 shadow-none"
+							size="sm"
+							onclick={() => clipboard.copy(redirectURL)}
+						>
+							{#if clipboard.copied}
+								<CheckIcon class="text-primary" />
+							{:else}
+								<ClipboardIcon class="text-muted-foreground" />
+							{/if}
+							<span class="text-foreground">{redirectURL}</span>
+						</Button>
+						<Badge class="h-5">
+							{name} OAuth Redirect URL
+						</Badge>
+					</div>
 					<div class="space-y-2 rounded-lg border p-4">
 						<input type="hidden" name="type" value={type} />
 						<Form.Field {form} name="googleEnabled" class="flex flex-row items-center justify-between">

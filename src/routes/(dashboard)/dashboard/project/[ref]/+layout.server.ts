@@ -54,15 +54,13 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 	}
 
 	// TODO: Remove these server side caculated fields
-	const databaseURL = `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`;
-	const authDocsURL = `https://${project.output.reference}.${locals.externalURL.host}/api/auth/docs`;
 	const passwordExpired = dayjs(project.output.passwordExpiredAt).isBefore(dayjs());
 
 	return {
 		project: project.output,
 		settings: settings.output,
-		databaseURL: databaseURL,
-		authDocsURL: authDocsURL,
+		databaseURL: `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`,
+		projectURL: `https://${project.output.reference}.${locals.externalURL.host}`,
 		passwordExpired: passwordExpired
 	};
 };

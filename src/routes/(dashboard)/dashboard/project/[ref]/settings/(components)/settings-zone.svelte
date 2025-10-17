@@ -2,25 +2,30 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import SettingIcon from '@lucide/svelte/icons/settings';
 	import type { SuperForm } from 'sveltekit-superforms';
-	import type { ResetDatabasePasswordSchema, UpdateProjectInfoSchema } from '../schemas';
+	import type { ResetDatabasePasswordSchema, UpdateAllowedOriginsSchema, UpdateProjectInfoSchema } from '../schemas';
 	import * as m from '$lib/paraglide/messages';
 	import ResetPasswordDialog from './reset-password-dialog.svelte';
 	import SettingsDialog from './settings-dialog.svelte';
+	import AllowedOringsDialog from './allowed-orings-dialog.svelte';
 
 	interface SettingsZoneProps {
 		title: string;
 		resetDatabasePasswordForm: SuperForm<ResetDatabasePasswordSchema>;
 		updateProjectInfoForm: SuperForm<UpdateProjectInfoSchema>;
+		updateAllowedOriginsForm: SuperForm<UpdateAllowedOriginsSchema>;
 		resetPasswordOpen?: boolean;
 		updateProjectInfoOpen?: boolean;
+		updateAllowedOriginsOpen?: boolean;
 	}
 
 	let {
 		title,
 		resetDatabasePasswordForm,
 		updateProjectInfoForm,
+		updateAllowedOriginsForm,
 		resetPasswordOpen = $bindable(false),
-		updateProjectInfoOpen = $bindable(false)
+		updateProjectInfoOpen = $bindable(false),
+		updateAllowedOriginsOpen = $bindable(false)
 	}: SettingsZoneProps = $props();
 </script>
 
@@ -49,6 +54,15 @@
 				</div>
 			</div>
 			<SettingsDialog form={updateProjectInfoForm} bind:open={updateProjectInfoOpen} />
+		</div>
+		<div class="bg-card flex items-end justify-between rounded-lg border p-4">
+			<div class="mr-4 flex-1 space-y-3">
+				<div class="space-y-1">
+					<h3 class="text-base font-medium">{m.update_project_allowed_origins()}</h3>
+					<p class="text-muted-foreground text-sm">{m.update_project_allowed_origins_description()}</p>
+				</div>
+			</div>
+			<AllowedOringsDialog form={updateAllowedOriginsForm} bind:open={updateAllowedOriginsOpen} />
 		</div>
 	</Card.Content>
 </Card.Root>

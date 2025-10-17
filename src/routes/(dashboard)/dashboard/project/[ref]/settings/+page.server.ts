@@ -3,14 +3,19 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
-import { deleteProjectSchema, resetDatabasePasswordSchema, updateProjectInfoSchema } from './schemas';
+import {
+	deleteProjectSchema,
+	resetDatabasePasswordSchema,
+	updateAllowedOriginsSchema,
+	updateProjectInfoSchema
+} from './schemas';
 
 export const load: PageServerLoad = async ({ locals, parent }) => {
 	if (!locals.session) {
 		return redirect(302, '/');
 	}
 
-	const { project } = await parent();
+	const { project, settings } = await parent();
 
 	return {
 		deleteForm: await superValidate(valibot(deleteProjectSchema), {
@@ -21,6 +26,11 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 		}),
 		resetDatabasePasswordForm: await superValidate(valibot(resetDatabasePasswordSchema)),
 		updateProjectSettingsForm: await superValidate(valibot(updateProjectInfoSchema)),
+		updateAllowedOriginsForm: await superValidate(valibot(updateAllowedOriginsSchema), {
+			defaults: {
+				allowedOrigins: settings.trustedOrigins || []
+			}
+		}),
 		project
 	};
 };
@@ -106,6 +116,33 @@ export const actions: Actions = {
 		if (!patchSettingsRes.ok) {
 			console.error('Failed to update email and password settings:', patchSettingsRes);
 			error(500, 'Failed to update email and password settings.');
+		}
+	},
+	updateAllowedOrigins: async (event) => {
+		if (!event.locals.session) {
+			error(401, { message: 'Unauthorized' });
+		}
+
+		const form = await superValidate(event, valibot(updateAllowedOriginsSchema));
+		if (!form.valid) {
+			error(401, { message: 'Invalid form data' });
+		}
+
+		const patchSettingsURL = new URL('/v1/project/settings', env.PUBLIC_BAAS_API_URL);
+		const patchSettingsRes = await event.fetch(patchSettingsURL, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				ref: event.params.ref,
+				trustedOrigins: form.data.allowedOrigins
+			})
+		});
+
+		if (!patchSettingsRes.ok) {
+			console.error('Failed to update allowed origins:', patchSettingsRes);
+			error(500, 'Failed to update allowed origins.');
 		}
 	}
 };

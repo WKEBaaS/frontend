@@ -34,6 +34,7 @@ export const projectSettings = v.object({
 	id: v.string(),
 	trustedOrigins: v.nullable(v.array(v.string())),
 	updatedAt: v.string(),
+	proxyURL: v.optional(v.pipe(v.string(), v.url(), v.maxLength(200))),
 	auth: v.optional(
 		v.object({
 			email: v.optional(authProviderSettingSchema),

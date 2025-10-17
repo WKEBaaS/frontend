@@ -1,15 +1,13 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
+	import { env } from '$env/dynamic/public';
 	import { authClient } from '$lib/auth-client';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
-	import LogOut from '@lucide/svelte/icons/log-out';
 
-	let form: HTMLFormElement | undefined = $state(undefined);
 	let loading: boolean = $state(false);
 
 	const session = authClient.useSession();
@@ -27,32 +25,6 @@
 			<DropdownMenu.Group>
 				<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
 				<DropdownMenu.Separator />
-				<form
-					bind:this={form}
-					method="POST"
-					action="?/logout"
-					use:enhance={() => {
-						loading = true;
-						return async ({ update }) => {
-							await update();
-							loading = false;
-						};
-					}}
-				>
-					<DropdownMenu.Item
-						onclick={async () =>
-							authClient.signIn.sso({
-								providerId: 'WKE',
-								callbackURL: page.url.origin
-							})}
-					>
-						{#if loading}
-							<LogOut class="mr-2 size-4" /> {m.logout()}
-						{:else}
-							<button>{m.login()}</button>
-						{/if}
-					</DropdownMenu.Item>
-				</form>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
@@ -68,4 +40,24 @@
 	>
 		{m.login()}
 	</Button>
+	<Button
+		onclick={async () => {
+			const url = new URL('/test', env.PUBLIC_AUTH_API_URL);
+			const res = await fetch(url, {
+				credentials: 'include'
+			});
+			const data = await res.json();
+			console.log({ data });
+		}}>Fetch</Button
+	>
+	<Button
+		onclick={async () => {
+			const url = new URL('/api/auth/get-session', env.PUBLIC_AUTH_API_URL);
+			const res = await fetch(url, {
+				credentials: 'include'
+			});
+			const data = await res.json();
+			console.log({ data });
+		}}>Get Session</Button
+	>
 {/if}
