@@ -6,18 +6,18 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as m from '$lib/paraglide/messages';
+	import type { Icon } from '@lucide/svelte';
 	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import SettingIcon from '@lucide/svelte/icons/settings';
-	import type { Component } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import EnabledSwitch from '../(components)/enabled-switch.svelte';
 	import EmailSettings from './(components)/email-settings.svelte';
 	import OauthProviderSettings from './(components)/oauth-provider-settings.svelte';
-	import { updateAuthProviderSchema, type UpdateAuthProviderType, updateProxyURLSchema } from './schema';
 	import ProxyUrlDialog from './(components)/proxy_url_dialog.svelte';
+	import { updateAuthProviderSchema, type UpdateAuthProviderType, updateProxyURLSchema } from './schema';
 
 	let { data } = $props();
 	let emailSettingsOpen = $state(false);
@@ -59,7 +59,7 @@
 		id: Exclude<UpdateAuthProviderType, 'email'>;
 		name: string;
 		open: boolean;
-		icon: Component;
+		icon: typeof Icon;
 	}[] = $state([
 		{ id: 'google', name: 'Google', open: false, icon: Google },
 		{ id: 'github', name: 'GitHub', open: false, icon: Github },
@@ -113,7 +113,7 @@
 						type={provider.id}
 						name={provider.name}
 						icon={provider.icon}
-						projectURL={data.projectURL}
+						projectURL={data.settings.proxyURL ?? data.projectURL}
 					/>
 				</Button>
 			{/each}

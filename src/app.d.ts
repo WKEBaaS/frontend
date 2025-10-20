@@ -5,7 +5,6 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			newProject?: import('$lib/project').ProjectReferenceSchema;
-			externalURL: URL;
 			session?: import('better-auth').Session;
 			user?: import('better-auth').User;
 		}

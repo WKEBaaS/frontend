@@ -1,23 +1,24 @@
 <script lang="ts">
+	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Switch } from '$lib/components/ui/switch/index.js';
-	import * as m from '$lib/paraglide/messages.js';
-	import type { Component, ComponentProps } from 'svelte';
-	import type { SuperForm } from 'sveltekit-superforms';
-	import type { UpdateAuthProvider, UpdateAuthProviderType } from '../schema';
 	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte';
+	import * as m from '$lib/paraglide/messages.js';
+	import type { Icon } from '@lucide/svelte';
 	import CheckIcon from '@lucide/svelte/icons/check';
 	import ClipboardIcon from '@lucide/svelte/icons/clipboard';
-	import { Badge } from '$lib/components/ui/badge/index.js';
+	import type { ComponentProps } from 'svelte';
+	import type { SuperForm } from 'sveltekit-superforms';
+	import type { UpdateAuthProvider, UpdateAuthProviderType } from '../schema';
 
 	type EmailSettingsProps = ComponentProps<typeof Drawer.Root> & {
 		form: SuperForm<UpdateAuthProvider>;
 		type: Exclude<UpdateAuthProviderType, 'email'>;
 		name: string;
-		icon: Component<{ class: string }>;
+		icon: typeof Icon;
 		projectURL: string;
 	};
 

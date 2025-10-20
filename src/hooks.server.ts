@@ -1,4 +1,3 @@
-import { env } from '$env/dynamic/private';
 import { authClient } from '$lib/auth-client';
 import { paraglideMiddleware } from '$lib/paraglide/server';
 import type { Handle } from '@sveltejs/kit';
@@ -26,11 +25,4 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-const handleEnv: Handle = async ({ event, resolve }) => {
-	// Set the home URL based on the environment variable
-	event.locals.externalURL = new URL(env.EXTERNAL_DOMAIN || event.url.toString());
-
-	return resolve(event);
-};
-
-export const handle: Handle = sequence(handleParaglide, handleAuth, handleEnv);
+export const handle: Handle = sequence(handleParaglide, handleAuth);

@@ -6,6 +6,7 @@
 	import House from '@lucide/svelte/icons/house';
 	import Database from '@lucide/svelte/icons/database';
 	import UserLock from '@lucide/svelte/icons/user-lock';
+	import Archive from '@lucide/svelte/icons/archive';
 	import type { ComponentProps } from 'svelte';
 
 	// Menu items.
@@ -19,6 +20,11 @@
 			title: m.authentication(),
 			url: `/dashboard/project/${page.params.ref}/auth`,
 			icon: UserLock
+		},
+		{
+			title: m.storage(),
+			url: `/dashboard/project/${page.params.ref}/storage`,
+			icon: Archive
 		},
 		{
 			title: m.settings(),

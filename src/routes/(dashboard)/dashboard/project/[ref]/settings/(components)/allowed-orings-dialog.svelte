@@ -20,13 +20,6 @@
 	let { form, open = $bindable(false) }: SettingDialogProps = $props();
 	let { form: formData, enhance, delayed } = form;
 
-	// Initialize with at least one empty field if none exist
-	$effect(() => {
-		if ($formData.allowedOrigins.length === 0) {
-			$formData.allowedOrigins = [''];
-		}
-	});
-
 	function addOrigin() {
 		$formData.allowedOrigins = [...$formData.allowedOrigins, ''];
 	}

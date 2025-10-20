@@ -14,6 +14,7 @@
 	"allowed_origins_updated": "Allowed origins updated successfully.",
 	"profile": "Profile",
 	"settings": "Settings",
+	"storage": "Storage",
 	"authentication": "Authentication",
 	"authentication_description": "Authenticate your users through a suite of providers and login methods",
 	"auth_providers": "Auth Providers",

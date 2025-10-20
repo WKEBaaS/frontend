@@ -11,7 +11,6 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	}
 
 	const { project, settings } = await parent();
-	console.log('Current Settings:', settings);
 	return {
 		settings,
 		updateAuthProviderForm: await superValidate(

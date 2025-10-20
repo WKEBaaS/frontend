@@ -13,6 +13,7 @@
 	"allowed_origins_updated": "允許的來源更新成功。",
 	"profile": "個人資料",
 	"settings": "設定",
+	"storage": "檔案",
 	"authentication": "身份驗證",
 	"authentication_description": "通過一系列提供者和登入方法驗證您的用戶",
 	"auth_providers": "身份驗證提供者",

@@ -5,7 +5,7 @@ import type { LayoutServerLoad } from './$types';
 import { projectDetailSchema, projectSettings } from './schemas';
 import * as v from 'valibot';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
+export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => {
 	if (!locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}
@@ -55,12 +55,13 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params }) => {
 
 	// TODO: Remove these server side caculated fields
 	const passwordExpired = dayjs(project.output.passwordExpiredAt).isBefore(dayjs());
+	const externalURL = new URL(env.PUBLIC_EXTERNAL_URL ?? url);
 
 	return {
 		project: project.output,
 		settings: settings.output,
-		databaseURL: `jdbc:postgresql://${project.output.reference}.${locals.externalURL.host}:5432/app`,
-		projectURL: `https://${project.output.reference}.${locals.externalURL.host}`,
+		databaseURL: `jdbc:postgresql://${project.output.reference}.${externalURL.host}:5432/app`,
+		projectURL: `https://${project.output.reference}.${externalURL.host}`,
 		passwordExpired: passwordExpired
 	};
 };
