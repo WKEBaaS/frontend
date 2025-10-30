@@ -13,7 +13,7 @@
 </section>
 <section class="inline-flex flex-wrap gap-2 p-2">
 	{#each data.projects || [] as project (project.reference)}
-		<a href="/dashboard/project/{project.reference}">
+		<a data-sveltekit-preload-data="tap" href="/dashboard/project/{project.reference}">
 			<Card.Root
 				class="hover:ring-sidebar-ring w-80 transition-all duration-300 hover:scale-y-105 hover:cursor-pointer hover:shadow-lg"
 			>

@@ -43,13 +43,13 @@ export const load: PageServerLoad = async (event) => {
 		throw new Error('No S3 settings found for this project');
 	}
 
-	const access_key = parsedSettings.output[0].access_key_id;
-	const access_secret = parsedSettings.output[0].secret_access_key;
+	const access_key_id = parsedSettings.output[0].access_key_id;
+	const secret_access_key = parsedSettings.output[0].secret_access_key;
 	const ref = `baas-${event.params.ref}`;
 
 	return {
 		bucketName: ref,
-		accessKey: access_key,
-		accessSecret: access_secret
+		accessKeyID: access_key_id,
+		secretAccessKey: secret_access_key
 	};
 };

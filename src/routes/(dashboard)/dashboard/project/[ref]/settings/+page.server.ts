@@ -20,6 +20,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	return {
 		deleteForm: await superValidate(valibot(deleteProjectSchema), {
 			defaults: {
+				id: project.id,
 				expected: project.name,
 				name: ''
 			}
@@ -49,7 +50,7 @@ export const actions: Actions = {
 		}
 
 		const url = new URL('/v1/project/by-ref', env.PUBLIC_BAAS_API_URL);
-		url.searchParams.append('ref', event.params.ref);
+		url.searchParams.append('id', form.data.id);
 
 		const res = await event.fetch(url, {
 			method: 'DELETE',

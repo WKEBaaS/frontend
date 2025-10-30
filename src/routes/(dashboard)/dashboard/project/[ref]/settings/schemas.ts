@@ -2,6 +2,7 @@ import * as v from 'valibot';
 
 export const deleteProjectSchema = v.pipe(
 	v.object({
+		id: v.string(),
 		expected: v.string(),
 		name: v.pipe(v.string(), v.minLength(1), v.maxLength(100))
 	}),
@@ -20,8 +21,8 @@ export const resetDatabasePasswordSchema = v.object({
 		v.string(),
 		v.minLength(8),
 		v.maxLength(100),
-		v.regex(/[A-Z]/, 'must be at least one uppercase letter'),
-		v.regex(/[!@#$%^&*(),.?":{}|<>]/, 'must be at least one special character')
+		v.regex(/[A-Z]/, 'must be at least one uppercase letter')
+		// v.regex(/[!@#$%^&*(),.?":{}|<>]/, 'must be at least one special character')
 	)
 });
 

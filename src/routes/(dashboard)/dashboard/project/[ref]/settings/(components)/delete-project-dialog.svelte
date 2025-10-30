@@ -24,6 +24,7 @@
 	>
 	<AlertDialog.Content>
 		<form method="POST" action="?/deleteProject" use:enhance>
+			<input type="hidden" name="id" value={$formData.id} />
 			<input type="hidden" name="expected" value={name} />
 			<AlertDialog.Header class="mb-4">
 				<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
