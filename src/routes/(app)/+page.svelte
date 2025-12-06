@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
-	import * as m from '$lib/paraglide/messages';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import Database from '@lucide/svelte/icons/database';
-	import Key from '@lucide/svelte/icons/key-round';
-	import HardDrive from '@lucide/svelte/icons/hard-drive';
+	import * as m from '$lib/paraglide/messages';
 	import Cog from '@lucide/svelte/icons/cog';
+	import Database from '@lucide/svelte/icons/database';
+	import HardDrive from '@lucide/svelte/icons/hard-drive';
+	import Key from '@lucide/svelte/icons/key-round';
 	import Mail from '@lucide/svelte/icons/mail';
 
 	const features = [
@@ -49,7 +50,7 @@
 				</p>
 			</div>
 			<div class="space-x-4">
-				<a class={buttonVariants({ variant: 'default' })} href="/dashboard">{m.get_started()}</a>
+				<a href={resolve('/dashboard')} class={buttonVariants({ variant: 'default' })}>{m.get_started()}</a>
 				<Button variant="outline">{m.learn_more()}</Button>
 			</div>
 		</div>
