@@ -6,7 +6,7 @@
 	let { children, data }: { children: Snippet; data: LayoutData } = $props();
 </script>
 
-<div class="flex flex-col w-full min-h-screen">
+<div class="flex min-h-screen w-full flex-col">
 	<main class="flex-1">
 		<HomeHeader session={data.session} />
 		{@render children()}

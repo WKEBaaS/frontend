@@ -1,1 +1,1 @@
-<div class="p-5 mx-auto text-3xl">This is Dashboard</div>
+<div class="mx-auto p-5 text-3xl">This is Dashboard</div>
