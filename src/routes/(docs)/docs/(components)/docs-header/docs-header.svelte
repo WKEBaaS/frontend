@@ -8,12 +8,9 @@
 </script>
 
 <header class="flex h-14 items-center px-4 lg:px-6">
-	<a class="flex items-center justify-center" href={resolve('/')}>
-		<span class="text-2xl font-bold">{m.title()}</span>
-	</a>
 	<nav class="ml-auto flex items-center gap-4">
 		<!-- <a class="text-sm font-medium underline-offset-4 hover:underline" href="/"> Features </a> -->
-		<Button variant="link" href={resolve('/docs')}>Documentation</Button>
+		<Button variant="default" href={resolve('/dashboard')}>{m.dashboard()}</Button>
 		<LanguageSwitch />
 		<ThemeSwitch />
 		<UserAvatar />

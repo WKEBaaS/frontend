@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { env } from '$env/dynamic/public';
 	import { authClient } from '$lib/auth-client';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -40,24 +39,4 @@
 	>
 		{m.login()}
 	</Button>
-	<Button
-		onclick={async () => {
-			const url = new URL('/test', env.PUBLIC_AUTH_API_URL);
-			const res = await fetch(url, {
-				credentials: 'include'
-			});
-			const data = await res.json();
-			console.log({ data });
-		}}>Fetch</Button
-	>
-	<Button
-		onclick={async () => {
-			const url = new URL('/api/auth/get-session', env.PUBLIC_AUTH_API_URL);
-			const res = await fetch(url, {
-				credentials: 'include'
-			});
-			const data = await res.json();
-			console.log({ data });
-		}}>Get Session</Button
-	>
 {/if}
