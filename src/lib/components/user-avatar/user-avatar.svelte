@@ -21,10 +21,11 @@
 			</Avatar.Root>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content>
-			<DropdownMenu.Group>
-				<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
-				<DropdownMenu.Separator />
-			</DropdownMenu.Group>
+			<DropdownMenu.Label>My Account</DropdownMenu.Label>
+			<DropdownMenu.Item onclick={async () => await authClient.signOut()}>
+				Log out
+				<DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut>
+			</DropdownMenu.Item>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 {:else if loading}

@@ -1,15 +1,21 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { BookTextIcon, HouseIcon } from '@lucide/svelte';
+	import * as m from '$lib/paraglide/messages';
+	import { BookTextIcon, CogIcon, KeyIcon } from '@lucide/svelte';
 	import type { ComponentProps } from 'svelte';
 
 	// Menu items.
 	const items = [
 		{
-			title: 'Auto API',
+			title: m.authentication(),
+			url: resolve('/docs/auth'),
+			icon: KeyIcon
+		},
+		{
+			title: m.feat_auto_api(),
 			url: resolve('/docs'),
-			icon: HouseIcon
+			icon: CogIcon
 		}
 	];
 
@@ -33,7 +39,7 @@
 	</Sidebar.Header>
 	<Sidebar.Content>
 		<Sidebar.Group>
-			<Sidebar.GroupLabel>Organizations</Sidebar.GroupLabel>
+			<Sidebar.GroupLabel>Modules</Sidebar.GroupLabel>
 			<Sidebar.GroupContent>
 				<Sidebar.Menu>
 					{#each items as item (item.title)}
