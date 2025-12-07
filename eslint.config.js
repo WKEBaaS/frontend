@@ -11,7 +11,8 @@ const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
 
 export default defineConfig(
 	globalIgnores([
-		'./src/lib/components/ui/*' // ignore shadcn related ui components
+		'./src/lib/components/ui/**', // ignore shadcn related ui components
+		'./docs/**'
 	]),
 	includeIgnoreFile(gitignorePath),
 	js.configs.recommended,
