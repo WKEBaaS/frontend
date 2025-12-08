@@ -97,5 +97,6 @@
 	"auth_provider_settings_update_failed": "身份驗證提供者設定更新失敗。",
 	"save": "儲存",
 	"installation": "安裝",
-	"usage": "使用方式"
+	"usage": "使用方式",
+	"permission_control": "權限控制"
 }

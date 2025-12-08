@@ -1,9 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import { authClient } from '$lib/auth-client';
-	import * as Avatar from '$lib/components/ui/avatar';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 
 	let loading: boolean = $state(false);
 
@@ -18,7 +14,7 @@
 				callbackURL: page.url.origin
 			});
 		} catch (error) {
-			console.error('SSO Login failed:', error);
+			console.error('Google Log-In failed:', error);
 			loading = false; // 登入失敗時也要停止 loading
 		}
 	}

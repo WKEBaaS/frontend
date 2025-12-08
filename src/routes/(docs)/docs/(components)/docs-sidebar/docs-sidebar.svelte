@@ -2,7 +2,7 @@
 	import { resolve } from '$app/paths';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages';
-	import { BookTextIcon, CogIcon, KeyIcon } from '@lucide/svelte';
+	import { ArchiveIcon, BookTextIcon, CogIcon, KeyIcon, UserLockIcon } from '@lucide/svelte';
 	import type { ComponentProps } from 'svelte';
 
 	// Menu items.
@@ -10,16 +10,29 @@
 		{
 			title: m.authentication(),
 			url: resolve('/docs/auth'),
-			icon: KeyIcon
+			icon: UserLockIcon
 		},
 		{
 			title: m.feat_auto_api(),
-			url: resolve('/docs'),
+			url: resolve('/docs/auto-api'),
 			icon: CogIcon
+		},
+		{
+			title: m.permission_control(),
+			url: resolve('/docs/permissions'),
+			icon: KeyIcon
+		},
+		{
+			title: m.storage(),
+			url: resolve('/docs/permissions'),
+			icon: ArchiveIcon
 		}
 	];
 
 	let { ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
+
+	const sidebar = Sidebar.useSidebar();
+	sidebar.open = false;
 </script>
 
 <Sidebar.Root collapsible="icon" {...restProps}>
