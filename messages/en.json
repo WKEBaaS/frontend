@@ -98,5 +98,6 @@
 	"auth_provider_settings_update_failed": "Failed to update authentication provider settings.",
 	"save": "Save",
 	"installation": "Installation",
-	"usage": "Usage"
+	"usage": "Usage",
+	"permission_control": "Permission Control"
 }

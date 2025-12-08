@@ -18,6 +18,6 @@
 	});
 </script>
 
-<h1 bind:this={ref} {id} class={cn('mt-6 scroll-m-20 border-b pb-1 text-3xl font-semibold', className)} {...rest}>
+<h3 bind:this={ref} {id} class={cn('mt-6 scroll-m-20 border-b pb-1 text-xl font-semibold', className)} {...rest}>
 	{@render children?.()}
-</h1>
+</h3>
