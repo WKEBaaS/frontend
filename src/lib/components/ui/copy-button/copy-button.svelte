@@ -23,9 +23,11 @@
 	}: CopyButtonProps = $props();
 
 	// this way if the user passes text then the button will be the default size
-	if (size === 'icon' && children) {
-		size = 'default';
-	}
+	$effect(() => {
+		if (size === 'icon' && children) {
+			size = 'default';
+		}
+	});
 
 	const clipboard = new UseClipboard();
 </script>
