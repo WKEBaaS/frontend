@@ -6,6 +6,7 @@
 	import { Background, MiniMap, SvelteFlow } from '@xyflow/svelte';
 	import { getDocsHeaderStore } from '../(components)/docs-header/index.js';
 	import { PermissionEnum } from './(components)/permission-enum/index.js';
+	import { mode } from 'mode-watcher';
 
 	const store = getDocsHeaderStore();
 	store.setNavItems([{ name: 'PostgREST API', href: '/docs/postgrest' }]);
@@ -24,7 +25,7 @@
 	<div bind:this={toc.ref} class="space-y-6">
 		<div class="h-200">
 			<SvelteFlow
-				colorMode="dark"
+				colorMode={mode.current}
 				fitView
 				nodes={data.nodes}
 				edges={data.edges}
