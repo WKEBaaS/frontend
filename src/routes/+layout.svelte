@@ -4,6 +4,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { ModeWatcher } from 'mode-watcher';
+	import '@xyflow/svelte/dist/style.css';
 	import '../app.css';
 
 	let { children } = $props();
