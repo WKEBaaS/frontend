@@ -99,5 +99,6 @@
 	"save": "Save",
 	"installation": "Installation",
 	"usage": "Usage",
+	"permissions": "Permissions",
 	"permission_control": "Permission Control"
 }
