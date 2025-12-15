@@ -1,6 +1,6 @@
 // Follows the best practices established in https://shiki.matsu.io/guide/best-performance
-import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 import { createHighlighterCore } from 'shiki/core';
+import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 
 const bundledLanguages = {
 	bash: () => import('@shikijs/langs/bash'),
@@ -8,7 +8,9 @@ const bundledLanguages = {
 	javascript: () => import('@shikijs/langs/javascript'),
 	json: () => import('@shikijs/langs/json'),
 	svelte: () => import('@shikijs/langs/svelte'),
-	typescript: () => import('@shikijs/langs/typescript')
+	typescript: () => import('@shikijs/langs/typescript'),
+	sql: () => import('@shikijs/langs/sql'),
+	plsql: () => import('@shikijs/langs/plsql')
 };
 
 /** The languages configured for the highlighter */

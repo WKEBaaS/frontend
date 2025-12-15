@@ -1,6 +1,7 @@
+import type { DatabaseSchemaColumn } from '$lib/components/database-schema/index.js';
 import { type Edge, type Node, Position } from '@xyflow/svelte';
 import type { PageLoad } from './$types';
-import type { DatabaseSchemaColumn } from '$lib/components/database-schema/index.js';
+import type { Permission } from './(components)/permission-enum/index.js';
 
 const authUsersColumns: DatabaseSchemaColumn[] = [
 	{
@@ -10,16 +11,16 @@ const authUsersColumns: DatabaseSchemaColumn[] = [
 		foreignKey: true,
 		default: 'uuidv7()',
 		handles: [
-			{ id: 'id_right', type: 'target', position: Position.Left },
-			{ id: 'id_left', type: 'target', position: Position.Right }
+			{ id: 'id_right', type: 'target', position: Position.Left }
+			// { id: 'id_left', type: 'target', position: Position.Right },
 		]
 	},
 	{ name: 'role', type: 'varchar(100)', default: "'authenticated'" },
 	{ name: 'name', type: 'varchar(255)' },
 	{ name: 'email', type: 'varchar(255)', unique: true },
 	{ name: 'email_verified', type: 'boolean', default: 'false' },
-	{ name: 'created_at', type: 'timestamptz', default: 'CURRENT_TIMESTAMP' },
-	{ name: 'updated_at', type: 'timestamptz', default: 'CURRENT_TIMESTAMP' },
+	{ name: 'created_at', type: 'timestamptz', default: 'now()' },
+	{ name: 'updated_at', type: 'timestamptz', default: 'now()' },
 	{ name: 'deleted_at', type: 'timestamptz', nullable: true },
 	{ name: 'image', type: 'text', nullable: true }
 ];
@@ -34,8 +35,8 @@ const authGroupsColumns: DatabaseSchemaColumn[] = [
 	},
 	{ name: 'name', type: 'varchar(255)', unique: true },
 	{ name: 'description', type: 'text', nullable: true },
-	{ name: 'created_at', type: 'timestamptz', default: 'CURRENT_TIMESTAMP' },
-	{ name: 'updated_at', type: 'timestamptz', default: 'CURRENT_TIMESTAMP' },
+	{ name: 'created_at', type: 'timestamptz', default: 'now()' },
+	{ name: 'updated_at', type: 'timestamptz', default: 'now()' },
 	{ name: 'deleted_at', type: 'timestamptz', nullable: true },
 	{ name: 'is_enabled', type: 'boolean', default: 'true' },
 	{ name: 'display_name', type: 'varchar(255)', default: "''" }
@@ -125,13 +126,13 @@ const tableNodes: Node<Table>[] = [
 	{
 		id: 'auth.groups',
 		type: 'table',
-		position: { x: 225, y: 250 },
+		position: { x: 300, y: 250 },
 		data: { name: 'auth.groups', columns: authGroupsColumns }
 	},
 	{
 		id: 'auth.users',
 		type: 'table',
-		position: { x: -225, y: 250 },
+		position: { x: -150, y: 250 },
 		data: { name: 'auth.users', columns: authUsersColumns }
 	},
 	{
@@ -155,15 +156,28 @@ const tableNodes: Node<Table>[] = [
 	}
 ];
 
+const permissions: Permission[] = [
+	{ name: 'Read Class', description: 'Allows read classes metadata', bits: '1' },
+	{ name: 'Read Object', description: 'Allows read objects in the class', bits: '2' },
+	{ name: 'Insert', description: 'Allows inserting new objects in the class', bits: '4' },
+	{ name: 'Delete', description: 'Allows deleting classes/objects in the class', bits: '8' },
+	{ name: 'Update', description: 'Allows updating classes/objects in the class', bits: '16' },
+	{ name: 'Modify', description: 'Allows modifying classes/objects in the class', bits: '32' },
+	{ name: 'Subscribe', description: 'Allows subscribing to classes/objects changes', bits: '64' }
+];
+
 export const load: PageLoad<LoadResult> = async () => {
 	return {
+		permissions,
 		nodes: [
 			...tableNodes,
 			{
 				id: 'permission-enum-note',
 				type: 'permission-note',
 				position: { x: 380, y: -400 },
-				data: {}
+				data: {
+					permissions
+				}
 			}
 		],
 		edges: [
@@ -189,6 +203,13 @@ export const load: PageLoad<LoadResult> = async () => {
 				sourceHandle: 'role_id_left',
 				targetHandle: 'id_right',
 				label: 'role_type = user'
+			},
+			{
+				id: 'classes-owner-id',
+				source: 'dbo.classes',
+				target: 'auth.users',
+				sourceHandle: 'owner_id_right',
+				targetHandle: 'id_right'
 			}
 		]
 	};
