@@ -1,4 +1,4 @@
-import { getRequestEvent, query } from '$app/server';
+import { command, getRequestEvent, query } from '$app/server';
 import { env } from '$env/dynamic/public';
 import { classMetadataSchema, classSchema, permissionSchema } from '$lib/schemas/index.js';
 import { error } from '@sveltejs/kit';
@@ -110,3 +110,38 @@ export const getUsersClassPermissions = query(
 		return parsed.output;
 	}
 );
+
+const updateUsersClassPermissionsSchema = v.object({
+	ref: v.string(),
+	class_id: v.string(),
+	permissions: v.array(permissionSchema)
+});
+
+export const updateUsersClassPermissions = command(updateUsersClassPermissionsSchema, async (data) => {
+	const event = getRequestEvent();
+
+	const url = new URL('/v1/project/class-permissions', env.PUBLIC_BAAS_API_URL);
+
+	// role_name is a client-side only field, remove it before sending to server
+	// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+	const permissions = data.permissions.map(({ role_name, ...rest }) => rest);
+
+	const resp = await event.fetch(url, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			ref: data.ref,
+			class_id: data.class_id,
+			permissions
+		})
+	});
+
+	if (!resp.ok) {
+		console.error('Failed to update class permissions:', resp.status, resp.statusText);
+		error(resp.status, 'Failed to update class permissions');
+	}
+
+	return { success: true };
+});

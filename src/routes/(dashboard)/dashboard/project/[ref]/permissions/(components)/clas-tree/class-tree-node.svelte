@@ -18,6 +18,7 @@
 	let open = $state(false);
 	let isActive = $derived(page.params.class_id === nodeClass.id);
 
+	// svelte-ignore state_referenced_locally
 	const query = getUsersChildClasses({
 		ref: ref,
 		pcid: nodeClass.id
