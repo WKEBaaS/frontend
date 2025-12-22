@@ -5,7 +5,7 @@
 	import { authClient } from '$lib/auth-client';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
-	import type { Icon } from '@lucide/svelte';
+	import { FileTextIcon, type Icon } from '@lucide/svelte';
 	import Database from '@lucide/svelte/icons/database';
 	import Logout from '@lucide/svelte/icons/log-out';
 	import Settings from '@lucide/svelte/icons/settings';
@@ -37,6 +37,14 @@
 			icon: Settings
 		}
 	];
+
+	const docsItems = [
+		{
+			title: m.documentation(),
+			url: resolve('/docs'),
+			icon: FileTextIcon
+		}
+	] satisfies Item[];
 </script>
 
 <Sidebar.Root collapsible="icon">
@@ -65,6 +73,25 @@
 			<Sidebar.GroupContent class="group-data-[collapsible=icon]:hidden">
 				<Sidebar.Menu>
 					{#each accountItems as item (item.title)}
+						<Sidebar.MenuItem>
+							<Sidebar.MenuButton>
+								{#snippet child({ props })}
+									<a href={item.url} {...props}>
+										<item.icon />
+										<span>{item.title}</span>
+									</a>
+								{/snippet}
+							</Sidebar.MenuButton>
+						</Sidebar.MenuItem>
+					{/each}
+				</Sidebar.Menu>
+			</Sidebar.GroupContent>
+		</Sidebar.Group>
+		<Sidebar.Group>
+			<Sidebar.GroupLabel>{m.documentation()}</Sidebar.GroupLabel>
+			<Sidebar.GroupContent class="group-data-[collapsible=icon]:hidden">
+				<Sidebar.Menu>
+					{#each docsItems as item (item.title)}
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton>
 								{#snippet child({ props })}

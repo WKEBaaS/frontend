@@ -10,7 +10,7 @@
 	}
 
 	let { children } = $props();
-	const classes = $derived(await getUsersFirstLevelClasses(page.params.ref));
+	const classesQuery = getUsersFirstLevelClasses(page.params.ref);
 </script>
 
 <div class="h-full">
@@ -26,9 +26,15 @@
 	<!-- Content Area -->
 	<div class="flex h-full">
 		<TreeView.Root class="bg-muted w-64 p-2">
-			{#each classes as c (c.id)}
-				<ClassTreeNode nodeClass={c} ref={page.params.ref!} />
-			{/each}
+			{#if classesQuery.loading}
+				<div class="text-muted-foreground px-2 py-1.5 text-sm">Loading classes...</div>
+			{:else if classesQuery.error}
+				<div class="text-destructive px-2 py-1.5 text-sm">Error loading classes: {classesQuery.error.message}</div>
+			{:else}
+				{#each classesQuery.current as c (c.id)}
+					<ClassTreeNode nodeClass={c} ref={page.params.ref!} />
+				{/each}
+			{/if}
 		</TreeView.Root>
 		{@render children()}
 	</div>

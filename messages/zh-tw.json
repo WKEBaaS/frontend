@@ -99,5 +99,6 @@
 	"installation": "安裝",
 	"usage": "使用方式",
 	"permissions": "權限管理",
-	"permission_control": "權限控制"
+	"permission_control": "權限控制",
+	"documentation": "文檔"
 }

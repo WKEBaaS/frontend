@@ -100,5 +100,6 @@
 	"installation": "Installation",
 	"usage": "Usage",
 	"permissions": "Permissions",
-	"permission_control": "Permission Control"
+	"permission_control": "Permission Control",
+	"documentation": "Documentation"
 }

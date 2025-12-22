@@ -30,9 +30,6 @@
 	];
 
 	let { ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();
-
-	const sidebar = Sidebar.useSidebar();
-	sidebar.open = false;
 </script>
 
 <Sidebar.Root collapsible="icon" {...restProps}>
