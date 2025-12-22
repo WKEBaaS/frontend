@@ -4,7 +4,7 @@
 	import type { ClassMetadata } from '$lib/schemas/index.js';
 	import { cn } from '$lib/utils';
 	import { ChevronRight, Folder } from '@lucide/svelte';
-	import { ClassTreeNode } from '.';
+	import { PermissionClassTree } from '.';
 
 	interface Props {
 		nodeClass: ClassMetadata;
@@ -40,6 +40,7 @@
 
 <div class="space-y-1" style="padding-left: {level * 12}px">
 	<a
+		data-sveltekit-preload-data="tap"
 		href={resolve(`/(dashboard)/dashboard/project/[ref]/permissions/[class_id]`, {
 			ref: ref,
 			class_id: nodeClass.id
@@ -69,7 +70,7 @@
 				</div>
 			{:else}
 				{#each children as child (child.id)}
-					<ClassTreeNode nodeClass={child} {ref} level={level + 1} />
+					<PermissionClassTree nodeClass={child} {ref} level={level + 1} />
 				{/each}
 			{/if}
 		</div>

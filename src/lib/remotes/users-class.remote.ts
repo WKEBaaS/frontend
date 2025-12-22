@@ -4,7 +4,30 @@ import { classMetadataSchema, classSchema, permissionSchema } from '$lib/schemas
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 
-export const getUsersFirstLevelClasses = query(v.string(), async (ref) => {
+export const getUsersRootClass = query(v.string(), async (ref) => {
+	const event = getRequestEvent();
+
+	const url = new URL('/v1/project/root-class', env.PUBLIC_BAAS_API_URL);
+	url.searchParams.append('ref', ref);
+
+	const resp = await event.fetch(url);
+	if (!resp.ok) {
+		console.error('Failed to fetch root class:', resp.status, resp.statusText);
+		error(resp.status, 'Failed to fetch root class');
+	}
+
+	const data = await resp.json();
+	console.log('Fetched root class data:', data);
+	const parsed = await v.safeParseAsync(classSchema, data.class);
+	if (!parsed.success) {
+		console.log('Parsed root class issues:', JSON.stringify(parsed.issues, null, 2));
+		error(500, 'Failed to parse root class');
+	}
+
+	return parsed.output;
+});
+
+export const getUsersRootClasses = query(v.string(), async (ref) => {
 	const event = getRequestEvent();
 
 	const url = new URL('/v1/project/root-classes', env.PUBLIC_BAAS_API_URL);
