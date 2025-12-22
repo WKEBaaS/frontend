@@ -2,10 +2,10 @@
 	import { resolve } from '$app/paths';
 	import LanguageSwitch from '$lib/components/language-switch.svelte';
 	import ThemeSwitch from '$lib/components/theme-switch.svelte';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as m from '$lib/paraglide/messages';
-	import { UserAvatar } from '$lib/components/user-avatar/index.js';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { UserAvatar } from '$lib/components/user-avatar/index.js';
+	import * as m from '$lib/paraglide/messages';
 	import { getDocsHeaderStore } from './docs-header-score.svelte.js';
 
 	const store = getDocsHeaderStore();
@@ -26,7 +26,7 @@
 		</Breadcrumb.List>
 	</Breadcrumb.Root>
 	<nav class="ml-auto flex items-center gap-4">
-		<Button variant="default" href={resolve('/dashboard')}>{m.dashboard()}</Button>
+		<Button variant="default" href={resolve('/dashboard/projects')}>{m.dashboard()}</Button>
 		<LanguageSwitch />
 		<ThemeSwitch />
 		<UserAvatar />

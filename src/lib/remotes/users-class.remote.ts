@@ -26,7 +26,7 @@ export const getUsersFirstLevelClasses = query(v.string(), async (ref) => {
 	return parsed.output;
 });
 
-export const getUsersChildClasses = query(
+export const getUsersClassChildren = query(
 	v.object({
 		ref: v.string(),
 		pcid: v.string()
@@ -34,7 +34,7 @@ export const getUsersChildClasses = query(
 	async ({ ref, pcid }) => {
 		const event = getRequestEvent();
 
-		const url = new URL('/v1/project/child-classes', env.PUBLIC_BAAS_API_URL);
+		const url = new URL('/v1/project/class-children', env.PUBLIC_BAAS_API_URL);
 		url.searchParams.append('ref', ref);
 		url.searchParams.append('pcid', pcid);
 

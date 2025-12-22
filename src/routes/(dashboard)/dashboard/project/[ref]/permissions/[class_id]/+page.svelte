@@ -4,6 +4,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
 	import { updateUsersClassPermissions } from '$lib/remotes/users-class.remote.js';
+	import type { Permission } from '$lib/schemas/usersdb.js';
 	import { Plus, Save, Shield } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { PermissionEditor } from './(components)/permission-editor/index.js';
@@ -12,8 +13,12 @@
 
 	let editing = $state(false);
 	let saving = $state(false);
-	// svelte-ignore state_referenced_locally
-	let permissions = $state(data.permissions);
+
+	// eslint-disable-next-line svelte/prefer-writable-derived
+	let permissions: Permission[] = $state([]);
+	$effect(() => {
+		permissions = data.permissions;
+	});
 
 	function addPermission() {
 		permissions.push({

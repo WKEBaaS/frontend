@@ -45,12 +45,12 @@
 				<h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
 					{m.welcome()}
 				</h1>
-				<p class="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+				<p class="mx-auto max-w-175 text-gray-500 md:text-xl dark:text-gray-400">
 					{m.welcome_description()}
 				</p>
 			</div>
 			<div class="space-x-4">
-				<a href={resolve('/dashboard')} class={buttonVariants({ variant: 'default' })}>{m.get_started()}</a>
+				<a href={resolve('/dashboard/projects')} class={buttonVariants({ variant: 'default' })}>{m.get_started()}</a>
 				<Button variant="outline">{m.learn_more()}</Button>
 			</div>
 		</div>

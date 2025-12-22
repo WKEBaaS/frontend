@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { getUsersChildClasses } from '$lib/remotes/index.js';
 	import type { ClassMetadata } from '$lib/schemas/index.js';
 	import { cn } from '$lib/utils';
 	import { ChevronRight, Folder } from '@lucide/svelte';
@@ -17,11 +16,19 @@
 
 	let open = $state(false);
 	let isActive = $derived(page.params.class_id === nodeClass.id);
+	let children: ClassMetadata[] = $state([]);
+	let fetched = $state(false);
 
-	// svelte-ignore state_referenced_locally
-	const query = getUsersChildClasses({
-		ref: ref,
-		pcid: nodeClass.id
+	$effect(() => {
+		if (!fetched && open && children.length === 0) {
+			fetch(`/api/get-users-class-children?ref=${ref}&pcid=${nodeClass.id}`)
+				.then((resp) => (resp.ok ? resp : Promise.reject(new Error('Failed to fetch class children'))))
+				.then((resp) => resp.json())
+				.then((data) => {
+					fetched = true;
+					children = data;
+				});
+		}
 	});
 
 	function toggle(e: MouseEvent) {
@@ -56,12 +63,12 @@
 
 	{#if open}
 		<div class="space-y-1">
-			{#if query.loading}
+			{#if !fetched && children.length === 0}
 				<div class="text-muted-foreground px-2 py-1.5 text-sm" style="padding-left: {(level + 1) * 12}px">
 					載入中...
 				</div>
 			{:else}
-				{#each await query as child (child.id)}
+				{#each children as child (child.id)}
 					<ClassTreeNode nodeClass={child} {ref} level={level + 1} />
 				{/each}
 			{/if}
