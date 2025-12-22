@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import LanguageSwitch from '$lib/components/language-switch.svelte';
 	import ThemeSwitcher from '$lib/components/theme-switch.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import * as m from '$lib/paraglide/messages';
-	import { page } from '$app/state';
 
 	let currentPage = $derived.by(() => {
 		switch (page.route.id) {
@@ -15,6 +15,12 @@
 				return m.settings();
 			case '/(dashboard)/dashboard/project/[ref]/auth':
 				return m.authentication();
+			case '/(dashboard)/dashboard/project/[ref]/classes':
+				return 'Classes';
+			case '/(dashboard)/dashboard/project/[ref]/permissions':
+				return m.permissions();
+			case '/(dashboard)/dashboard/project/[ref]/storage':
+				return m.storage();
 			default:
 				return m.project_dashboard();
 		}

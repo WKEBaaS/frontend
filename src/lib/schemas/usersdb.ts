@@ -30,7 +30,7 @@ export const classSchema = v.object({
 	click_count: v.pipe(v.number(), v.integer(), v.minValue(0)),
 
 	// Postgres Array
-	keywords: v.array(v.string()),
+	keywords: v.nullable(v.array(v.string())),
 
 	// Owner (Foreign Key to auth.users - UUID)
 	owner_id: v.nullable(v.pipe(v.string(), v.uuid())),

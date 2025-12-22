@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import * as TreeView from '$lib/components/ui/tree-view';
-	import { getUsersFirstLevelClasses } from '$lib/remotes';
+	import { getUsersRootClasses } from '$lib/remotes';
 	import { DatabaseIcon } from '@lucide/svelte';
-	import ClassTreeNode from './(components)/clas-tree/class-tree-node.svelte';
+	import { PermissionClassTree } from './(components)/permission-class-tree';
 
 	if (!page.params.ref) {
 		throw new Error('Project reference is missing in the URL parameters.');
 	}
 
 	let { children } = $props();
-	const classesQuery = getUsersFirstLevelClasses(page.params.ref);
+	const classesQuery = getUsersRootClasses(page.params.ref);
 </script>
 
 <div class="h-full">
@@ -32,7 +32,7 @@
 				<div class="text-destructive px-2 py-1.5 text-sm">Error loading classes: {classesQuery.error.message}</div>
 			{:else}
 				{#each classesQuery.current as c (c.id)}
-					<ClassTreeNode nodeClass={c} ref={page.params.ref!} />
+					<PermissionClassTree nodeClass={c} ref={page.params.ref!} />
 				{/each}
 			{/if}
 		</TreeView.Root>

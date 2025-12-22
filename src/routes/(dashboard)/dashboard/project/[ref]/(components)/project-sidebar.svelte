@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as m from '$lib/paraglide/messages.js';
-	import { ShieldIcon } from '@lucide/svelte';
+	import { FolderIcon, ShieldIcon } from '@lucide/svelte';
 	import Archive from '@lucide/svelte/icons/archive';
 	import Database from '@lucide/svelte/icons/database';
 	import House from '@lucide/svelte/icons/house';
@@ -14,27 +15,32 @@
 	const items = [
 		{
 			title: m.project_overview(),
-			url: `/dashboard/project/${page.params.ref}`,
+			url: resolve('/(dashboard)/dashboard/project/[ref]', { ref: page.params.ref! }),
 			icon: House
 		},
 		{
 			title: m.authentication(),
-			url: `/dashboard/project/${page.params.ref}/auth`,
+			url: resolve('/(dashboard)/dashboard/project/[ref]/auth', { ref: page.params.ref! }),
 			icon: UserLock
 		},
 		{
+			title: 'Classes',
+			url: resolve(`/(dashboard)/dashboard/project/[ref]/classes`, { ref: page.params.ref! }),
+			icon: FolderIcon
+		},
+		{
 			title: m.permissions(),
-			url: `/dashboard/project/${page.params.ref}/permissions`,
+			url: resolve('/(dashboard)/dashboard/project/[ref]/permissions', { ref: page.params.ref! }),
 			icon: ShieldIcon
 		},
 		{
 			title: m.storage(),
-			url: `/dashboard/project/${page.params.ref}/storage`,
+			url: resolve('/(dashboard)/dashboard/project/[ref]/storage', { ref: page.params.ref! }),
 			icon: Archive
 		},
 		{
 			title: m.settings(),
-			url: `/dashboard/project/${page.params.ref}/settings`,
+			url: resolve('/(dashboard)/dashboard/project/[ref]/settings', { ref: page.params.ref! }),
 			icon: Settings
 		}
 	];
