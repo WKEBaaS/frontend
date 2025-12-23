@@ -13,5 +13,10 @@ export const load: PageServerLoad = async (event) => {
 		version
 	});
 
-	return { func };
+	return {
+		func: {
+			...func,
+			project_ref: parent.project.reference
+		}
+	};
 };
