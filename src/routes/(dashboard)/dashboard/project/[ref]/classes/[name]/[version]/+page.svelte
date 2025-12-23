@@ -15,12 +15,15 @@
 	import { FolderOpenIcon, PencilIcon, SaveIcon, XIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { ClassFuncNodeEditor } from '../../(components)/classfunc-node-editor/index.js';
+	import { CreateClassFuncStore } from './store.svelte.js';
 
 	let { data } = $props();
 
-	let pendingFunc = $derived(data.func);
+	// let pendingFunc = $derived(data.func);
 	let version = $derived(data.func.version.toString());
 	let editing = $state(false);
+
+	const pendingFunc = $derived(new CreateClassFuncStore(data.func));
 
 	function handleEdit() {
 		// Create a restore point before editing starts
@@ -29,17 +32,15 @@
 
 	function handleCancel() {
 		// Revert to the saved state
-		pendingFunc = $state.snapshot(data.func);
+		// pendingFunc = $state.snapshot(data.func);
+		pendingFunc.set(data.func);
 		editing = false;
 	}
 
 	async function handleSave() {
 		try {
 			editing = false;
-			const res = await createClassFunc({
-				...pendingFunc,
-				project_ref: data.project.reference
-			});
+			const res = await createClassFunc(pendingFunc.value());
 			if (res.success) {
 				toast.success('Updated successfully!');
 			}
@@ -141,17 +142,17 @@
 							nodeClass={data.root}
 							ref={data.project.reference}
 							onSelect={(c) => {
-								pendingFunc.root_node.class_id = c.id;
+								pendingFunc.root_class_id = c.id;
 							}}
 						/>
 					{:else}
 						<div class="bg-muted/40 text-muted-foreground flex items-center gap-2 rounded border p-3 font-mono text-sm">
 							<FolderOpenIcon class="h-4 w-4" />
-							<span>Root Class ID: {pendingFunc.root_node.class_id || 'Not Selected'}</span>
+							<span>Root Class ID: {pendingFunc.root_class_id || 'Not Selected'}</span>
 						</div>
 					{/if}
 
-					{#if pendingFunc.root_node.class_id !== ''}
+					{#if pendingFunc.root_class_id !== ''}
 						<Card.Root class="mt-4">
 							<Card.Content class="space-y-1">
 								<div class="grid grid-cols-5">
@@ -159,17 +160,17 @@
 									<Field.Field class="col-span-2" orientation="horizontal">
 										<Checkbox
 											id="check-permissions"
-											bind:checked={pendingFunc.root_node.check_permission}
+											bind:checked={pendingFunc.root_check_permission}
 											disabled={!editing}
 										/>
 										<Field.Label for="check-permissions">Check Permissions</Field.Label>
 									</Field.Field>
-									<span class="col-span-1 text-sm italic">Bits {pendingFunc.root_node.check_bits}</span>
+									<span class="col-span-1 text-sm italic">Bits {pendingFunc.root_check_bits}</span>
 								</div>
 							</Card.Content>
 							<Card.Content>
 								<div class={!editing ? 'pointer-events-none opacity-70' : ''}>
-									<PermissionSelector bind:bits={pendingFunc.root_node.check_bits} />
+									<PermissionSelector bind:bits={pendingFunc.root_check_bits} />
 								</div>
 							</Card.Content>
 						</Card.Root>

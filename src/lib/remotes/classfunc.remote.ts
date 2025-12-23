@@ -6,11 +6,6 @@ import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 
 export const createClassFunc = command(createClassFuncSchema, async (data) => {
-	const parsed = await v.safeParseAsync(createClassFuncSchema, data);
-	if (!parsed.success) {
-		error(500, 'Failed to parse class function data');
-	}
-
 	const event = getRequestEvent();
 	const url = new URL('/v1/project/create-classes-function', env.PUBLIC_BAAS_API_URL);
 	const resp = await event.fetch(url, {
@@ -18,7 +13,7 @@ export const createClassFunc = command(createClassFuncSchema, async (data) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(parsed.output)
+		body: JSON.stringify(data)
 	});
 
 	if (!resp.ok) {
