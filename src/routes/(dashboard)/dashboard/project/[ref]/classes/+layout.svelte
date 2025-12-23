@@ -22,7 +22,7 @@
 
 	<div class="flex flex-1">
 		<!-- Content Area -->
-		<ClassFuncSidebar projectID={data.project.id} functions={data.functions} />
+		<ClassFuncSidebar functions={data.functions} />
 		{@render children()}
 	</div>
 </div>

@@ -1,11 +1,11 @@
-import js from '@eslint/js';
 import { includeIgnoreFile } from '@eslint/compat';
+import js from '@eslint/js';
 import svelte from 'eslint-plugin-svelte';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript-eslint';
 import svelteConfig from './svelte.config.js';
-import { defineConfig, globalIgnores } from 'eslint/config';
 
 const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
 
@@ -41,11 +41,18 @@ export default defineConfig(
 	},
 	{
 		rules: {
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					varsIgnorePattern: '_',
+					argsIgnorePattern: '_'
+				}
+			],
 			'no-unused-vars': [
 				'error',
 				{
-					varsIgnorePattern: '^_',
-					argsIgnorePattern: '^_'
+					varsIgnorePattern: '_',
+					argsIgnorePattern: '_'
 				}
 			],
 			'svelte/no-navigation-without-resolve': [

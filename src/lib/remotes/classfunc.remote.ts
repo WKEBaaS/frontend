@@ -1,11 +1,11 @@
-import { form, getRequestEvent, query } from '$app/server';
+import { command, getRequestEvent, query } from '$app/server';
 import { env } from '$env/dynamic/public';
-import { createClassFuncMetaSchema, createClassFuncSchema, createClassFuncSchemaWithoutNode } from '$lib/schemas';
+import { createClassFuncMetaSchema, createClassFuncSchema } from '$lib/schemas';
 import * as api from '$lib/server';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 
-export const createClassFunc = form(createClassFuncSchemaWithoutNode, async (data) => {
+export const createClassFunc = command(createClassFuncSchema, async (data) => {
 	const parsed = await v.safeParseAsync(createClassFuncSchema, data);
 	if (!parsed.success) {
 		error(500, 'Failed to parse class function data');
@@ -45,3 +45,49 @@ export const getCreateClassFuncs = query(v.string(), async (project_id: string) 
 
 	return functions;
 });
+
+export const getCreateClassFunc = query(
+	v.object({
+		project_id: v.string(),
+		name: v.string(),
+		version: v.number()
+	}),
+	async (params) => {
+		const event = getRequestEvent();
+		const token = await api.auth.fetchToken(event);
+
+		const func = await api.pgrest.get({
+			endpoint: api.rpc.getCreateClassFunction,
+			token,
+			schema: v.omit(createClassFuncSchema, ['project_ref']),
+			params: {
+				p_project_id: params.project_id,
+				p_name: params.name,
+				p_version: params.version
+			}
+		});
+		return func;
+	}
+);
+
+export const getCreateClassFuncVersions = query(
+	v.object({
+		project_id: v.string(),
+		name: v.string()
+	}),
+	async (params) => {
+		const event = getRequestEvent();
+		const token = await api.auth.fetchToken(event);
+
+		const versions = await api.pgrest.get({
+			endpoint: api.rpc.getCreateClassFunctionVersions,
+			token,
+			schema: v.array(v.number()),
+			params: {
+				p_project_id: params.project_id,
+				p_name: params.name
+			}
+		});
+		return versions;
+	}
+);

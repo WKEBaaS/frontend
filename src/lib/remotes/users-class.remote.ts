@@ -17,7 +17,6 @@ export const getUsersRootClass = query(v.string(), async (ref) => {
 	}
 
 	const data = await resp.json();
-	console.log('Fetched root class data:', data);
 	const parsed = await v.safeParseAsync(classSchema, data.class);
 	if (!parsed.success) {
 		console.log('Parsed root class issues:', JSON.stringify(parsed.issues, null, 2));
@@ -146,7 +145,7 @@ export const updateUsersClassPermissions = command(updateUsersClassPermissionsSc
 	const url = new URL('/v1/project/class-permissions', env.PUBLIC_BAAS_API_URL);
 
 	// role_name is a client-side only field, remove it before sending to server
-	// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+
 	const permissions = data.permissions.map(({ role_name, ...rest }) => rest);
 
 	const resp = await event.fetch(url, {
