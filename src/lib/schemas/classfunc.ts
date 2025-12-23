@@ -1,16 +1,21 @@
 import * as v from 'valibot';
 import { type Permission, permissionSchema } from './usersdb';
 
+const emptyStringToNull = v.pipe(
+	v.string(),
+	v.transform((str) => (str.trim() === '' ? null : str))
+);
+
 // Corresponds to: type FieldConfig struct
 const fieldConfigSchema = v.object({
 	// *string + omitempty implies the field can be missing or null
-	param_name: v.optional(v.nullable(v.string())),
-	value: v.optional(v.nullable(v.string()))
+	param_name: v.optional(v.nullable(emptyStringToNull)),
+	value: v.optional(v.nullable(emptyStringToNull))
 });
 
 // Corresponds to: type NodeFields struct
 const nodeFieldsSchema = v.object({
-	chinese_name: v.optional(v.nullable(fieldConfigSchema)),
+	chinese_name: v.nullable(fieldConfigSchema),
 	chinese_description: v.optional(v.nullable(fieldConfigSchema)),
 	english_name: v.optional(v.nullable(fieldConfigSchema)),
 	english_description: v.optional(v.nullable(fieldConfigSchema)),
@@ -28,9 +33,9 @@ interface Node {
 // We use v.lazy() to handle the recursive 'Children' field
 const nodeSchema: v.GenericSchema<Node> = v.object({
 	fields: nodeFieldsSchema,
-	permissions: v.array(permissionSchema),
+	permissions: v.optional(v.array(permissionSchema)),
 	// Recursive definition:
-	children: v.array(v.lazy(() => nodeSchema))
+	children: v.optional(v.array(v.lazy(() => nodeSchema)))
 });
 
 // --- Root Schemas ---
@@ -61,15 +66,12 @@ export const createClassFuncMetaSchema = v.object({
 	description: v.string()
 });
 
-export const createClassFuncSchemaWithoutNode = v.pick(createClassFuncSchema, [
-	'project_id',
-	'project_ref',
-	'name',
-	'version',
-	'description',
-	'authenticated',
-	'root_node'
-]);
+export const createClassFuncSchemaNodeAny = v.object({
+	...v.omit(createClassFuncSchema, ['node']).entries,
+	node: v.any()
+});
 
+export type CreateClassFuncFieldKey = keyof NodeFields;
+export type CreateClassFuncNode = v.InferInput<typeof nodeSchema>;
 export type CreateClassFuncInput = v.InferInput<typeof createClassFuncSchema>;
 export type CreateClassFuncMeta = v.InferInput<typeof createClassFuncMetaSchema>;
