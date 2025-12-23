@@ -50,7 +50,9 @@
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
-		onclick={() => {
+		onclick={(e) => {
+			e.preventDefault();
+			e.stopPropagation();
 			selectedID = nodeClass.id;
 			selectedName = nodeClass.chinese_name;
 			onSelect?.(nodeClass);
@@ -80,7 +82,7 @@
 				</div>
 			{:else}
 				{#each children as child (child.id)}
-					<UserClassTree nodeClass={child} {ref} level={level + 1} bind:selectedID bind:selectedName />
+					<UserClassTree nodeClass={child} {ref} level={level + 1} bind:selectedID bind:selectedName {onSelect} />
 				{/each}
 			{/if}
 		</div>

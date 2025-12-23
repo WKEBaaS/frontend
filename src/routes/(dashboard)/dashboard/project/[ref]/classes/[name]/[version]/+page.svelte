@@ -12,10 +12,10 @@
 	import { resolve } from '$app/paths';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { createClassFunc } from '$lib/remotes/index.js';
+	import { CreateClassFuncStore } from '$lib/stores/store.svelte.js';
 	import { FolderOpenIcon, PencilIcon, SaveIcon, XIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { ClassFuncNodeEditor } from '../../(components)/classfunc-node-editor/index.js';
-	import { CreateClassFuncStore } from './store.svelte.js';
 
 	let { data } = $props();
 
@@ -142,6 +142,7 @@
 							nodeClass={data.root}
 							ref={data.project.reference}
 							onSelect={(c) => {
+								console.log('Selected class:', c.id, c.chinese_name);
 								pendingFunc.root_class_id = c.id;
 							}}
 						/>

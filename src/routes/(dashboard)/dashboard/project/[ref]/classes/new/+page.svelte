@@ -8,37 +8,13 @@
 	import { Textarea } from '$lib/components/ui/textarea';
 	import { UserClassTree } from '$lib/components/user-clas-tree';
 	import { createClassFunc } from '$lib/remotes';
-	import type { CreateClassFuncInput } from '$lib/schemas/classfunc.js';
+	import { CreateClassFuncStore } from '$lib/stores/store.svelte.js';
 	import { FolderOpenIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { ClassFuncNodeEditor } from '../(components)/classfunc-node-editor/index.js';
 
 	let { data } = $props();
-	// svelte-ignore state_referenced_locally
-	let createClassFuncInput = $state({
-		project_id: data.project.id,
-		project_ref: data.project.reference,
-		name: '',
-		version: 1,
-		description: '',
-		authenticated: false,
-		root_node: {
-			class_id: '',
-			check_permission: false,
-			check_bits: 0
-		},
-		node: {
-			fields: {
-				chinese_name: null,
-				chinese_description: null,
-				english_name: null,
-				english_description: null,
-				entity_id: null
-			},
-			permissions: [],
-			children: []
-		}
-	} satisfies CreateClassFuncInput);
+	let createClassFuncInput = new CreateClassFuncStore();
 </script>
 
 <div class="flex w-full flex-col p-3 pb-96 font-mono">
@@ -48,7 +24,7 @@
 			<Button
 				variant="default"
 				onclick={async () => {
-					const res = await createClassFunc(createClassFuncInput);
+					const res = await createClassFunc(createClassFuncInput.value());
 					if (res.success) {
 						toast.success('Class Function API created successfully!');
 					}
@@ -85,23 +61,23 @@
 						nodeClass={data.root}
 						ref={data.project.reference}
 						onSelect={(c) => {
-							createClassFuncInput.root_node.class_id = c.id;
+							createClassFuncInput.root_class_id = c.id;
 						}}
 					/>
-					{#if createClassFuncInput.root_node.class_id !== ''}
+					{#if createClassFuncInput.root_class_id !== ''}
 						<Card.Root>
 							<Card.Content class="space-y-1">
 								<div class="grid grid-cols-5">
 									<Card.Description class="col-span-2">Permissions to be check</Card.Description>
 									<Field.Field class="col-span-2" orientation="horizontal">
-										<Checkbox id="check-permissions" bind:checked={createClassFuncInput.root_node.check_permission} />
+										<Checkbox id="check-permissions" bind:checked={createClassFuncInput.root_check_permission} />
 										<Field.Label for="check-permissions">Check Permissions</Field.Label>
 									</Field.Field>
-									<span class="col-span-1 text-sm italic">Bits {createClassFuncInput.root_node.check_bits}</span>
+									<span class="col-span-1 text-sm italic">Bits {createClassFuncInput.root_check_bits}</span>
 								</div>
 							</Card.Content>
 							<Card.Content>
-								<PermissionSelector bind:bits={createClassFuncInput.root_node.check_bits} />
+								<PermissionSelector bind:bits={createClassFuncInput.root_check_bits} />
 							</Card.Content>
 						</Card.Root>
 					{/if}
