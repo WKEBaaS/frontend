@@ -6,9 +6,9 @@
 	import * as Field from '$lib/components/ui/field/index.js';
 	import { Input } from '$lib/components/ui/input';
 	import { Textarea } from '$lib/components/ui/textarea';
-	import { UserClassTree } from '$lib/components/user-clas-tree';
+	import { UserClassTree } from '$lib/components/user-class-tree';
 	import { createClassFunc } from '$lib/remotes';
-	import { CreateClassFuncStore } from '$lib/stores/store.svelte.js';
+	import { CreateClassFuncStore } from '$lib/stores/index.js';
 	import { FolderOpenIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { ClassFuncNodeEditor } from '../(components)/classfunc-node-editor/index.js';

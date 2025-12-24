@@ -46,7 +46,7 @@
 	}
 </script>
 
-<div class="space-y-1" style="padding-left: {level * 12}px">
+<div class="space-y-1">
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
@@ -64,10 +64,10 @@
 		)}
 	>
 		<button onclick={toggle} class="flex h-4 w-4 items-center justify-center">
-			<ChevronRight class={cn('h-3 w-3 transition-transform', open && 'rotate-90')} />
+			<ChevronRight class={cn('text-muted-foreground/70 h-3 w-3 transition-transform', open && 'rotate-90')} />
 		</button>
 
-		<Folder class="h-4 w-4 shrink-0" />
+		<Folder class="text-muted-foreground/70 h-4 w-4 shrink-0" />
 
 		<span class="flex-1 truncate">
 			{nodeClass.chinese_name ?? nodeClass.id}
@@ -75,11 +75,9 @@
 	</div>
 
 	{#if open}
-		<div class="space-y-1">
+		<div class="border-border ml-3 space-y-1 border-l pl-3">
 			{#if !fetched && children.length === 0}
-				<div class="text-muted-foreground px-2 py-1.5 text-sm" style="padding-left: {(level + 1) * 12}px">
-					載入中...
-				</div>
+				<div class="text-muted-foreground px-2 py-1.5 text-sm">載入中...</div>
 			{:else}
 				{#each children as child (child.id)}
 					<UserClassTree nodeClass={child} {ref} level={level + 1} bind:selectedID bind:selectedName {onSelect} />
