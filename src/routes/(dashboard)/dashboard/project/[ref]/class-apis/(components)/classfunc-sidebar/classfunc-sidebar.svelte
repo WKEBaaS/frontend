@@ -17,7 +17,7 @@
 	<Sidebar.Content>
 		<Sidebar.Group>
 			<Button
-				href={resolve(`/(dashboard)/dashboard/project/[ref]/classes/new`, {
+				href={resolve(`/(dashboard)/dashboard/project/[ref]/class-apis/new`, {
 					ref: page.params.ref!
 				})}
 				variant="outline">New Function (API)</Button
@@ -31,7 +31,7 @@
 						<Sidebar.MenuButton>
 							{#snippet child({ props })}
 								<a
-									href={resolve(`/(dashboard)/dashboard/project/[ref]/classes/[name]/[version]`, {
+									href={resolve(`/(dashboard)/dashboard/project/[ref]/class-apis/[name]/[version]`, {
 										ref: page.params.ref!,
 										name: func.name,
 										version: func.version.toString()

@@ -6,13 +6,13 @@
 	import * as Field from '$lib/components/ui/field/index.js';
 	import { Input } from '$lib/components/ui/input';
 	import { Textarea } from '$lib/components/ui/textarea';
-	import { UserClassTree } from '$lib/components/user-clas-tree';
+	import { UserClassTree } from '$lib/components/user-class-tree';
 	// Using update function
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { createClassFunc } from '$lib/remotes/index.js';
-	import { CreateClassFuncStore } from '$lib/stores/store.svelte.js';
+	import { CreateClassFuncStore } from '$lib/stores/index.js';
 	import { FolderOpenIcon, PencilIcon, SaveIcon, XIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import { ClassFuncNodeEditor } from '../../(components)/classfunc-node-editor/index.js';
@@ -100,7 +100,7 @@
 								bind:value={version}
 								onValueChange={(val) => {
 									goto(
-										resolve(`/(dashboard)/dashboard/project/[ref]/classes/[name]/[version]`, {
+										resolve(`/(dashboard)/dashboard/project/[ref]/class-apis/[name]/[version]`, {
 											ref: data.project.reference,
 											name: data.func.name,
 											version: val

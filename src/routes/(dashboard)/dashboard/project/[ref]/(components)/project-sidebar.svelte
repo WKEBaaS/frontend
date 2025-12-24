@@ -24,12 +24,12 @@
 			icon: UserLock
 		},
 		{
-			title: 'Classes',
-			url: resolve(`/(dashboard)/dashboard/project/[ref]/classes`, { ref: page.params.ref! }),
+			title: 'Class APIs',
+			url: resolve(`/(dashboard)/dashboard/project/[ref]/class-apis`, { ref: page.params.ref! }),
 			icon: FolderIcon
 		},
 		{
-			title: m.permissions(),
+			title: 'Classes & Permissions',
 			url: resolve('/(dashboard)/dashboard/project/[ref]/permissions', { ref: page.params.ref! }),
 			icon: ShieldIcon
 		},

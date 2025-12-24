@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import * as TreeView from '$lib/components/ui/tree-view';
-	import { getUsersRootClasses } from '$lib/remotes';
+	import { getUsersRootClass } from '$lib/remotes';
 	import { DatabaseIcon } from '@lucide/svelte';
 	import { PermissionClassTree } from './(components)/permission-class-tree';
 
@@ -9,8 +8,8 @@
 		throw new Error('Project reference is missing in the URL parameters.');
 	}
 
-	let { children } = $props();
-	const classesQuery = getUsersRootClasses(page.params.ref);
+	let { children, data } = $props();
+	const classesQuery = $derived(getUsersRootClass(data.project.reference));
 </script>
 
 <div class="h-full">
@@ -25,17 +24,21 @@
 
 	<!-- Content Area -->
 	<div class="flex h-full">
-		<TreeView.Root class="bg-muted w-64 p-2">
+		<div class="bg-muted w-64 p-2">
 			{#if classesQuery.loading}
 				<div class="text-muted-foreground px-2 py-1.5 text-sm">Loading classes...</div>
 			{:else if classesQuery.error}
 				<div class="text-destructive px-2 py-1.5 text-sm">Error loading classes: {classesQuery.error.message}</div>
-			{:else}
-				{#each classesQuery.current as c (c.id)}
-					<PermissionClassTree nodeClass={c} ref={page.params.ref!} />
-				{/each}
+			{:else if classesQuery.current}
+				<PermissionClassTree
+					nodeClass={{
+						id: classesQuery.current.id,
+						chinese_name: classesQuery.current.chinese_name
+					}}
+					ref={page.params.ref!}
+				/>
 			{/if}
-		</TreeView.Root>
+		</div>
 		{@render children()}
 	</div>
 </div>

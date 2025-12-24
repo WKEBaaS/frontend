@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import CreateNewClass from '$lib/components/create-new-class/create-new-class.svelte';
+	import { DeleteClass } from '$lib/components/delete-class';
+	import * as ContextMenu from '$lib/components/ui/context-menu/index.js';
+	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import type { ClassMetadata } from '$lib/schemas/index.js';
 	import { cn } from '$lib/utils';
-	import { ChevronRight, Folder } from '@lucide/svelte';
+	import { ChevronRight, Folder, FolderPlusIcon, Trash2Icon } from '@lucide/svelte';
 	import { PermissionClassTree } from '.';
 
 	interface Props {
@@ -14,10 +18,12 @@
 
 	let { nodeClass, ref, level = 0 }: Props = $props();
 
-	let open = $state(false);
+	let open = $derived(level === 0);
 	let isActive = $derived(page.params.class_id === nodeClass.id);
 	let children: ClassMetadata[] = $state([]);
 	let fetched = $state(false);
+	let createClassOpen = $state(false);
+	let deleteClassOpen = $state(false);
 
 	$effect(() => {
 		if (!fetched && open && children.length === 0) {
@@ -38,36 +44,70 @@
 	}
 </script>
 
-<div class="space-y-1" style="padding-left: {level * 12}px">
-	<a
-		data-sveltekit-preload-data="tap"
-		href={resolve(`/(dashboard)/dashboard/project/[ref]/permissions/[class_id]`, {
-			ref: ref,
-			class_id: nodeClass.id
-		})}
-		class={cn(
-			'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
-			'hover:bg-accent hover:text-accent-foreground',
-			isActive && 'bg-accent text-accent-foreground font-medium'
-		)}
-	>
-		<button onclick={toggle} class="flex h-4 w-4 items-center justify-center">
-			<ChevronRight class={cn('h-3 w-3 transition-transform', open && 'rotate-90')} />
-		</button>
+<CreateNewClass
+	bind:open={createClassOpen}
+	parentClassId={nodeClass.id}
+	projectRef={ref}
+	onCreated={() => {
+		// Refresh children
+		fetched = false;
+		children = [];
+	}}
+/>
+<DeleteClass
+	bind:open={deleteClassOpen}
+	projectRef={ref}
+	classId={nodeClass.id}
+	onDelete={() => {
+		// Refresh children
+		fetched = false;
+		children = [];
+	}}
+/>
 
-		<Folder class="h-4 w-4 shrink-0" />
+<div class="space-y-1">
+	<ContextMenu.Root>
+		<ContextMenu.Trigger>
+			<a
+				data-sveltekit-preload-data="tap"
+				href={resolve(`/(dashboard)/dashboard/project/[ref]/permissions/[class_id]`, {
+					ref: ref,
+					class_id: nodeClass.id
+				})}
+				class={cn(
+					'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
+					'hover:bg-accent hover:text-accent-foreground',
+					isActive && 'bg-accent text-accent-foreground font-medium'
+				)}
+			>
+				<button onclick={toggle} class="flex h-4 w-4 items-center justify-center">
+					<ChevronRight class={cn('text-muted-foreground/70 h-3 w-3 transition-transform', open && 'rotate-90')} />
+				</button>
 
-		<span class="flex-1 truncate">
-			{nodeClass.chinese_name ?? nodeClass.id}
-		</span>
-	</a>
+				<Folder class="text-muted-foreground/70 h-4 w-4 shrink-0" />
+
+				<span class="flex-1 truncate">
+					{nodeClass.chinese_name ?? nodeClass.id}
+				</span>
+			</a>
+		</ContextMenu.Trigger>
+		<ContextMenu.Content class="space-y-2">
+			<ContextMenu.Item onclick={() => (createClassOpen = true)}>
+				<FolderPlusIcon />
+				<span>New Class</span>
+			</ContextMenu.Item>
+			<Separator />
+			<ContextMenu.Item onclick={() => (deleteClassOpen = true)}>
+				<Trash2Icon class="text-destructive" />
+				<span>Delete</span>
+			</ContextMenu.Item>
+		</ContextMenu.Content>
+	</ContextMenu.Root>
 
 	{#if open}
-		<div class="space-y-1">
+		<div class="border-border ml-3 space-y-1 border-l pl-3">
 			{#if !fetched && children.length === 0}
-				<div class="text-muted-foreground px-2 py-1.5 text-sm" style="padding-left: {(level + 1) * 12}px">
-					載入中...
-				</div>
+				<div class="text-muted-foreground px-2 py-1.5 text-sm">載入中...</div>
 			{:else}
 				{#each children as child (child.id)}
 					<PermissionClassTree nodeClass={child} {ref} level={level + 1} />
