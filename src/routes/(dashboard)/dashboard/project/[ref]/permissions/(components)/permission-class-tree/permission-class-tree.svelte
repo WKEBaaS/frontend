@@ -7,16 +7,18 @@
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import type { ClassMetadata } from '$lib/schemas/index.js';
 	import { cn } from '$lib/utils';
-	import { ChevronRight, Folder, FolderPlusIcon, Trash2Icon } from '@lucide/svelte';
+	import { ChevronRight, FolderClosedIcon, FolderOpenIcon, FolderPlusIcon, Trash2Icon } from '@lucide/svelte';
 	import { PermissionClassTree } from '.';
 
 	interface Props {
 		nodeClass: ClassMetadata;
 		ref: string;
 		level?: number;
+		// Callback when this class is removed
+		onRemove?: () => void;
 	}
 
-	let { nodeClass, ref, level = 0 }: Props = $props();
+	let { nodeClass, ref, level = 0, onRemove }: Props = $props();
 
 	let open = $derived(level === 0);
 	let isActive = $derived(page.params.class_id === nodeClass.id);
@@ -54,16 +56,7 @@
 		children = [];
 	}}
 />
-<DeleteClass
-	bind:open={deleteClassOpen}
-	projectRef={ref}
-	classId={nodeClass.id}
-	onDelete={() => {
-		// Refresh children
-		fetched = false;
-		children = [];
-	}}
-/>
+<DeleteClass bind:open={deleteClassOpen} projectRef={ref} classId={nodeClass.id} onDelete={onRemove} />
 
 <div class="space-y-1">
 	<ContextMenu.Root>
@@ -84,7 +77,11 @@
 					<ChevronRight class={cn('text-muted-foreground/70 h-3 w-3 transition-transform', open && 'rotate-90')} />
 				</button>
 
-				<Folder class="text-muted-foreground/70 h-4 w-4 shrink-0" />
+				{#if open}
+					<FolderOpenIcon class="text-muted-foreground/70 h-4 w-4 shrink-0" />
+				{:else}
+					<FolderClosedIcon class="text-muted-foreground/70 h-4 w-4 shrink-0" />
+				{/if}
 
 				<span class="flex-1 truncate">
 					{nodeClass.chinese_name ?? nodeClass.id}
@@ -110,7 +107,15 @@
 				<div class="text-muted-foreground px-2 py-1.5 text-sm">載入中...</div>
 			{:else}
 				{#each children as child (child.id)}
-					<PermissionClassTree nodeClass={child} {ref} level={level + 1} />
+					<PermissionClassTree
+						nodeClass={child}
+						{ref}
+						level={level + 1}
+						onRemove={() => {
+							// Remove child from children array when deleted
+							children = children.filter((c) => c.id !== child.id);
+						}}
+					/>
 				{/each}
 			{/if}
 		</div>
