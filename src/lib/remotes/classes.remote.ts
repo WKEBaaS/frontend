@@ -1,4 +1,4 @@
-import { command, form, getRequestEvent } from '$app/server';
+import { command, getRequestEvent } from '$app/server';
 import { env } from '$env/dynamic/public';
 import { createClassSchema, deleteClassSchema } from '$lib/schemas';
 import { error } from '@sveltejs/kit';
@@ -24,7 +24,7 @@ export const createClass = command(createClassSchema, async (data) => {
 	};
 });
 
-export const deleteClass = form(deleteClassSchema, async (data) => {
+export const deleteClass = command(deleteClassSchema, async (data) => {
 	console.log('Deleting class with data:', data);
 	const event = getRequestEvent();
 	const url = new URL('/v1/project/class', env.PUBLIC_BAAS_API_URL);
