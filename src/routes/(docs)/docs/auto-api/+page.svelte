@@ -44,7 +44,7 @@
 			<p>
 				安裝專用的 PostgREST 客戶端與 <Link href="https://valibot.dev/">Valibot</Link> 驗證庫，以確保前後端型別安全。
 			</p>
-			<PMCommand command="add" args={['@youmin1017/postgrest-client', 'valibot']} />
+			<PMCommand command="add" args={['@wke-baas/postgrest-client', 'valibot']} />
 		</section>
 
 		<section class="space-y-3">
