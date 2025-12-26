@@ -1,6 +1,6 @@
 {
-	"name": "frontend-create",
-	"version": "0.1.0",
+	"name": "@wke-baas/web",
+	"version": "0.1.2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -29,7 +29,7 @@
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@tailwindcss/vite": "^4.1.18",
 		"@xyflow/svelte": "^1.5.0",
-		"@youmin1017/postgrest-client": "^0.2.3",
+		"@wke-baas/postgrest-client": "^0.2.8",
 		"better-auth": "^1.4.9",
 		"bits-ui": "^2.14.4",
 		"clsx": "^2.1.1",
