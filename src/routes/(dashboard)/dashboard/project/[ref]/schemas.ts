@@ -32,6 +32,7 @@ export const authProviderSettingSchema = v.object({
 export const projectSettings = v.object({
 	createdAt: v.string(),
 	id: v.string(),
+	projectId: v.string(),
 	trustedOrigins: v.nullable(v.array(v.string())),
 	updatedAt: v.string(),
 	proxyURL: v.optional(v.pipe(v.string(), v.url(), v.maxLength(200))),
@@ -47,3 +48,4 @@ export const projectSettings = v.object({
 
 export type ProjectDetail = v.InferOutput<typeof projectDetailSchema>;
 export type ProjectStatus = v.InferOutput<typeof projectStatusSchema>;
+export type ProjectSettings = v.InferOutput<typeof projectSettings>;

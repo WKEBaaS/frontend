@@ -3,12 +3,10 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as m from '$lib/paraglide/messages';
 	import AlertTriangleIcon from '@lucide/svelte/icons/alert-triangle';
-	import type { SuperForm } from 'sveltekit-superforms';
 	import type { ProjectDetail } from '../../schemas';
-	import type { DeleteProjectSchema } from '../schemas';
 	import DeleteProjectDialog from './delete-project-dialog.svelte';
 
-	let { project, form }: { project: ProjectDetail; form: SuperForm<DeleteProjectSchema> } = $props();
+	let { project }: { project: ProjectDetail } = $props();
 </script>
 
 <Card.Root class="border-destructive/20">
@@ -33,7 +31,7 @@
 					{m.delete_project_description()}
 				</p>
 			</div>
-			<DeleteProjectDialog {form} name={project.name} />
+			<DeleteProjectDialog {project} />
 		</div>
 	</Card.Content>
 </Card.Root>
