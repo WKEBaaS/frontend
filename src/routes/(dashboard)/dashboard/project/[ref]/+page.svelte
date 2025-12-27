@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { env } from '$env/dynamic/public';
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Button } from '$lib/components/ui/form/index.js';
@@ -23,6 +24,10 @@
 
 	let { data } = $props();
 	let project = $derived(data.project);
+	const externalURL = new URL(env.PUBLIC_EXTERNAL_URL);
+	const databaseURL = $derived(`jdbc:postgresql://${data.project.reference}.${externalURL.host}:5432/app`);
+	const projectURL = $derived(`https://${data.project.reference}.${externalURL.host}`);
+	const passwordExpired = $derived(dayjs(data.project.passwordExpiredAt).isBefore(dayjs()));
 
 	const clipboard = new UseClipboard();
 	let isNew = $derived(!data.project.initializedAt);
@@ -79,7 +84,7 @@
 {/snippet}
 
 <div class="container mx-auto flex flex-col space-y-2 p-5">
-	{#if !isNew && data.passwordExpired}
+	{#if !isNew && passwordExpired}
 		<Alert.Root variant="warning" class="border-warning mb-4">
 			<Alert.Title class="text-warning">{m.database_password_expired()}</Alert.Title>
 			<Alert.Description class="text-warning/90">
@@ -110,14 +115,14 @@
 					variant="outline"
 					class="w-fit gap-1 px-2 shadow-none"
 					size="sm"
-					onclick={() => clipboard.copy(data.databaseURL)}
+					onclick={() => clipboard.copy(databaseURL)}
 				>
 					{#if clipboard.copied}
 						<CheckIcon class="text-primary" />
 					{:else}
 						<TerminalIcon class="text-muted-foreground" />
 					{/if}
-					<span class="text-foreground">{data.databaseURL}</span>
+					<span class="text-foreground">{databaseURL}</span>
 				</Button>
 
 				<Separator />
@@ -147,12 +152,12 @@
 
 				<Separator />
 				{@render APIDocs({
-					url: new URL('/api/auth/docs', data.projectURL).toString(),
+					url: new URL('/api/auth/docs', projectURL).toString(),
 					title: 'Auth API Documentation',
 					description: 'Access authentication API documentation'
 				})}
 				{@render APIDocs({
-					url: new URL('/api/rest/docs/', data.projectURL).toString(),
+					url: new URL('/api/rest/docs/', projectURL).toString(),
 					title: 'RESTful API Documentation',
 					description: 'Access RESTful API documentation'
 				})}

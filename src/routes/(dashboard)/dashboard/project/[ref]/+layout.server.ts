@@ -1,18 +1,17 @@
 import { env } from '$env/dynamic/private';
 import { error } from '@sveltejs/kit';
-import dayjs from 'dayjs';
 import * as v from 'valibot';
 import type { LayoutServerLoad } from './$types';
 import { projectDetailSchema, projectSettings } from './schemas';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => {
-	if (!locals.session) {
+export const load: LayoutServerLoad = async (event) => {
+	if (!event.locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}
 
 	const projectURL = new URL('/v1/project/by-ref', env.BAAS_API_URL);
-	projectURL.searchParams.append('ref', params.ref);
-	const projectRes = await fetch(projectURL, {
+	projectURL.searchParams.append('ref', event.params.ref);
+	const projectRes = await event.fetch(projectURL, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -34,8 +33,8 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => 
 	}
 
 	const projectSettingsURL = new URL('/v1/project/settings/by-ref', env.BAAS_API_URL);
-	projectSettingsURL.searchParams.append('ref', params.ref);
-	const projectSettingsRes = await fetch(projectSettingsURL, {
+	projectSettingsURL.searchParams.append('ref', event.params.ref);
+	const projectSettingsRes = await event.fetch(projectSettingsURL, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -53,15 +52,8 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => 
 		error(500, 'Project settings validation failed.');
 	}
 
-	// TODO: Remove these server side caculated fields
-	const passwordExpired = dayjs(project.output.passwordExpiredAt).isBefore(dayjs());
-	const externalURL = new URL(url.origin);
-
 	return {
 		project: project.output,
-		settings: settings.output,
-		databaseURL: `jdbc:postgresql://${project.output.reference}.${externalURL.host}:5432/app`,
-		projectURL: `https://${project.output.reference}.${externalURL.host}`,
-		passwordExpired: passwordExpired
+		settings: settings.output
 	};
 };
