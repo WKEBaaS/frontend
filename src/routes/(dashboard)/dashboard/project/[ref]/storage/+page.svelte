@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
+	import { env } from '$env/dynamic/public';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte';
 	import Check from '@lucide/svelte/icons/check';
 	import Copy from '@lucide/svelte/icons/copy';
-	import { env } from '$env/dynamic/private';
 
 	let { data } = $props();
 
