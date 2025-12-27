@@ -1,16 +1,16 @@
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { error } from '@sveltejs/kit';
 import dayjs from 'dayjs';
+import * as v from 'valibot';
 import type { LayoutServerLoad } from './$types';
 import { projectDetailSchema, projectSettings } from './schemas';
-import * as v from 'valibot';
 
 export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => {
 	if (!locals.session) {
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const projectURL = new URL('/v1/project/by-ref', env.PUBLIC_BAAS_API_URL);
+	const projectURL = new URL('/v1/project/by-ref', env.BAAS_API_URL);
 	projectURL.searchParams.append('ref', params.ref);
 	const projectRes = await fetch(projectURL, {
 		method: 'GET',
@@ -33,7 +33,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => 
 		error(500, 'Project validation failed.');
 	}
 
-	const projectSettingsURL = new URL('/v1/project/settings/by-ref', env.PUBLIC_BAAS_API_URL);
+	const projectSettingsURL = new URL('/v1/project/settings/by-ref', env.BAAS_API_URL);
 	projectSettingsURL.searchParams.append('ref', params.ref);
 	const projectSettingsRes = await fetch(projectSettingsURL, {
 		method: 'GET',
@@ -55,7 +55,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch, params, url }) => 
 
 	// TODO: Remove these server side caculated fields
 	const passwordExpired = dayjs(project.output.passwordExpiredAt).isBefore(dayjs());
-	const externalURL = new URL(env.PUBLIC_EXTERNAL_URL ?? url);
+	const externalURL = new URL(url.origin);
 
 	return {
 		project: project.output,

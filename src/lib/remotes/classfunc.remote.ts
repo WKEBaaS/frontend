@@ -1,5 +1,5 @@
 import { command, getRequestEvent, query } from '$app/server';
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { createClassFuncMetaSchema, createClassFuncSchema } from '$lib/schemas';
 import * as api from '$lib/server';
 import { error } from '@sveltejs/kit';
@@ -7,7 +7,7 @@ import * as v from 'valibot';
 
 export const createClassFunc = command(createClassFuncSchema, async (data) => {
 	const event = getRequestEvent();
-	const url = new URL('/v1/project/create-classes-function', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/create-classes-function', env.BAAS_API_URL);
 	const resp = await event.fetch(url, {
 		method: 'POST',
 		headers: {

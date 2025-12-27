@@ -5,7 +5,7 @@
 	import { UseClipboard } from '$lib/hooks/use-clipboard.svelte';
 	import Check from '@lucide/svelte/icons/check';
 	import Copy from '@lucide/svelte/icons/copy';
-	import { env } from '$env/dynamic/public';
+	import { env } from '$env/dynamic/private';
 
 	let { data } = $props();
 

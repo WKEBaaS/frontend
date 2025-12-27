@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -69,7 +69,7 @@ export const actions: Actions = {
 		}
 		console.log('Auth Payload:', authPayload);
 
-		const patchSettingsURL = new URL('/v1/project/settings', env.PUBLIC_BAAS_API_URL);
+		const patchSettingsURL = new URL('/v1/project/settings', env.BAAS_API_URL);
 		const patchSettingsRes = await event.fetch(patchSettingsURL, {
 			method: 'PATCH',
 			headers: {
@@ -100,7 +100,7 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
-		const patchSettingsURL = new URL('/v1/project/settings', env.PUBLIC_BAAS_API_URL);
+		const patchSettingsURL = new URL('/v1/project/settings', env.BAAS_API_URL);
 		const patchSettingsRes = await event.fetch(patchSettingsURL, {
 			method: 'PATCH',
 			headers: {

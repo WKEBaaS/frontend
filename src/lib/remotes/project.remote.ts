@@ -1,5 +1,5 @@
 import { command, form, getRequestEvent } from '$app/server';
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { deleteProjectSchema } from '$lib/schemas';
 import { resetDatabasePasswordSchema, updateAllowedOriginsSchema, updateProjectInfoSchema } from '$lib/schemas';
 import { error, redirect } from '@sveltejs/kit';
@@ -11,7 +11,7 @@ export const deleteProject = form(deleteProjectSchema, async (data) => {
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const url = new URL('/v1/project', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project', env.BAAS_API_URL);
 	url.searchParams.append('id', data.id);
 
 	const res = await event.fetch(url, {
@@ -37,7 +37,7 @@ export const resetDatabasePassword = form(resetDatabasePasswordSchema, async (da
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const url = new URL('/v1/project/reset-database-password', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/reset-database-password', env.BAAS_API_URL);
 
 	const res = await event.fetch(url, {
 		method: 'POST',
@@ -69,7 +69,7 @@ export const updateProjectInfo = form(updateProjectInfoSchema, async (data) => {
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const patchSettingsURL = new URL('/v1/project/settings', env.PUBLIC_BAAS_API_URL);
+	const patchSettingsURL = new URL('/v1/project/settings', env.BAAS_API_URL);
 
 	const patchSettingsRes = await event.fetch(patchSettingsURL, {
 		method: 'PATCH',
@@ -102,7 +102,7 @@ export const updateAllowedOrigins = command(updateAllowedOriginsSchema, async (d
 		error(401, { message: 'Unauthorized' });
 	}
 
-	const patchSettingsURL = new URL('/v1/project/settings', env.PUBLIC_BAAS_API_URL);
+	const patchSettingsURL = new URL('/v1/project/settings', env.BAAS_API_URL);
 
 	const patchSettingsRes = await event.fetch(patchSettingsURL, {
 		method: 'PATCH',

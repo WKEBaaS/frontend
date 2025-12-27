@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { error, redirect } from '@sveltejs/kit';
 import { fail, superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -24,7 +24,7 @@ export const actions = {
 			return fail(401, { form });
 		}
 
-		const apiUrl = new URL('/v1/project', env.PUBLIC_BAAS_API_URL);
+		const apiUrl = new URL('/v1/project', env.BAAS_API_URL);
 		const res = await event.fetch(apiUrl, {
 			method: 'POST',
 			headers: {

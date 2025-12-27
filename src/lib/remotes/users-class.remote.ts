@@ -1,5 +1,5 @@
 import { command, getRequestEvent, query } from '$app/server';
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { classMetadataSchema, classSchema, permissionSchema } from '$lib/schemas/index.js';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
@@ -7,7 +7,7 @@ import * as v from 'valibot';
 export const getUsersRootClass = query(v.string(), async (ref) => {
 	const event = getRequestEvent();
 
-	const url = new URL('/v1/project/root-class', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/root-class', env.BAAS_API_URL);
 	url.searchParams.append('ref', ref);
 
 	const resp = await event.fetch(url);
@@ -29,7 +29,7 @@ export const getUsersRootClass = query(v.string(), async (ref) => {
 export const getUsersRootClasses = query(v.string(), async (ref) => {
 	const event = getRequestEvent();
 
-	const url = new URL('/v1/project/root-classes', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/root-classes', env.BAAS_API_URL);
 	url.searchParams.append('ref', ref);
 
 	const resp = await event.fetch(url);
@@ -56,7 +56,7 @@ export const getUsersClassChildren = query(
 	async ({ ref, pcid }) => {
 		const event = getRequestEvent();
 
-		const url = new URL('/v1/project/class-children', env.PUBLIC_BAAS_API_URL);
+		const url = new URL('/v1/project/class-children', env.BAAS_API_URL);
 		url.searchParams.append('ref', ref);
 		url.searchParams.append('pcid', pcid);
 
@@ -85,7 +85,7 @@ export const getUsersClassById = query(
 	async ({ ref, class_id }) => {
 		const event = getRequestEvent();
 
-		const url = new URL('/v1/project/class-by-id', env.PUBLIC_BAAS_API_URL);
+		const url = new URL('/v1/project/class-by-id', env.BAAS_API_URL);
 		url.searchParams.append('ref', ref);
 		url.searchParams.append('class_id', class_id);
 		const resp = await event.fetch(url);
@@ -113,7 +113,7 @@ export const getUsersClassPermissions = query(
 	async ({ ref, class_id }) => {
 		const event = getRequestEvent();
 
-		const url = new URL('/v1/project/class-permissions', env.PUBLIC_BAAS_API_URL);
+		const url = new URL('/v1/project/class-permissions', env.BAAS_API_URL);
 		url.searchParams.append('ref', ref);
 		url.searchParams.append('class_id', class_id);
 
@@ -142,7 +142,7 @@ const updateUsersClassPermissionsSchema = v.object({
 export const updateUsersClassPermissions = command(updateUsersClassPermissionsSchema, async (data) => {
 	const event = getRequestEvent();
 
-	const url = new URL('/v1/project/class-permissions', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/class-permissions', env.BAAS_API_URL);
 
 	// role_name is a client-side only field, remove it before sending to server
 

@@ -1,11 +1,11 @@
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 import type { PageServerLoad } from './$types';
 import { projectListSchema } from './schemas';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const apiUrl = new URL('/v1/project/users', env.PUBLIC_BAAS_API_URL);
+	const apiUrl = new URL('/v1/project/users', env.BAAS_API_URL);
 	const res = await fetch(apiUrl, {
 		method: 'GET',
 		headers: {

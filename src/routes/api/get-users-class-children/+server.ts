@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { classMetadataSchema } from '$lib/schemas';
 import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
@@ -11,7 +11,7 @@ export const GET = async (event) => {
 		return new Response('Missing parameters', { status: 400 });
 	}
 
-	const url = new URL('/v1/project/class-children', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/class-children', env.BAAS_API_URL);
 	url.searchParams.append('ref', ref);
 	url.searchParams.append('pcid', pcid);
 

@@ -1,11 +1,11 @@
 import { command, getRequestEvent } from '$app/server';
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { createClassSchema, deleteClassSchema } from '$lib/schemas';
 import { error } from '@sveltejs/kit';
 
 export const createClass = command(createClassSchema, async (data) => {
 	const event = getRequestEvent();
-	const url = new URL('/v1/project/class', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/class', env.BAAS_API_URL);
 	const resp = await event.fetch(url, {
 		method: 'POST',
 		headers: {
@@ -27,7 +27,7 @@ export const createClass = command(createClassSchema, async (data) => {
 export const deleteClass = command(deleteClassSchema, async (data) => {
 	console.log('Deleting class with data:', data);
 	const event = getRequestEvent();
-	const url = new URL('/v1/project/class', env.PUBLIC_BAAS_API_URL);
+	const url = new URL('/v1/project/class', env.BAAS_API_URL);
 	const resp = await event.fetch(url, {
 		method: 'DELETE',
 		headers: {

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { env } from '$env/dynamic/public';
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Button } from '$lib/components/ui/form/index.js';
@@ -18,24 +17,22 @@
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
+	import * as v from 'valibot';
 	import ProjectProgress from './(components)/project-progress.svelte';
 	import { type ProjectStatus, projectStatusSchema } from './schemas.js';
-	import * as v from 'valibot';
 
 	let { data } = $props();
 	let project = $derived(data.project);
 
 	const clipboard = new UseClipboard();
-	let isNew = $state(!data.project.initializedAt);
+	let isNew = $derived(!data.project.initializedAt);
 	let status = $state<ProjectStatus | null>(null);
 
 	onMount(() => {
 		if (!isNew) {
 			return;
 		}
-		const statusURL = new URL(`/v1/project/status`, env.PUBLIC_BAAS_API_URL);
-		statusURL.searchParams.set('ref', project.reference);
-		const eventSource = new EventSource(statusURL, { withCredentials: true });
+		const eventSource = new EventSource(`/api/project/status?ref=${project.reference}`);
 		eventSource.addEventListener('project-status', async (event) => {
 			try {
 				const jsonData = JSON.parse(event.data);
